@@ -1,9 +1,13 @@
-function App() {
+import Header from "./components/Header";
+import Hero from "./components/Hero";
+
+const App = () => {
   return (
-    <>
-      <h1>Hello, World!</h1>
-    </>
+    <div>
+      <Header />
+      <Hero />
+    </div>
   );
-}
+};
 
 export default App;
