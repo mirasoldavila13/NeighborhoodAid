@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import logo from "../assets/neighborhood_logo.svg";
 const Nav = () => {
   const [menuOpen, setMenuOpen] = useState(false);

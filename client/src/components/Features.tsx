@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import reportImage from "../assets/report.svg";
 import trackProgressImage from "../assets/track_progress.svg";
 import weatherImage from "../assets/weather.svg";
