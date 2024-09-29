@@ -22,6 +22,7 @@ module.exports = {
         purpleLight: "#7064fc",
         purpleLighter: "#8A81FF",
         purpleStrong: "#6B5BFF",
+        eggshell: "#f0ead6",
       },
       fontFamily: {
         sans: ["Poppins", "sans-serif"],
