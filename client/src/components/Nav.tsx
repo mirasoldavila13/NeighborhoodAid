@@ -18,7 +18,10 @@ const Nav = () => {
             <Link to="/" className="text-grayishViolet hover:text-purpleLight">
               Features
             </Link>
-            <Link to="/" className="text-grayishViolet hover:text-purpleLight">
+            <Link
+              to="/pricing"
+              className="text-grayishViolet hover:text-purpleLight"
+            >
               Pricing
             </Link>
             <Link to="/" className="text-grayishViolet hover:text-purpleLight">
@@ -61,7 +64,7 @@ const Nav = () => {
             <Link to="/" className="hover:text-purpleLight">
               Features
             </Link>
-            <Link to="/" className="hover:text-purpleLight">
+            <Link to="/pricing" className="hover:text-purpleLight">
               Pricing
             </Link>
             <Link to="/" className="hover:text-purpleLight">
