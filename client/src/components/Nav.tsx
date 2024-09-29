@@ -13,22 +13,13 @@ const Nav = () => {
         <div className="flex items-center space-x-20">
           <img src={logo} alt="Logo" />
           <div className="hidden space-x-8 font-bold lg:flex">
-            <a
-              href="#"
-              className="text-grayishViolet hover:text-veryDarkViolet"
-            >
+            <a href="#" className="text-grayishViolet hover:text-purpleLight">
               Features
             </a>
-            <a
-              href="#"
-              className="text-grayishViolet hover:text-veryDarkViolet"
-            >
+            <a href="#" className="text-grayishViolet hover:text-purpleLight">
               Pricing
             </a>
-            <a
-              href="#"
-              className="text-grayishViolet hover:text-veryDarkViolet"
-            >
+            <a href="#" className="text-grayishViolet hover:text-purpleLight">
               Testimonials
             </a>
           </div>
