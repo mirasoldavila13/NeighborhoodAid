@@ -1,5 +1,5 @@
 {
-  "name": "2024-09-p2-starter",
+  "name": "neighborhoodaid",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -15,7 +15,9 @@
     "build": "cd server && npm run build",
     "seed": "cd server && npm run seed",
     "render-build": "npm install && npm run build",
-    "prepare": "husky"
+    "prepare": "husky",
+    "build:tailwind": "tailwindcss -i ./input.css -o ./css/style.css",
+    "watch:tailwind": "tailwindcss -i ./input.css -o ./css/style.css --watch"
   },
   "lint-staged": {
     "client/src/**/*.{ts,jsx}": [
@@ -32,6 +34,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "autoprefixer": "^10.4.20",
     "concurrently": "^9.0.1",
     "eslint": "^9.11.1",
     "eslint-config-prettier": "^9.1.0",
@@ -39,7 +42,9 @@
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
     "nodemon": "^3.1.7",
+    "postcss": "^8.4.47",
     "prettier": "3.3.3",
+    "tailwindcss": "^3.4.13",
     "wait-on": "^8.0.1"
   }
 }
