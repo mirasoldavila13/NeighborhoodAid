@@ -1,23 +1,28 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeighborhoodAid</title>
+
+    <!-- Preload and Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Include CSS styles -->
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/input.css" />
-    <script src="/js/script.js" defer></script>
-    <title>NeighborhoodAid</title>
   </head>
+
   <body>
+    <!-- This is where React app will be injected -->
     <div id="root"></div>
 
+    <!-- Vite will handle injecting bundled JS -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
