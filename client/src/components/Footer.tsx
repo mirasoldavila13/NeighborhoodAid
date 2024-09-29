@@ -1,5 +1,3 @@
-import React from "react";
-
 // Importing all social media icons
 import logoFooter from "../assets/neighborhood_logo_footer.svg";
 import facebookIcon from "../assets/icon-facebook.svg";
