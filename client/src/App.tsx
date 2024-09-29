@@ -1,22 +1,18 @@
-import Nav from "./components/Nav";
-import Hero from "./components/Hero";
-import Features from "./components/Features";
-import FAQ from "./components/FAQ";
-import Testimonials from "./components/Testimonials";
-import Newsletter from "./components/Newsletter";
-import Footer from "./components/Footer";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LandingPage from "./components/LandingPage";
+import Login from "./pages/Login";
 
 function App() {
   return (
-    <>
-      <Nav />
-      <Hero />
-      <Features />
-      <FAQ />
-      <Testimonials />
-      <Newsletter />
-      <Footer />
-    </>
+    <Router>
+      <Routes>
+        {/* Route for the landing page */}
+        <Route path="/" element={<LandingPage />} />
+
+        {/* Route for the login page */}
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
   );
 }
 
