@@ -96,7 +96,7 @@ const Features = () => {
                 </p>
                 <div className="mx-auto md:mx-0">
                   <a
-                    href="#"
+                    href="/features"
                     className="px-6 py-3 mt-4 font-semibold text-white border-2 border-white rounded-lg md:inline-flex bg-purpleStrong hover:bg-darkViolet hover:border-darkViolet transition duration-300"
                   >
                     More Info
@@ -126,7 +126,7 @@ const Features = () => {
                 </p>
                 <div className="mx-auto md:mx-0">
                   <a
-                    href="#"
+                    href="/features"
                     className="px-6 py-3 mt-4 font-semibold text-white border-2 border-white rounded-lg md:inline-flex bg-purpleStrong hover:bg-darkViolet hover:border-darkViolet transition duration-300"
                   >
                     More Info
@@ -156,7 +156,7 @@ const Features = () => {
                 </p>
                 <div className="mx-auto md:mx-0">
                   <a
-                    href="#"
+                    href="/features"
                     className="px-6 py-3 mt-4 font-semibold text-white border-2 border-white rounded-lg md:inline-flex bg-purpleStrong hover:bg-darkViolet hover:border-darkViolet transition duration-300"
                   >
                     More Info
@@ -186,7 +186,7 @@ const Features = () => {
                 </p>
                 <div className="mx-auto md:mx-0">
                   <a
-                    href="#"
+                    href="/features"
                     className="px-6 py-3 mt-4 font-semibold text-white border-2 border-white rounded-lg md:inline-flex bg-purpleStrong hover:bg-darkViolet hover:border-darkViolet transition duration-300"
                   >
                     More Info
@@ -216,7 +216,7 @@ const Features = () => {
                 </p>
                 <div className="mx-auto md:mx-0">
                   <a
-                    href="#"
+                    href="/features"
                     className="px-6 py-3 mt-4 font-semibold text-white border-2 border-white rounded-lg md:inline-flex bg-purpleStrong hover:bg-darkViolet hover:border-darkViolet transition duration-300"
                   >
                     More Info
