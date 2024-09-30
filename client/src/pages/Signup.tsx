@@ -1,9 +1,23 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import facebookIcon from "../assets/facebook.png";
 import googleIcon from "../assets/google.png";
 import backgroundImage from "../assets/login_image.jpeg";
 
 const SignUp = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleSignup = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Prevent the default form submission (page reload)
+
+    // After form validation, navigate to dashboard
+    navigate("/dashboard");
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-eggShell">
       {/* Back Button */}
@@ -25,46 +39,61 @@ const SignUp = () => {
             engage with your community.
           </p>
 
-          {/* Email Input */}
-          <input
-            type="email"
-            className="w-full p-6 mb-4 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light"
-            placeholder="Enter your email address"
-          />
+          {/* Form */}
+          <form onSubmit={handleSignup}>
+            {/* Email Input */}
+            <input
+              type="email"
+              className="w-full p-6 mb-4 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light"
+              placeholder="Enter your email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
 
-          {/* Password Input */}
-          <input
-            type="password"
-            className="w-full p-6 mb-4 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light"
-            placeholder="Enter your password"
-          />
+            {/* Password Input */}
+            <input
+              type="password"
+              className="w-full p-6 mb-4 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
 
-          {/* Confirm Password Input */}
-          <input
-            type="password"
-            className="w-full p-6 mb-6 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light"
-            placeholder="Confirm your password"
-          />
+            {/* Confirm Password Input */}
+            <input
+              type="password"
+              className="w-full p-6 mb-6 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light"
+              placeholder="Confirm your password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
 
-          {/* Sign Up Button */}
-          <button className="w-full md:w-auto flex justify-center items-center p-6 space-x-4 font-sans font-bold text-white rounded-md shadow-lg px-9 bg-purpleLight hover:bg-opacity-90 hover:shadow-lg transition duration-300">
-            <span>Sign Up</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-7"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="#ffffff"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+            {/* Sign Up Button */}
+            <button
+              type="submit"
+              className="w-full md:w-auto flex justify-center items-center p-6 space-x-4 font-sans font-bold text-white rounded-md shadow-lg px-9 bg-purpleLight hover:bg-opacity-90 hover:shadow-lg transition duration-300"
             >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <line x1="13" y1="18" x2="19" y2="12" />
-              <line x1="13" y1="6" x2="19" y2="12" />
-            </svg>
-          </button>
+              <span>Sign Up</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-7"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="#ffffff"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <line x1="13" y1="18" x2="19" y2="12" />
+                <line x1="13" y1="6" x2="19" y2="12" />
+              </svg>
+            </button>
+          </form>
 
           {/* Social Sign Ups */}
           <p className="py-6 text-sm font-thin text-center text-gray-400">
