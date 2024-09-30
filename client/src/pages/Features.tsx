@@ -3,8 +3,8 @@ import trackProgressImage from "../assets/progress_icon.svg";
 import weatherImage from "../assets/weather_icon.svg";
 import musicImage from "../assets/music_icon.svg";
 import conversationImage from "../assets/conversation_icon.svg";
-import Nav from "../components/Nav"; // Assuming you have Nav component path set
-import Footer from "../components/Footer"; // Assuming you have Footer component path set
+import Nav from "../components/Nav";
+import Footer from "../components/Footer";
 
 const features = [
   {
