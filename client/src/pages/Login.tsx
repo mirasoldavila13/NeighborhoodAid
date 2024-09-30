@@ -1,9 +1,16 @@
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import facebookIcon from "../assets/facebook.png";
 import googleIcon from "../assets/google.png";
 import backgroundImage from "../assets/login_image.jpeg";
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    // Temporarily navigate to the dashboard (without validation)
+    navigate("/dashboard");
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#f9f5f0]">
       {/* Back Button */}
@@ -44,7 +51,10 @@ const Login = () => {
             <div className="font-thin text-cyan-700 hover:underline cursor-pointer">
               Forgot password
             </div>
-            <button className="w-full md:w-auto flex justify-center items-center p-6 space-x-4 font-sans font-bold text-white rounded-md shadow-lg px-9 bg-purpleStrong hover:bg-purpleLighter hover:bg-opacity-90 hover:shadow-lg transition duration-300">
+            <button
+              onClick={handleLogin} // Handle login click
+              className="w-full md:w-auto flex justify-center items-center p-6 space-x-4 font-sans font-bold text-white rounded-md shadow-lg px-9 bg-purpleStrong hover:bg-purpleLighter hover:bg-opacity-90 hover:shadow-lg transition duration-300"
+            >
               <span>Next</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
