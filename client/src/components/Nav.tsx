@@ -15,7 +15,10 @@ const Nav = () => {
         <div className="flex items-center space-x-20">
           <img src={logo} alt="Logo" />
           <div className="hidden space-x-8 font-bold lg:flex">
-            <Link to="/" className="text-grayishViolet hover:text-purpleLight">
+            <Link
+              to="/features"
+              className="text-grayishViolet hover:text-purpleLight"
+            >
               Features
             </Link>
             <Link
@@ -24,7 +27,10 @@ const Nav = () => {
             >
               Pricing
             </Link>
-            <Link to="/" className="text-grayishViolet hover:text-purpleLight">
+            <Link
+              to="/testimonials"
+              className="text-grayishViolet hover:text-purpleLight"
+            >
               Testimonials
             </Link>
           </div>
@@ -61,13 +67,13 @@ const Nav = () => {
           className="absolute p-6 bg-zinc-800 left-6 right-6 top-20"
         >
           <div className="flex flex-col items-center space-y-6 text-white">
-            <Link to="/" className="hover:text-purpleLight">
+            <Link to="/features" className="hover:text-purpleLight">
               Features
             </Link>
             <Link to="/pricing" className="hover:text-purpleLight">
               Pricing
             </Link>
-            <Link to="/" className="hover:text-purpleLight">
+            <Link to="/testimonials" className="hover:text-purpleLight">
               Testimonials
             </Link>
             <Link
