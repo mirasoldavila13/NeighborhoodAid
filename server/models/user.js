@@ -1,34 +1,27 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes } from "sequelize";
+import sequelize from "../config/connection.js";
 
-export class User extends Model {}
-
-export function UserTable(sequelize) {
-  User.init(
-    {
-      id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-      },
-      username: {
-        type: DataTypes.STRING,
-        unique: true,
-        allowNull: false,
-      },
-      email: {
-        type: DataTypes.STRING,
-        unique: true,
-        allowNull: false,
-      },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+// Define the User model
+const User = sequelize.define(
+  "User",
+  {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-    {
-      tableName: "Users",
-      sequelize,
-    }
-  );
-  return User;
-}
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
+
+export default User;
