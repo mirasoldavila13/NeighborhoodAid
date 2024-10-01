@@ -26,7 +26,7 @@ export function UserTable(sequelize) {
       },
     },
     {
-      tableName: "users",
+      tableName: "Users",
       sequelize,
     }
   );
