@@ -1,4 +1,4 @@
-import { Issue } from "../models/issue.js";
+import Issue from "../models/issue.js";
 import Sequelize from "sequelize";
 
 export const seedIssues = async () => {

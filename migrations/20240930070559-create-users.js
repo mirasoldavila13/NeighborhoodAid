@@ -2,21 +2,21 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Issues", {
+    await queryInterface.createTable("Users", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      description: {
+      name: {
         type: Sequelize.STRING,
       },
-      location: {
-        type: DataTypes.GEOMETRY("POINT"),
+      email: {
+        type: Sequelize.STRING,
       },
-      status: {
-        type: DataTypes.ENUM("reported", "in progress", "resolved"),
+      password: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
