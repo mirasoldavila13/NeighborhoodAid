@@ -24,7 +24,7 @@ const Pricing = () => {
               <h3 className="mt-2 text-center">$0/Month</h3>
               <div className="flex justify-center">
                 <Link
-                  to="/signup"
+                  to="/register"
                   className="inline-block px-10 py-3 my-6 text-center border border-violet-600 rounded-lg duration-200 hover:bg-violet-800 hover:border-violet-800"
                 >
                   Sign Up
@@ -47,15 +47,18 @@ const Pricing = () => {
           </div>
 
           {/* Standard plan */}
-          <div className="bg-violet-600 rounded-xl text-white">
+          <div className="bg-slate-700 rounded-xl text-white">
             <div className="p-8 mx-3 mt-3 rounded-t-xl bg-slate-800">
               <div className="text-center uppercase">Standard</div>
               <h2 className="mt-10 font-serif text-5xl text-center">$3.99</h2>
               <h3 className="mt-2 text-center">Per Month</h3>
               <div className="flex justify-center">
-                <button className="inline-block px-10 py-3 my-6 text-center border border-violet-600 rounded-lg duration-200 bg-violet-600 hover:bg-violet-800 hover:border-violet-800">
+                <Link
+                  to="/register"
+                  className="inline-block px-10 py-3 my-6 text-center border border-violet-600 rounded-lg duration-200 hover:bg-violet-800 hover:border-violet-800"
+                >
                   Purchase
-                </button>
+                </Link>
               </div>
             </div>
             <div className="p-8 mx-3 mb-3 rounded-b-xl bg-slate-800">
@@ -80,9 +83,12 @@ const Pricing = () => {
               <h2 className="mt-10 font-serif text-5xl text-center">$8.99</h2>
               <h3 className="mt-2 text-center">Per Month</h3>
               <div className="flex justify-center">
-                <button className="inline-block px-10 py-3 my-6 text-center border border-violet-600 rounded-lg duration-200 hover:bg-violet-800 hover:border-violet-800">
+                <Link
+                  to="/register"
+                  className="inline-block px-10 py-3 my-6 text-center border border-violet-600 rounded-lg duration-200 hover:bg-violet-800 hover:border-violet-800"
+                >
                   Purchase
-                </button>
+                </Link>
               </div>
             </div>
             <div className="p-8 mx-3 mb-3 rounded-b-xl bg-slate-800">
@@ -111,7 +117,7 @@ const Pricing = () => {
         </p>
         <div className="mt-8">
           <Link
-            to="/signup"
+            to="/register"
             className="inline-block bg-purpleLight text-white px-8 py-4 rounded-lg text-lg hover:bg-purpleStrong transition duration-300"
           >
             Get Started Today

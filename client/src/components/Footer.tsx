@@ -18,7 +18,7 @@ const Footer = () => (
           <div className="mb-5 font-bold text-white capitalize">Features</div>
           <div className="flex flex-col items-center space-y-3 md:items-start">
             <a
-              href="#"
+              href="/report-local-issue"
               className="capitalize text-grayishViolet hover:text-purpleLight"
             >
               Report Local Issues
