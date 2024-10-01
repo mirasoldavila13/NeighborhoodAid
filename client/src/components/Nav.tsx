@@ -41,7 +41,7 @@ const Nav = () => {
             Login
           </Link>
           <Link
-            to="/signup"
+            to="/register"
             className="px-6 py-3 font-bold text-white bg-purpleLight rounded-full hover:bg-darkViolet"
           >
             Sign Up
@@ -83,7 +83,7 @@ const Nav = () => {
               Login
             </Link>
             <Link
-              to="/signup"
+              to="/register"
               className="px-6 py-3 bg-purpleLight rounded-full hover:bg-purpleLighter"
             >
               Sign Up
