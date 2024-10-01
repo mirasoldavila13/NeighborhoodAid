@@ -2,7 +2,7 @@ import express from "express";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import sequelize from "./config/connection.js";
-import authRoutes from './routes/authRoutes.js'; // Importing the authentication routes
+import authRoutes from "./routes/authRoutes.js"; // Importing the authentication routes
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("../client/dist"));
 
 // Use the imported user routes for registration and other endpoints
-app.use('/api', authRoutes); 
+app.use("/api", authRoutes);
 
 // Test route to check if server is working
 app.get("/api/test", (req, res) => {
@@ -35,12 +35,12 @@ if (process.env.NODE_ENV === "production") {
   try {
     // Sync the models with the database and alter the schema if necessary
     await sequelize.sync({ alter: true });
-    console.log('Database synced successfully.');
+    console.log("Database synced successfully.");
 
     app.listen(PORT, () =>
-      console.log(`Server is running on port http://localhost:${PORT}`)
+      console.log(`Server is running on port http://localhost:${PORT}`),
     );
   } catch (error) {
-    console.error('Failed to sync database:', error);
+    console.error("Failed to sync database:", error);
   }
 })();
