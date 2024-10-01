@@ -3,7 +3,7 @@ import { IssueTable } from "./issue.js";
 import Sequelize from "sequelize";
 import "dotenv/config";
 
-const sequelize =
+const sequelizeServer =
   process.env.NODE_ENV === "production"
     ? new Sequelize(process.env.DATABASE_URL)
     : new Sequelize(
@@ -16,9 +16,9 @@ const sequelize =
         },
       );
 
-const User = UserTable(sequelize);
-const Issue = IssueTable(sequelize);
+const User = UserTable(sequelizeServer);
+const Issue = IssueTable(sequelizeServer);
 
 User.hasMany(Issue, { foreignKey: "assignedUserId" });
 Issue.belongsTo(User, { foreignKey: "assignedUserId", as: "assignedUser" });
-export { sequelize, User, Issue };
+export { sequelizeServer, User, Issue };
