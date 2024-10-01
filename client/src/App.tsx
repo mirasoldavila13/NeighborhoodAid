@@ -3,7 +3,7 @@ import LandingPage from "./components/LandingPage";
 import Features from "./pages/Features";
 import Pricing from "./components/Pricing";
 import TestimonialsPage from "./pages/Testimonials";
-// import ReportLocalIssueFeature from "./pages/ReportLocalIssueFeature";
+import ReportLocalIssueFeature from "./pages/ReportLocalIssueFeature";
 import Login from "./pages/Login";
 import UserRegistration from "./pages/UserRegistration";
 import Dashboard from "./pages/Dashboard";
@@ -23,7 +23,7 @@ function App() {
         {/* Route for Report Local Issue Feature */}
         <Route
           path="/report-local-issue"
-          // element={<ReportLocalIssueFeature />}
+          element={<ReportLocalIssueFeature />}
         />
         {/* Route for the sign up page */}
         <Route path="/register" element={<UserRegistration />} />
