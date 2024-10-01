@@ -1,14 +1,51 @@
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import facebookIcon from "../assets/facebook.png";
 import googleIcon from "../assets/google.png";
 import backgroundImage from "../assets/login_image.jpeg";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
-  const handleLogin = () => {
-    // Temporarily navigate to the dashboard (without validation)
-    navigate("/dashboard");
+  const handleCloseModal = () => {
+    setShowModal(false);
+    if (modalMessage === "Login successful!") {
+      navigate("/dashboard");
+    }
+  };
+
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        setModalMessage(result.message || "An error occurred during login.");
+        setShowModal(true);
+        return;
+      }
+
+      // Show success message in modal
+      setModalMessage("Login successful!");
+      setShowModal(true);
+    } catch (error) {
+      console.error("Error during login:", error);
+      setModalMessage("An error occurred during login.");
+      setShowModal(true);
+    }
   };
 
   return (
@@ -24,7 +61,6 @@ const Login = () => {
 
       {/* Card Container */}
       <div className="relative flex flex-col m-6 space-y-10 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0 md:m-0">
-        {/* Left Side */}
         <div className="p-6 md:p-20">
           <h2 className="font-mono mb-5 text-4xl font-bold">Log In</h2>
           <p className="max-w-sm mb-12 font-sans font-light text-gray-600">
@@ -32,47 +68,50 @@ const Login = () => {
             engage with your community.
           </p>
 
-          {/* Email Input */}
-          <input
-            type="email"
-            className="w-full p-6 mb-4 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light"
-            placeholder="Enter your email address"
-          />
+          {/* Form */}
+          <form onSubmit={handleLogin}>
+            {/* Email Input */}
+            <input
+              type="email"
+              className="w-full p-6 mb-4 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light"
+              placeholder="Enter your email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
 
-          {/* Password Input */}
-          <input
-            type="password"
-            className="w-full p-6 mb-6 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light"
-            placeholder="Enter your password"
-          />
+            {/* Password Input */}
+            <input
+              type="password"
+              className="w-full p-6 mb-6 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
 
-          {/* Middle Content */}
-          <div className="flex flex-col items-center justify-between mt-6 space-y-6 md:flex-row md:space-y-0">
-            <div className="font-thin text-cyan-700 hover:underline cursor-pointer">
-              Forgot password
+            {/* Login Button */}
+            <div className="flex flex-col items-center justify-between mt-6 space-y-6 md:flex-row md:space-y-0">
+              <button className="w-full md:w-auto flex justify-center items-center p-6 space-x-4 font-sans font-bold text-white rounded-md shadow-lg px-9 bg-purpleStrong hover:bg-purpleLighter hover:bg-opacity-90 hover:shadow-lg transition duration-300">
+                <span>Next</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-7"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="#ffffff"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <line x1="13" y1="18" x2="19" y2="12" />
+                  <line x1="13" y1="6" x2="19" y2="12" />
+                </svg>
+              </button>
             </div>
-            <button
-              onClick={handleLogin} // Handle login click
-              className="w-full md:w-auto flex justify-center items-center p-6 space-x-4 font-sans font-bold text-white rounded-md shadow-lg px-9 bg-purpleStrong hover:bg-purpleLighter hover:bg-opacity-90 hover:shadow-lg transition duration-300"
-            >
-              <span>Next</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-7"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="#ffffff"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <line x1="13" y1="18" x2="19" y2="12" />
-                <line x1="13" y1="6" x2="19" y2="12" />
-              </svg>
-            </button>
-          </div>
+          </form>
 
           {/* Social Logins */}
           <p className="py-6 text-sm font-thin text-center text-gray-400">
@@ -97,6 +136,22 @@ const Login = () => {
           className="w-[430px] hidden md:block"
         />
       </div>
+
+      {/* Modal for status messages */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold mb-4">Login Status</h3>
+            <p>{modalMessage}</p>
+            <button
+              className="mt-4 text-purpleLight"
+              onClick={handleCloseModal}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
