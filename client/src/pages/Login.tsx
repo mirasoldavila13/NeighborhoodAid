@@ -1,20 +1,20 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import facebookIcon from "../assets/facebook.png";
-import googleIcon from "../assets/google.png";
-import backgroundImage from "../assets/login_image.jpeg";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import facebookIcon from '../assets/facebook.png';
+import googleIcon from '../assets/google.png';
+import backgroundImage from '../assets/login_image.jpeg';
 
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [modalMessage, setModalMessage] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
   const handleCloseModal = () => {
     setShowModal(false);
-    if (modalMessage === "Login successful!") {
-      navigate("/dashboard");
+    if (modalMessage === 'Login successful!') {
+      navigate('/dashboard');
     }
   };
 
@@ -22,10 +22,10 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
+      const response = await fetch('/api/login', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
       });
@@ -33,17 +33,17 @@ const Login = () => {
       const result = await response.json();
 
       if (!response.ok) {
-        setModalMessage(result.message || "An error occurred during login.");
+        setModalMessage(result.message || 'An error occurred during login.');
         setShowModal(true);
         return;
       }
 
-      // Successful login
-      setModalMessage("Login successful!");
+      // Show success message in modal
+      setModalMessage('Login successful!');
       setShowModal(true);
     } catch (error) {
-      console.error("Error during login:", error);
-      setModalMessage("An error occurred during login.");
+      console.error('Error during login:', error);
+      setModalMessage('An error occurred during login.');
       setShowModal(true);
     }
   };
@@ -64,8 +64,7 @@ const Login = () => {
         <div className="p-6 md:p-20">
           <h2 className="font-mono mb-5 text-4xl font-bold">Log In</h2>
           <p className="max-w-sm mb-12 font-sans font-light text-gray-600">
-            Log in to your account to report local issues, track progress, and
-            engage with your community.
+            Log in to your account to report local issues, track progress, and engage with your community.
           </p>
 
           {/* Form */}
@@ -114,9 +113,7 @@ const Login = () => {
           </form>
 
           {/* Social Logins */}
-          <p className="py-6 text-sm font-thin text-center text-gray-400">
-            or log in with
-          </p>
+          <p className="py-6 text-sm font-thin text-center text-gray-400">or log in with</p>
           <div className="flex flex-col space-x-0 space-y-6 md:flex-row md:space-x-4 md:space-y-0">
             <button className="flex items-center justify-center py-2 space-x-3 border border-gray-300 rounded shadow-sm hover:bg-opacity-30 hover:shadow-lg transition duration-150 md:w-1/2">
               <img src={facebookIcon} alt="Facebook" className="w-9" />
@@ -130,11 +127,7 @@ const Login = () => {
         </div>
 
         {/* Right Side */}
-        <img
-          src={backgroundImage}
-          alt="Background"
-          className="w-[430px] hidden md:block"
-        />
+        <img src={backgroundImage} alt="Background" className="w-[430px] hidden md:block" />
       </div>
 
       {/* Modal for status messages */}
@@ -143,10 +136,7 @@ const Login = () => {
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <h3 className="text-xl font-semibold mb-4">Login Status</h3>
             <p>{modalMessage}</p>
-            <button
-              className="mt-4 text-purpleLight"
-              onClick={handleCloseModal}
-            >
+            <button className="mt-4 text-purpleLight" onClick={handleCloseModal}>
               Close
             </button>
           </div>
