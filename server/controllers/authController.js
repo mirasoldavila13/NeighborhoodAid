@@ -2,33 +2,29 @@ import bcrypt from 'bcrypt';
 import User from '../models/User.js'; 
 
 const registerUser = async (req, res) => {
-  const { email, password } = req.body;
-
-  console.log('Incoming registration request:', { email, password });
+  const { name, email, password } = req.body;
 
   try {
-    // Check if user already exists using Sequelize
     const userExists = await User.findOne({ where: { email } });
-    console.log('User exists:', userExists);
 
     if (userExists) {
-      return res.status(400).json({ exists: true, message: 'User already exists' });
+      return res.status(400).json({ message: 'User already exists' });
     }
 
-    // Hash the password before saving it
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    console.log('Hashed password:', hashedPassword);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create new user with Sequelize
-    const newUser = await User.create({ email, password: hashedPassword });
-    console.log('New user created:', newUser);
+    const newUser = await User.create({
+      name,  // Make sure the name is passed here
+      email,
+      password: hashedPassword,
+    });
 
-    res.status(201).json({ exists: false, message: 'User registered successfully!', user: newUser });
+    res.status(201).json({ message: 'User registered successfully!' });
   } catch (error) {
     console.error('Error during registration:', error);
     res.status(500).json({ message: 'An error occurred during sign-up' });
   }
 };
+
 
 export { registerUser };
