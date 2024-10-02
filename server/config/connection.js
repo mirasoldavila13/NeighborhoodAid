@@ -1,10 +1,10 @@
-import Seqeulize from "sequelize";
+import Sequelize from "sequelize";
 import "dotenv/config";
 
 const sequelize =
   process.env.NODE_ENV === "production"
-    ? new Seqeulize(process.env.DATABASE_URL)
-    : new Seqeulize(
+    ? new Sequelize(process.env.DATABASE_URL)
+    : new Sequelize(
         process.env.DB_NAME,
         process.env.DB_USER,
         process.env.DB_PASS,

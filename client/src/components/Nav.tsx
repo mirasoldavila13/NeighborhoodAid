@@ -13,7 +13,9 @@ const Nav = () => {
     <nav className="relative container mx-auto p-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-20">
-          <img src={logo} alt="Logo" />
+          <Link to="/">
+            <img src={logo} alt="Logo" />
+          </Link>
           <div className="hidden space-x-8 font-bold lg:flex">
             <Link
               to="/features"
@@ -41,7 +43,7 @@ const Nav = () => {
             Login
           </Link>
           <Link
-            to="/signup"
+            to="/register"
             className="px-6 py-3 font-bold text-white bg-purpleLight rounded-full hover:bg-darkViolet"
           >
             Sign Up
@@ -83,7 +85,7 @@ const Nav = () => {
               Login
             </Link>
             <Link
-              to="/signup"
+              to="/register"
               className="px-6 py-3 bg-purpleLight rounded-full hover:bg-purpleLighter"
             >
               Sign Up
