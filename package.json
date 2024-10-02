@@ -48,6 +48,7 @@
     "wait-on": "^8.0.1"
   },
   "dependencies": {
-    "react-router-dom": "^6.26.2"
+    "react-router-dom": "^6.26.2",
+    "sequelize": "^6.37.3"
   }
 }
