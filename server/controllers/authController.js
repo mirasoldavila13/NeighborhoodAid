@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "../models/User.js";
+import User from "../models/user.js";
 
 //  Register User
 const registerUser = async (req, res) => {
@@ -21,7 +21,11 @@ const registerUser = async (req, res) => {
       password: hashedPassword,
     });
 
-    res.status(201).json({ message: "User registered successfully!" });
+    
+    res.status(201).json({
+      message: "User registered successfully!",
+      user: newUser, 
+    });
   } catch (error) {
     console.error("Error during registration:", error);
     res.status(500).json({ message: "An error occurred during sign-up" });
