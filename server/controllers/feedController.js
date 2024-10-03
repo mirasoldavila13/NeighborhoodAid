@@ -2,7 +2,7 @@ import Feed from "../models/feed.js";
 import User from "../models/user.js";
 
 // Fetch all feeds along with the user who posted them
-const getAllFeeds = async (req, res) => {
+const getAllFeeds = async (_req, res) => {
   try {
     const feeds = await Feed.findAll({
       include: {
