@@ -21,10 +21,9 @@ const registerUser = async (req, res) => {
       password: hashedPassword,
     });
 
-    
     res.status(201).json({
       message: "User registered successfully!",
-      user: newUser, 
+      user: newUser,
     });
   } catch (error) {
     console.error("Error during registration:", error);
