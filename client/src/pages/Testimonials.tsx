@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import Nav from "../components/Nav"; // Ensure Nav component path is correct
 import Footer from "../components/Footer"; // Ensure Footer component path is correct
