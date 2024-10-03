@@ -1,16 +1,32 @@
-import { Sequelize, DataTypes } from "sequelize";
-import sequelize from "../config/connection.js";
+import { Model, DataTypes } from 'sequelize';
+import sequelize from '../config/connection.js';
 
-// Define the Feed model
-const Feed = sequelize.define("Feed", {
-  content: {
-    type: DataTypes.STRING,
-    allowNull: false,
+class Feed extends Model {
+  static associate(models) {
+    Feed.belongsTo(models.User, { foreignKey: 'userId' }); // Association with User
+    Feed.hasMany(models.Comment, { foreignKey: 'feedId', onDelete: 'CASCADE' }); // Comments on the feed
+  }
+}
+
+Feed.init(
+  {
+    content: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    likes: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
-  createdAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-  },
-});
+  {
+    sequelize,
+    modelName: 'Feed',
+  }
+);
 
 export default Feed;
