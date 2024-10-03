@@ -1,10 +1,10 @@
-import { Model, DataTypes } from 'sequelize';
-import sequelize from '../config/connection.js';
+import { Model, DataTypes } from "sequelize";
+import sequelize from "../config/connection.js";
 
 class Feed extends Model {
   static associate(models) {
-    Feed.belongsTo(models.User, { foreignKey: 'userId' }); // Association with User
-    Feed.hasMany(models.Comment, { foreignKey: 'feedId', onDelete: 'CASCADE' }); // Comments on the feed
+    Feed.belongsTo(models.User, { foreignKey: "userId" }); // Association with User
+    Feed.hasMany(models.Comment, { foreignKey: "feedId", onDelete: "CASCADE" }); // Comments on the feed
   }
 }
 
@@ -25,8 +25,8 @@ Feed.init(
   },
   {
     sequelize,
-    modelName: 'Feed',
-  }
+    modelName: "Feed",
+  },
 );
 
 export default Feed;
