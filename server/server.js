@@ -4,8 +4,10 @@ import loggerMiddleware from "./middleware/loggerMiddleware.js";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import sequelize from "./config/connection.js";
+
 import authRoutes from "./routes/authRoutes.js";
-import feedRoutes from "./routes/feed.js";
+import feedRoutes from "./routes/api/feed.js";
+import reportRoutes from "./routes/report.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,6 +26,9 @@ app.use(loggerMiddleware); // Log all incoming requests
 
 // Use the feed routes
 app.use("/api/feed", feedRoutes);
+
+// Use the report routes
+app.use("/api/report", reportRoutes); // Adding report routes
 
 // Use the imported user routes for registration and other endpoints
 app.use("/api", authRoutes);
@@ -44,7 +49,7 @@ if (process.env.NODE_ENV === "production") {
 
 (async () => {
   try {
-    // Sync the models with the database and alter the schema if necessary
+    // Sync the models with the database 
     await sequelize.sync({ alter: true });
     console.log("Database synced successfully.");
 
