@@ -1,8 +1,11 @@
 import express from "express";
+import corsMiddleware from "./middleware/corsMiddleware.js";
+import loggerMiddleware from "./middleware/loggerMiddleware.js";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import sequelize from "./config/connection.js";
-import authRoutes from "./routes/authRoutes.js"; // Importing the authentication routes
+import authRoutes from "./routes/authRoutes.js";
+import feedRoutes from "./routes/feed.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,6 +16,14 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("../client/dist"));
+
+// Middleware
+app.use(corsMiddleware); // CORS middleware for client requests
+app.use(express.json()); // Body parser for JSON
+app.use(loggerMiddleware); // Log all incoming requests
+
+// Use the feed routes
+app.use("/api/feed", feedRoutes);
 
 // Use the imported user routes for registration and other endpoints
 app.use("/api", authRoutes);
