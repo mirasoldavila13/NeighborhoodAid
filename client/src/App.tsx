@@ -7,6 +7,10 @@ import ReportLocalIssueFeature from "./pages/ReportLocalIssueFeature";
 import Login from "./pages/Login";
 import UserRegistration from "./pages/UserRegistration";
 import Dashboard from "./pages/Dashboard";
+import ReportPage from "./pages/ReportPage";
+import ReportOptionsPage from './pages/ReportOptionsPage';
+import CommunityReportPage from './pages/CommunityReportPage';
+
 
 function App() {
   return (
@@ -30,6 +34,19 @@ function App() {
         {/* Route for the login page */}
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        {/* New route for /dashboard/report */}
+        <Route path="/dashboard/report" element={<ReportOptionsPage />} />
+
+        {/* Existing ReportPage for Authorities */}
+        <Route path="/dashboard/report/authorities" element={<ReportPage />} />
+
+        {/* Placeholder page for Community Reports */}
+        <Route path="/dashboard/report/community" element={<CommunityReportPage />} />
+
+
+        {/* Catch-all route */}
+        <Route path="*" element={<div>404 Not Found</div>} />
+        
       </Routes>
     </Router>
   );
