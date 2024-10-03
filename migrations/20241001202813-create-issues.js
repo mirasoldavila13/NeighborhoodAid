@@ -9,14 +9,36 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      description: {
+      title: {
         type: Sequelize.STRING,
+        allowNull: false,
+      },
+      description: {
+        type: Sequelize.TEXT,
+        allowNull: false,
       },
       location: {
-        type: DataTypes.GEOMETRY("POINT"),
+        type: Sequelize.GEOMETRY("POINT"),
+        allowNull: false,
+      },
+      contacted: {
+        type: Sequelize.BOOLEAN,
       },
       status: {
-        type: DataTypes.ENUM("reported", "in progress", "resolved"),
+        type: Sequelize.ENUM("reported", "in progress", "resolved"),
+        allowNull: false,
+      },
+      picture: {
+        type: Sequelize.STRING,
+      },
+      assignedUserId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Users",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
       },
       createdAt: {
         allowNull: false,
@@ -29,6 +51,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Users");
+    await queryInterface.dropTable("Issues");
   },
 };
