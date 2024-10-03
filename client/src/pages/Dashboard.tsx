@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
 import DashboardNav from "../components/DashboardNav";
 import Footer from "../components/Footer";
-
+import Weather from '../components/Weather';
 
 interface FeedItem {
   id: number;
@@ -154,7 +154,10 @@ const Dashboard = () => {
         <h1 className="text-3xl font-bold mb-4">Community Feed</h1>
       </main>
 
-      
+      {/* Weather Widget */}
+      <div className="mb-6">
+        <Weather />
+      </div>
 
 
        {/* Form to create a new feed */}
