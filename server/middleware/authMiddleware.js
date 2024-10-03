@@ -1,6 +1,6 @@
 // Handles JWT or session authentication
 import jwt from "jsonwebtoken";
-import { User } from "../models";
+import User from "../models/user.js";
 
 const authMiddleware = async (req, res, next) => {
   // Expect "Bearer <token>"
