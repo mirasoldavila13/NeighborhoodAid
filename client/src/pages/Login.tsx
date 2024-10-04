@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AuthService from "../services/AuthService";
+import AuthService from "../services/authService";
 import facebookIcon from "../assets/facebook.png";
 import googleIcon from "../assets/google.png";
 import backgroundImage from "../assets/login_image.jpeg";
@@ -33,31 +33,31 @@ const Login = () => {
       setShowModal(true);
     }
 
-    // try {
-    //   const response = await fetch("/api/login", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ email, password }),
-    //   });
+  //   try {
+  //     const response = await fetch("/api/login", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ email, password }),
+  //     });
 
-    //   const result = await response.json();
+  //     const result = await response.json();
 
-    //   if (!response.ok) {
-    //     setModalMessage(result.message || "An error occurred during login.");
-    //     setShowModal(true);
-    //     return;
-    //   }
+  //     if (!response.ok) {
+  //       setModalMessage(result.message || "An error occurred during login.");
+  //       setShowModal(true);
+  //       return;
+  //     }
 
-    //   // Show success message in modal
-    //   setModalMessage("Login successful!");
-    //   setShowModal(true);
-    // } catch (error) {
-    //   console.error("Error during login:", error);
-    //   setModalMessage("An error occurred during login.");
-    //   setShowModal(true);
-    // }
+  //     // Show success message in modal
+  //     setModalMessage("Login successful!");
+  //     setShowModal(true);
+  //   } catch (error) {
+  //     console.error("Error during login:", error);
+  //     setModalMessage("An error occurred during login.");
+  //     setShowModal(true);
+  //   }
   };
 
   return (
