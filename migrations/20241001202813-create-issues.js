@@ -28,9 +28,9 @@ module.exports = {
         type: Sequelize.ENUM("reported", "in progress", "resolved"),
         allowNull: false,
       },
-      picture: {
-        type: Sequelize.STRING,
-      },
+      // picture: {
+      //   type: Sequelize.STRING,
+      // },
       assignedUserId: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -39,6 +39,7 @@ module.exports = {
           key: "id",
         },
         onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       createdAt: {
         allowNull: false,
