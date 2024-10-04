@@ -1,9 +1,16 @@
-import { DataTypes } from "sequelize";
+import { Model, DataTypes } from "sequelize";
 import sequelize from "../config/connection.js";
 
+class User extends Model {
+  // Define associations with Feed and Comment models
+  static associate(models) {
+    User.hasMany(models.Feed, { foreignKey: "userId" }); // One user has many feeds
+    User.hasMany(models.Comment, { foreignKey: "userId" }); // One user can have many comments
+  }
+}
+
 // Define the User model
-const User = sequelize.define(
-  "User",
+User.init(
   {
     name: {
       type: DataTypes.STRING,
@@ -13,6 +20,9 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        isEmail: true,
+      },
     },
     password: {
       type: DataTypes.STRING,
@@ -20,8 +30,10 @@ const User = sequelize.define(
     },
   },
   {
-    timestamps: true,
-  },
+    sequelize,
+    modelName: "User",
+    timestamps: true, // Automatically manages `createdAt` and `updatedAt`
+  }
 );
 
 export default User;

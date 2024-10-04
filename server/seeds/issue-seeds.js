@@ -2,8 +2,7 @@ import Issue from "../models/issue.js";
 import Sequelize from "sequelize";
 
 export const seedIssues = async () => {
-  await Issue.bulkCreate(
-    [
+  await Issue.bulkCreate([
     {
       description:
         "Lorem ipsum dolor sit amet. Vel vitae optio qui facere dolores qui dolores quia. Et nisi quam est facere animi et magni iste a amet voluptatem ut rerum animi!",
