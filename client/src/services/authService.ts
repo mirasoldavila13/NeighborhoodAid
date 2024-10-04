@@ -12,7 +12,7 @@ class AuthService {
             const result = await response.json();
 
             if (!response.ok) {
-                throw new Error(result.message || "An error occured during login.");
+                throw new Error(result.message || "An error occurred during login.");
             }
 
             const { token } = result;

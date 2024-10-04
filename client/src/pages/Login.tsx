@@ -25,7 +25,7 @@ const Login = () => {
     try {
       await AuthService.loginUser(email, password);
 
-      setModalMessage("Login successful");
+      setModalMessage("Login successful!");
       setShowModal(true);
     } catch (error) {
       console.error("Error during login: ", error);
