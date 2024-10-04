@@ -11,24 +11,30 @@ module.exports = {
       },
       description: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       location: {
-        type: DataTypes.GEOMETRY("POINT"),
+        type: Sequelize.GEOMETRY("POINT"),
+        allowNull: false,
       },
       status: {
-        type: DataTypes.ENUM("reported", "in progress", "resolved"),
+        type: Sequelize.ENUM("reported", "in progress", "resolved"),
+        allowNull: false,
+        defaultValue: "reported",
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn("NOW"),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.fn("NOW"),
       },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Users");
+    await queryInterface.dropTable("Issues");
   },
 };
