@@ -1,23 +1,24 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import LocationSelector from './LocationSelector'; // Import the new LocationSelector
 
 interface IssueData {
   title: string;
   description: string;
   picture: File | null;
-  location: string;
+  location: { lat: number, lon: number };
   contacted: boolean;
-  username: string;
-  phone: string;
-  email: string;
+  username?: string;
+  phone?: string;
+  email?: string;
   status: "reported" | "in progress" | "resolved";
 }
 
-const IssueForm: React.FC = () => {
+const CommunityIssueForm: React.FC = () => {
   const [issueData, setIssueData] = useState<IssueData>({
     title: "",
     description: "",
     picture: null,
-    location: "",
+    location: { lat: 0, lon: 0 }, // Default location
     contacted: false,
     username: "",
     phone: "",
@@ -29,14 +30,18 @@ const IssueForm: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
-  ) => {
+  // Check if user is authenticated (commented out for now)
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   if (!token) {
+  //     navigate('/login'); // Redirect to login if not authenticated
+  //   }
+  // }, [navigate]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
 
-    if (type === "checkbox") {
+    if (type === 'checkbox') {
       const target = e.target as HTMLInputElement;
       setIssueData((prevData) => ({ ...prevData, [name]: target.checked }));
     } else {
@@ -51,53 +56,50 @@ const IssueForm: React.FC = () => {
     }
   };
 
+  const handleLocationSelect = (lat: number, lon: number) => {
+    setIssueData((prevData) => ({ ...prevData, location: { lat, lon } }));
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("title", issueData.title);
-    formData.append("description", issueData.description);
-    formData.append("location", issueData.location);
-    formData.append("contacted", issueData.contacted.toString());
-    formData.append("username", issueData.username);
-    formData.append("phone", issueData.phone);
-    formData.append("email", issueData.email);
-    formData.append("status", issueData.status);
+    formData.append('title', issueData.title);
+    formData.append('description', issueData.description);
+    formData.append('location', JSON.stringify(issueData.location)); 
+    formData.append('contacted', issueData.contacted.toString());
+    formData.append('username', issueData.username || '');
+    formData.append('phone', issueData.phone || '');
+    formData.append('email', issueData.email || '');
+    formData.append('status', issueData.status);
 
-    //Picture Submission
     if (issueData.picture) {
-      formData.append("picture", issueData.picture); // File upload
+      formData.append('picture', issueData.picture);
     }
 
     try {
-      const response = await fetch("/api/issues", {
-        method: "POST",
-        body: formData, // Using FormData to handle file uploads
+      const response = await fetch('/api/community-issues', {
+        method: 'POST',
+        body: formData,
       });
 
       if (response.ok) {
-        setSuccessMessage("Issue reported successfully!");
+        setSuccessMessage('Issue reported successfully!');
         setErrorMessage(null);
       } else {
-        setErrorMessage("Failed to report the issue. Please try again.");
+        setErrorMessage('Failed to report the issue. Please try again.');
       }
     } catch (error) {
-      setErrorMessage("An error occurred during submission.");
+      setErrorMessage('An error occurred during submission.');
     }
 
     setIsSubmitting(false);
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md"
-    >
+    <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
       <div className="mb-4">
-        <label
-          htmlFor="title"
-          className="block text-sm font-medium text-gray-700"
-        >
+        <label htmlFor="title" className="block text-lg font-bold text-gray-700">
           Title:
         </label>
         <input
@@ -106,15 +108,12 @@ const IssueForm: React.FC = () => {
           value={issueData.title}
           onChange={handleChange}
           required
-          className="mt-1 p-2 block w-full rounded-md border border-gray-300"
+          className="mt-1 p-3 block w-full text-lg rounded-md border border-gray-300"
         />
       </div>
 
       <div className="mb-4">
-        <label
-          htmlFor="description"
-          className="block text-sm font-medium text-gray-700"
-        >
+        <label htmlFor="description" className="block text-lg font-bold text-gray-700">
           Description:
         </label>
         <textarea
@@ -123,32 +122,37 @@ const IssueForm: React.FC = () => {
           value={issueData.description}
           onChange={handleChange}
           required
-          className="mt-1 p-2 block w-full rounded-md border border-gray-300"
+          className="mt-1 p-3 block w-full text-lg rounded-md border border-gray-300"
         />
       </div>
 
       <div className="mb-4">
-        <label
-          htmlFor="location"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Location:
+        <label htmlFor="location" className="block text-lg font-bold text-gray-700">
+          Location (Click on the map):
         </label>
-        <input
-          id="location"
-          name="location"
-          value={issueData.location}
+        <LocationSelector onLocationSelect={handleLocationSelect} />
+      </div>
+
+      <div className="mb-4">
+        <label htmlFor="status" className="block text-lg font-bold text-gray-700">
+          Status:
+        </label>
+        <select
+          id="status"
+          name="status"
+          value={issueData.status}
           onChange={handleChange}
           required
-          className="mt-1 p-2 block w-full rounded-md border border-gray-300"
-        />
+          className="mt-1 p-3 block w-full text-lg rounded-md border border-gray-300"
+        >
+          <option value="reported">Reported</option>
+          <option value="in progress">In Progress</option>
+          <option value="resolved">Resolved</option>
+        </select>
       </div>
 
       <div className="mb-4">
-        <label
-          htmlFor="picture"
-          className="block text-sm font-medium text-gray-700"
-        >
+        <label htmlFor="picture" className="block text-lg font-bold text-gray-700">
           Picture:
         </label>
         <input
@@ -156,97 +160,24 @@ const IssueForm: React.FC = () => {
           name="picture"
           type="file"
           onChange={handleFileChange}
-          className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
-        />
-      </div>
-
-      <div className="mb-4">
-        <label
-          htmlFor="contacted"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Contacted Authorities:
-        </label>
-        <input
-          id="contacted"
-          name="contacted"
-          type="checkbox"
-          checked={issueData.contacted}
-          onChange={() =>
-            setIssueData((prevData) => ({
-              ...prevData,
-              contacted: !prevData.contacted,
-            }))
-          }
-          className="mt-1 focus:ring-purpleLight focus:border-purpleStrong"
-        />
-      </div>
-
-      <div className="mb-4">
-        <label
-          htmlFor="username"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Username:
-        </label>
-        <input
-          id="username"
-          name="username"
-          value={issueData.username}
-          onChange={handleChange}
-          required
-          className="mt-1 p-2 block w-full rounded-md border border-gray-300"
-        />
-      </div>
-
-      <div className="mb-4">
-        <label
-          htmlFor="phone"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Phone:
-        </label>
-        <input
-          id="phone"
-          name="phone"
-          value={issueData.phone}
-          onChange={handleChange}
-          required
-          className="mt-1 p-2 block w-full rounded-md border border-gray-300"
-        />
-      </div>
-
-      <div className="mb-4">
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Email:
-        </label>
-        <input
-          id="email"
-          name="email"
-          value={issueData.email}
-          onChange={handleChange}
-          required
-          className="mt-1 p-2 block w-full rounded-md border border-gray-300"
+          className="mt-1 p-3 block w-full text-lg rounded-md border border-gray-300"
         />
       </div>
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full py-2 px-4 bg-purpleStrong text-white rounded-md shadow-md hover:bg-purpleLight transition duration-300"
+        className="w-full py-3 px-4 bg-purpleStrong text-white rounded-md shadow-md text-lg hover:bg-purpleLight transition duration-300"
       >
-        {isSubmitting ? "Submitting..." : "Submit"}
+        {isSubmitting ? 'Submitting...' : 'Submit'}
       </button>
 
-      {errorMessage && <p className="mt-4 text-red-500">{errorMessage}</p>}
-      {successMessage && (
-        <p className="mt-4 text-green-500">{successMessage}</p>
-      )}
+      {errorMessage && <p className="mt-4 text-red-500 text-lg">{errorMessage}</p>}
+      {successMessage && <p className="mt-4 text-green-500 text-lg">{successMessage}</p>}
     </form>
   );
 };
 
-export default IssueForm;
+export default CommunityIssueForm;
+
+

@@ -8,6 +8,7 @@ import sequelize from "./config/connection.js";
 import authRoutes from "./routes/authRoutes.js";
 import feedRoutes from "./routes/api/feed.js";
 import reportRoutes from "./routes/report.js";
+import issueRoutes from "./routes/issueRoutes.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,6 +30,12 @@ app.use("/api/feed", feedRoutes);
 
 // Use the report routes
 app.use("/api/report", reportRoutes); // Adding report routes
+
+// Use the community issues route
+app.use("/", issueRoutes); // Add community issue route
+
+// Serve static files from 'uploads' folder
+app.use('/uploads', express.static('uploads'));
 
 // Use the imported user routes for registration and other endpoints
 app.use("/api", authRoutes);
@@ -60,3 +67,4 @@ if (process.env.NODE_ENV === "production") {
     console.error("Failed to sync database:", error);
   }
 })();
+
