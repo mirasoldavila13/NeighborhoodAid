@@ -1,42 +1,34 @@
 import React, { useState } from 'react';
-import LocationSelector from './LocationSelector'; // Import the new LocationSelector
+import LocationSelector from './LocationSelector'; // Import the LocationSelector
 
 interface IssueData {
   title: string;
   description: string;
   picture: File | null;
-  location: { lat: number, lon: number };
+  location: { lat: number; lon: number };
   contacted: boolean;
   username?: string;
   phone?: string;
   email?: string;
-  status: "reported" | "in progress" | "resolved";
+  status: 'reported' | 'in progress' | 'resolved';
 }
 
 const CommunityIssueForm: React.FC = () => {
   const [issueData, setIssueData] = useState<IssueData>({
-    title: "",
-    description: "",
+    title: '',
+    description: '',
     picture: null,
     location: { lat: 0, lon: 0 }, // Default location
     contacted: false,
-    username: "",
-    phone: "",
-    email: "",
-    status: "reported",
+    username: '',
+    phone: '',
+    email: '',
+    status: 'reported',
   });
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
-  // Check if user is authenticated (commented out for now)
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token');
-  //   if (!token) {
-  //     navigate('/login'); // Redirect to login if not authenticated
-  //   }
-  // }, [navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -66,7 +58,7 @@ const CommunityIssueForm: React.FC = () => {
     const formData = new FormData();
     formData.append('title', issueData.title);
     formData.append('description', issueData.description);
-    formData.append('location', JSON.stringify(issueData.location)); 
+    formData.append('location', JSON.stringify(issueData.location));
     formData.append('contacted', issueData.contacted.toString());
     formData.append('username', issueData.username || '');
     formData.append('phone', issueData.phone || '');
@@ -97,10 +89,10 @@ const CommunityIssueForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
+    <form onSubmit={handleSubmit} className="mt-6 p-6 bg-white border rounded-lg shadow-lg">
       <div className="mb-4">
-        <label htmlFor="title" className="block text-lg font-bold text-gray-700">
-          Title:
+        <label htmlFor="title" className="block text-xl font-semibold text-gray-700">
+          Issue Title:
         </label>
         <input
           id="title"
@@ -109,11 +101,12 @@ const CommunityIssueForm: React.FC = () => {
           onChange={handleChange}
           required
           className="mt-1 p-3 block w-full text-lg rounded-md border border-gray-300"
+          placeholder="Enter issue title"
         />
       </div>
 
       <div className="mb-4">
-        <label htmlFor="description" className="block text-lg font-bold text-gray-700">
+        <label htmlFor="description" className="block text-xl font-semibold text-gray-700">
           Description:
         </label>
         <textarea
@@ -123,18 +116,19 @@ const CommunityIssueForm: React.FC = () => {
           onChange={handleChange}
           required
           className="mt-1 p-3 block w-full text-lg rounded-md border border-gray-300"
+          placeholder="Describe the issue"
         />
       </div>
 
       <div className="mb-4">
-        <label htmlFor="location" className="block text-lg font-bold text-gray-700">
-          Location (Click on the map):
+        <label htmlFor="location" className="block text-xl font-semibold text-gray-700">
+          Select Location on Map:
         </label>
         <LocationSelector onLocationSelect={handleLocationSelect} />
       </div>
 
       <div className="mb-4">
-        <label htmlFor="status" className="block text-lg font-bold text-gray-700">
+        <label htmlFor="status" className="block text-xl font-semibold text-gray-700">
           Status:
         </label>
         <select
@@ -152,7 +146,7 @@ const CommunityIssueForm: React.FC = () => {
       </div>
 
       <div className="mb-4">
-        <label htmlFor="picture" className="block text-lg font-bold text-gray-700">
+        <label htmlFor="picture" className="block text-xl font-semibold text-gray-700">
           Picture:
         </label>
         <input
@@ -167,7 +161,7 @@ const CommunityIssueForm: React.FC = () => {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full py-3 px-4 bg-purpleStrong text-white rounded-md shadow-md text-lg hover:bg-purpleLight transition duration-300"
+        className="w-full py-3 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition duration-300"
       >
         {isSubmitting ? 'Submitting...' : 'Submit'}
       </button>
