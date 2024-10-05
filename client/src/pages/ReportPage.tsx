@@ -4,8 +4,12 @@ import axios from "axios";
 import DashboardNav from "../components/DashboardNav";
 import Footer from "../components/Footer";
 import Modal from "../components/Modal";
+import authService from "../services/authService.ts";
+import { Navigate } from "react-router-dom";
 
 const ReportPage = () => {
+  const authLoggedIn = authService.loggedIn();
+  console.log(authLoggedIn);
   const [locationDetails, setLocationDetails] = useState<{
     fullAddress: string;
     city: string;
@@ -38,7 +42,8 @@ const ReportPage = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <>
+    {!authLoggedIn ? (<><Navigate to="/"/></>) : (<div className="flex flex-col min-h-screen">
       <DashboardNav />
       <main className="flex-grow p-6">
         <div className="container mx-auto">
@@ -139,7 +144,10 @@ const ReportPage = () => {
         </div>
       </main>
       <Footer />
-    </div>
+    </div>)}
+    </>
+    
+    
   );
 };
 
