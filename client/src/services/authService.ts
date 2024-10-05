@@ -9,7 +9,7 @@ declare module "jwt-decode" {
 
 class AuthService {
   getProfile(): JwtPayload | null {
-    // TODO: return the decoded token
+    // Return the decoded token
     const token = this.getToken();
     if (token) {
       return jwtDecode<JwtPayload>(token);
@@ -18,13 +18,13 @@ class AuthService {
   }
 
   loggedIn(): boolean {
-    // TODO: return a value that indicates if the user is logged in
+    // Return a value that indicates if the user is logged in
     const token = this.getToken();
     return !!token && !this.isTokenExpired(token);
   }
 
   isTokenExpired(token: string): boolean {
-    // TODO: return a value that indicates if the token is expired
+    // Return a value that indicates if the token is expired
     if (!token || token.split('.').length !== 3) {
       console.log('Invalid token format');
       return true;
@@ -45,7 +45,7 @@ class AuthService {
   }
 
   getToken(): string | null {
-    // TODO: return the token
+    // Return the token
     const loggedUser = localStorage.getItem('jwtToken') || '';
     return loggedUser;
   }
