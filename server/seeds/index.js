@@ -1,6 +1,6 @@
 import { seedUsers } from "./user-seeds.js";
 import { seedIssues } from "./issue-seeds.js";
-import sequelize from "../config/connection.js";
+import sequelize from "../../config/config.json";
 
 const seedAll = async () => {
   try {

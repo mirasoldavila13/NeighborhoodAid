@@ -1,51 +1,40 @@
 import { useState } from "react";
+import MapWithAddress from "../components/MapWithAddress";
 import axios from "axios";
-import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
 import DashboardNav from "../components/DashboardNav";
 import Footer from "../components/Footer";
 import Modal from "../components/Modal";
 
-const customMarkerIcon = new L.Icon({
-  iconUrl: "/leaflet-images/marker-icon.png",
-  shadowUrl: "/leaflet-images/marker-shadow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-});
-
 const ReportPage = () => {
-  const [position, setPosition] = useState<[number, number] | null>(null);
+  const [locationDetails, setLocationDetails] = useState<{
+    fullAddress: string;
+    city: string;
+  } | null>(null);
   const [weatherData, setWeatherData] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchWeather = async (lat: number, lon: number) => {
-    const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
     try {
-      const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`,
-      );
+      const response = await axios.get("/api/weather", {
+        params: { lat, lon },
+      });
       setWeatherData(response.data);
+      setError(null); // Clear any previous errors
+      setIsModalOpen(false); // Close the modal when data is fetched successfully
     } catch (error) {
       setError("Failed to fetch weather data");
       setIsModalOpen(true);
     }
   };
 
-  const LocationMarker = () => {
-    useMapEvents({
-      click(e) {
-        setPosition([e.latlng.lat, e.latlng.lng]);
-        fetchWeather(e.latlng.lat, e.latlng.lng);
-      },
-    });
-
-    return position ? (
-      <Marker position={position} icon={customMarkerIcon} />
-    ) : null;
+  const handleLocationSelected = (
+    lat: number,
+    lon: number,
+    addressDetails: any,
+  ) => {
+    setLocationDetails(addressDetails);
+    fetchWeather(lat, lon);
   };
 
   return (
@@ -55,6 +44,7 @@ const ReportPage = () => {
         <div className="container mx-auto">
           <h2 className="text-2xl font-bold mb-4">Report an Issue</h2>
 
+          {/* Error Modal */}
           <Modal
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
@@ -84,32 +74,28 @@ const ReportPage = () => {
               />
             </div>
 
-            <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2">
-                Select Location on Map
-              </label>
-              <MapContainer
-                center={position || [34.0522, -118.2437]} // Default center is Los Angeles
-                zoom={13}
-                style={{ height: "300px", width: "100%" }}
-              >
-                <TileLayer
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                />
-                <LocationMarker />
-              </MapContainer>
-            </div>
+            {/* Reusable Map Component */}
+            <MapWithAddress onLocationChange={handleLocationSelected} />
 
+            {/* Display Location Details */}
+            {locationDetails && (
+              <div className="mb-4">
+                <h3 className="font-bold text-lg">Location Details</h3>
+                <p>City: {locationDetails.city}</p>
+                <p>Address: {locationDetails.fullAddress}</p>
+              </div>
+            )}
+
+            {/* Display Weather Data */}
             {weatherData && (
               <div className="mb-4">
-                <h3 className="font-bold text-lg">Weather at Location</h3>
-                <p>Temperature: {weatherData.main.temp}°C</p>
+                <h3 className="font-bold text-lg">
+                  {locationDetails?.city} Weather
+                </h3>
+                <p>Temperature: {weatherData.main.temp}°F</p>
                 <p>Condition: {weatherData.weather[0].description}</p>
-                <img
-                  src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`}
-                  alt={weatherData.weather[0].description}
-                />
+                <p>Wind Speed: {weatherData.wind.speed} mph</p>
+                <p>Humidity: {weatherData.main.humidity}%</p>
               </div>
             )}
 

@@ -1,13 +1,19 @@
+import 'dotenv/config';
 import express from "express";
 import corsMiddleware from "./middleware/corsMiddleware.js";
 import loggerMiddleware from "./middleware/loggerMiddleware.js";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import sequelize from "./config/connection.js";
+//import seedAuthorityIssues from './seeds/issue-authority-seed.js';
+
 
 import authRoutes from "./routes/authRoutes.js";
 import feedRoutes from "./routes/api/feed.js";
-import reportRoutes from "./routes/report.js";
+import reportRoutes from "./routes/ReportAuthorityRoute.js";
+import weatherRoutes from "./routes/weatherRoute.js";
+import reportAuthorityRoutes from './routes/ReportAuthorityRoute.js';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,6 +29,12 @@ app.use(express.static("../client/dist"));
 app.use(corsMiddleware); // CORS middleware for client requests
 app.use(express.json()); // Body parser for JSON
 app.use(loggerMiddleware); // Log all incoming requests
+
+//Use the weather routes
+app.use(weatherRoutes);
+
+//Report Issue Authority creation
+app.use('/api/reportAuthority', reportAuthorityRoutes);
 
 // Use the feed routes
 app.use("/api/feed", feedRoutes);
@@ -46,6 +58,17 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "../client/dist/index.html"));
   });
 }
+
+// (async () => {
+//   try {
+//     await sequelize.sync({ force: true }); // Drop & recreate tables
+//     await seedAuthorityIssues(); // Seed the database with issues
+//     console.log("Database seeded successfully.");
+//   } catch (error) {
+//     console.error("Failed to seed database:", error);
+//   }
+// })();
+
 
 (async () => {
   try {
