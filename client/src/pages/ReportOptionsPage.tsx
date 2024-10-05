@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import DashboardNav from '../components/DashboardNav';
 import Footer from '../components/Footer';
-import CommunityIssueForm from '../components/CommunityIssueForm'; // Import the form here
+
 
 interface Report {
   id: number;
@@ -17,7 +17,7 @@ interface Report {
 const ReportOptionsPage = () => {
   const [reports, setReports] = useState<Report[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [showCommunityForm, setShowCommunityForm] = useState<boolean>(false); // Add state for form visibility
+  
 
   // Fetch reports from backend
   const fetchReports = async () => {
@@ -33,9 +33,7 @@ const ReportOptionsPage = () => {
     fetchReports();
   }, []);
 
-  const handleShowCommunityForm = () => {
-    setShowCommunityForm(true); // Appears under the two Report links 
-  };
+  
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -55,28 +53,20 @@ const ReportOptionsPage = () => {
                 Report to Authorities
               </Link>
             </div>
-
             {/* Community Card */}
             <div className="p-6 bg-white border rounded-lg shadow-lg">
               <h2 className="text-2xl font-semibold mb-4">Report to Community</h2>
               <p className="mb-4">Share issues with the local community for discussion and resolution.</p>
               <Link
-                to="#"
-                onClick={handleShowCommunityForm} // Same event handler as before
+                to="/dashboard/report/communityreport"
                 className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-700"
               >
                 Report to Community
               </Link>
             </div>
-          </div>
 
           
-          {showCommunityForm && (
-            <div className="mt-6 p-6 bg-white border rounded-lg shadow-lg">
-              <h2 className="text-2xl font-bold mb-4">Report Community Issue</h2>
-              <CommunityIssueForm /> {/* Render the CommunityIssueForm component */}
-            </div>
-          )}
+          </div>
 
           {/* Reports Feed */}
           <div className="mt-12">

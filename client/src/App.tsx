@@ -11,6 +11,7 @@ import ReportPage from './pages/ReportPage';
 import ReportOptionsPage from './pages/ReportOptionsPage';
 import CommunityReportPage from './pages/CommunityReportPage';
 import CommunityIssueForm from './components/CommunityIssueForm';
+import CommunityReport from './pages/CommunityReport';
 
 function App() {
   return (
@@ -39,6 +40,8 @@ function App() {
 
         {/* Route for the login page */}
         <Route path="/login" element={<Login />} />
+        {/* Route for the Report to Community page */}
+        <Route path="/dashboard/report/communityreport" element={<CommunityReport />} />
 
         {/* Route for the user dashboard */}
         <Route path="/dashboard" element={<Dashboard />} />
