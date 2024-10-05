@@ -58,7 +58,7 @@ const ReportOptionsPage = () => {
               <h2 className="text-2xl font-semibold mb-4">Report to Community</h2>
               <p className="mb-4">Share issues with the local community for discussion and resolution.</p>
               <Link
-                to="/dashboard/report/communityreport"
+                to="/dashboard/report/community"
                 className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-700"
               >
                 Report to Community

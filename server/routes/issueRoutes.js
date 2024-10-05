@@ -1,6 +1,6 @@
 import express from 'express';
 import multer from 'multer';
-import Issue from '../models/issue.js';
+import Issue from '../models/reportCommunity.js';
 import axios from 'axios';
 import path from 'path';
 import fs from 'fs';

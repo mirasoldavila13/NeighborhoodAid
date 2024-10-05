@@ -9,9 +9,7 @@ import UserRegistration from './pages/UserRegistration';
 import Dashboard from './pages/Dashboard';
 import ReportPage from './pages/ReportPage';
 import ReportOptionsPage from './pages/ReportOptionsPage';
-import CommunityReportPage from './pages/CommunityReportPage';
-import CommunityIssueForm from './components/CommunityIssueForm';
-import CommunityReport from './pages/CommunityReport';
+import CommunityReport from './pages/CommunityReportPage';
 
 function App() {
   return (
@@ -35,13 +33,8 @@ function App() {
         {/* Route for the sign-up page */}
         <Route path="/register" element={<UserRegistration />} />
 
-        {/* Route for Report Issue Form Feature */}
-        <Route path="/report-issue" element={<CommunityIssueForm />} />
-
         {/* Route for the login page */}
         <Route path="/login" element={<Login />} />
-        {/* Route for the Report to Community page */}
-        <Route path="/dashboard/report/communityreport" element={<CommunityReport />} />
 
         {/* Route for the user dashboard */}
         <Route path="/dashboard" element={<Dashboard />} />
@@ -53,7 +46,7 @@ function App() {
         <Route path="/dashboard/report/authorities" element={<ReportPage />} />
 
         {/* Placeholder page for Community Reports */}
-        <Route path="/dashboard/report/community" element={<CommunityReportPage />} />
+        <Route path="/dashboard/report/community" element={<CommunityReport />} />
 
         {/* Catch-all route */}
         <Route path="*" element={<div>404 Not Found</div>} />

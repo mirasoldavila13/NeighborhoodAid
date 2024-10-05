@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import "dotenv/config";
 import express from "express";
 import corsMiddleware from "./middleware/corsMiddleware.js";
 import loggerMiddleware from "./middleware/loggerMiddleware.js";
@@ -7,13 +7,12 @@ import { fileURLToPath } from "node:url";
 import sequelize from "./config/connection.js";
 //import seedAuthorityIssues from './seeds/issue-authority-seed.js';
 
-
 import authRoutes from "./routes/authRoutes.js";
 import feedRoutes from "./routes/api/feed.js";
 import reportRoutes from "./routes/ReportAuthorityRoute.js";
 import weatherRoutes from "./routes/weatherRoute.js";
-import reportAuthorityRoutes from './routes/ReportAuthorityRoute.js';
-
+import reportAuthorityRoutes from "./routes/ReportAuthorityRoute.js";
+import issueRoutes from "./routes/issueRoutes.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -34,7 +33,7 @@ app.use(loggerMiddleware); // Log all incoming requests
 app.use(weatherRoutes);
 
 //Report Issue Authority creation
-app.use('/api/reportAuthority', reportAuthorityRoutes);
+app.use("/api/reportAuthority", reportAuthorityRoutes);
 
 // Use the feed routes
 app.use("/api/feed", feedRoutes);
@@ -46,7 +45,7 @@ app.use("/api/report", reportRoutes); // Adding report routes
 app.use("/", issueRoutes); // Add community issue route
 
 // Serve static files from 'uploads' folder
-app.use('/uploads', express.static('uploads'));
+app.use("/uploads", express.static("uploads"));
 
 // Use the imported user routes for registration and other endpoints
 app.use("/api", authRoutes);
@@ -75,10 +74,9 @@ if (process.env.NODE_ENV === "production") {
 //   }
 // })();
 
-
 (async () => {
   try {
-    // Sync the models with the database 
+    // Sync the models with the database
     await sequelize.sync({ alter: true });
     console.log("Database synced successfully.");
 
@@ -89,4 +87,3 @@ if (process.env.NODE_ENV === "production") {
     console.error("Failed to sync database:", error);
   }
 })();
-
