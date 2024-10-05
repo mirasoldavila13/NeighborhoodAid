@@ -66,6 +66,10 @@ const UserRegistration = () => {
       const result = await response.json();
 
       if (response.ok) {
+        //Storing JWT token
+        if (result.token) {
+          localStorage.setItem("jwtToken", result.token);
+        }
         setModalMessage("User registered successfully!");
         setShowModal(true);
         // Navigate after modal closes
