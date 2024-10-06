@@ -8,6 +8,38 @@ declare module "jwt-decode" {
 }
 
 class AuthService {
+
+  /**
+   * Handles user login by sending a POST request to the /api/login endpoint.
+   * @param email User's email address.
+   * @param password User's password.
+   * @returns A promise that resolves to a string token if the login is successful.
+   * @throws An error if login fails.
+   *
+   **/ 
+
+  async login(email: string, password: string): Promise<string> {
+    // Send a POST request to the login endpoint with the user's email and password
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.message || "Login failed");
+    }
+
+    // Store the token in local storage
+    localStorage.setItem("jwtToken", result.token);
+    return result.token; // Return the token for further use
+  }
+
+
   getProfile(): JwtPayload | null {
     // Return the decoded token
     const token = this.getToken();
