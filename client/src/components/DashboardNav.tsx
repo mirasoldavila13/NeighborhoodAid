@@ -1,8 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/neighborhood_logo.svg";
 
 
 const DashboardNav = () => {
+  const navigate = useNavigate();
+  const logout = () => {
+    localStorage.removeItem('jwtToken');
+    navigate('/');
+  }
+
   return (
     <nav className="bg-white p-4 text-black">
       <div className="container mx-auto flex justify-between items-center">
@@ -29,9 +35,9 @@ const DashboardNav = () => {
             </Link>
           </li>
           <li>
-            <Link to="/" className="hover:text-gray-300">
+            <button onClick={logout} className="hover:text-gray-300">
               Logout
-            </Link>
+            </button>
           </li>
         </ul>
       </div>

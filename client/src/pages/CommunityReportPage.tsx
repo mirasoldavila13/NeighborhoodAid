@@ -209,6 +209,7 @@ const CommunityReport: React.FC = () => {
 
       <Footer />
     </div>
+
   );
 };
 
