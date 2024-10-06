@@ -38,6 +38,9 @@ const Login = () => {
         return;
       }
 
+      //Storing JWT token in local storage
+      localStorage.setItem("jwtToken", result.token);
+
       // Show success message in modal
       setModalMessage("Login successful!");
       setShowModal(true);
