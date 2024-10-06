@@ -9,7 +9,6 @@ import { Navigate } from "react-router-dom";
 
 const ReportPage = () => {
   const authLoggedIn = authService.loggedIn();
-  // console.log(authLoggedIn);
   const [locationDetails, setLocationDetails] = useState<{
     fullAddress: string;
     city: string;
