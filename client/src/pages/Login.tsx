@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import facebookIcon from "../assets/facebook.png";
 import googleIcon from "../assets/google.png";
 import backgroundImage from "../assets/login_image.jpeg";
+import authService from "../services/authService"; // Ensure authService is imported
 
 const Login = () => {
   const navigate = useNavigate();
@@ -10,6 +11,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false); // To manage button state during submission
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -20,6 +22,7 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitting(true); // Disable the button when submission starts
 
     try {
       const response = await fetch("/api/login", {
@@ -35,10 +38,11 @@ const Login = () => {
       if (!response.ok) {
         setModalMessage(result.message || "An error occurred during login.");
         setShowModal(true);
+        setIsSubmitting(false); // Re-enable button
         return;
       }
 
-      //Storing JWT token in local storage
+      // Storing JWT token in local storage
       localStorage.setItem("jwtToken", result.token);
 
       // Show success message in modal
@@ -48,6 +52,8 @@ const Login = () => {
       console.error("Error during login:", error);
       setModalMessage("An error occurred during login.");
       setShowModal(true);
+    } finally {
+      setIsSubmitting(false); // Re-enable button after the process is done
     }
   };
 
@@ -67,8 +73,7 @@ const Login = () => {
         <div className="p-6 md:p-20">
           <h2 className="font-mono mb-5 text-4xl font-bold">Log In</h2>
           <p className="max-w-sm mb-12 font-sans font-light text-gray-600">
-            Log in to your account to report local issues, track progress, and
-            engage with your community.
+            Log in to your account to report local issues, track progress, and engage with your community.
           </p>
 
           {/* Form */}
@@ -95,7 +100,13 @@ const Login = () => {
 
             {/* Login Button */}
             <div className="flex flex-col items-center justify-between mt-6 space-y-6 md:flex-row md:space-y-0">
-              <button className="w-full md:w-auto flex justify-center items-center p-6 space-x-4 font-sans font-bold text-white rounded-md shadow-lg px-9 bg-purpleStrong hover:bg-purpleLighter hover:bg-opacity-90 hover:shadow-lg transition duration-300">
+              <button
+                type="submit"
+                className={`w-full md:w-auto flex justify-center items-center p-6 space-x-4 font-sans font-bold text-white rounded-md shadow-lg px-9 bg-purpleStrong hover:bg-purpleLighter hover:bg-opacity-90 hover:shadow-lg transition duration-300 ${
+                  isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                disabled={isSubmitting} // Disable the button when submitting
+              >
                 <span>Next</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -146,10 +157,7 @@ const Login = () => {
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <h3 className="text-xl font-semibold mb-4">Login Status</h3>
             <p>{modalMessage}</p>
-            <button
-              className="mt-4 text-purpleLight"
-              onClick={handleCloseModal}
-            >
+            <button className="mt-4 text-purpleLight" onClick={handleCloseModal}>
               Close
             </button>
           </div>
