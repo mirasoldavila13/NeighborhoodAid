@@ -35,25 +35,15 @@ const CommunityReport: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   
   const [locationDetails, setLocationDetails] = useState<{ fullAddress: string; city: string } | null>(null);
-  const [weatherData, setWeatherData] = useState<any>(null);
+  
 
-  // Fetch weather data when location changes
-  const fetchWeather = async (lat: number, lon: number) => {
-    try {
-      const response = await axios.get('/api/weather', {
-        params: { lat, lon },
-      });
-      setWeatherData(response.data);
-    } catch (error) {
-      console.error('Failed to fetch weather data:', error);
-    }
-  };
+  
 
   // Handle location and address details when user selects a location on the map
   const handleLocationSelected = (lat: number, lon: number, addressDetails: { city: string; fullAddress: string }) => {
     setIssueData((prevData) => ({ ...prevData, location: { lat, lon } }));
     setLocationDetails(addressDetails);
-    fetchWeather(lat, lon);
+   
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -163,18 +153,7 @@ const CommunityReport: React.FC = () => {
               </div>
             )}
 
-            {/* Display Weather Data */}
-            {weatherData && (
-              <div className="mb-4">
-                <h3 className="font-bold text-lg">
-                  {locationDetails?.city} Weather
-                </h3>
-                <p>Temperature: {weatherData.main.temp}°F</p>
-                <p>Condition: {weatherData.weather[0].description}</p>
-                <p>Wind Speed: {weatherData.wind.speed} mph</p>
-                <p>Humidity: {weatherData.main.humidity}%</p>
-              </div>
-            )}
+ 
 
             <div className="mb-4">
               <label htmlFor="status" className="block text-xl font-semibold text-gray-700">

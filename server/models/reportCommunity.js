@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import sequelize from "../config/connection.js"; // Adjust the path to match your directory structure
+import sequelize from "../config/connection.js"; 
 
 const Issue = sequelize.define('Issue', {
   title: {
@@ -36,7 +36,7 @@ const Issue = sequelize.define('Issue', {
     allowNull: true,
   },
 }, {
-  timestamps: true, // Automatically adds createdAt and updatedAt fields
+  timestamps: true, 
 });
 
 export default Issue;

@@ -12,7 +12,7 @@ import feedRoutes from "./routes/api/feed.js";
 import reportRoutes from "./routes/ReportAuthorityRoute.js";
 import weatherRoutes from "./routes/weatherRoute.js";
 import reportAuthorityRoutes from "./routes/ReportAuthorityRoute.js";
-import issueRoutes from "./routes/issueRoutes.js";
+import issueRoutes from "./routes/communityRoutes.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
