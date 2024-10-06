@@ -38,6 +38,10 @@ const Login = () => {
         return;
       }
 
+      // Store the token in local storage after successful login
+      const { token } = result; // Get the token from the response
+      localStorage.setItem("token", token); // Store the token in local storage
+
       // Show success message in modal
       setModalMessage("Login successful!");
       setShowModal(true);
