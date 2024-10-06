@@ -34,11 +34,17 @@ class AuthService {
       throw new Error(result.message || "Login failed");
     }
 
-    // Store the token in local storage
-    localStorage.setItem("jwtToken", result.token);
+     // Use setToken to store the token in local storage
+     this.setToken(result.token); // Call the setToken method
     return result.token; // Return the token for further use
   }
 
+
+  //new method to set the token
+  setToken(token: string){
+    // Store the token in local storage
+    localStorage.setItem("jwtToken", token);
+  }
 
   getProfile(): JwtPayload | null {
     // Return the decoded token
