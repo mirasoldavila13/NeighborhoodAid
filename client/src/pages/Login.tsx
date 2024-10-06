@@ -23,39 +23,22 @@ const Login = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true); // Disable the button when submission starts
-
+  
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        setModalMessage(result.message || "An error occurred during login.");
-        setShowModal(true);
-        setIsSubmitting(false); // Re-enable button
-        return;
-      }
-
-      // Storing JWT token in local storage
-      localStorage.setItem("jwtToken", result.token);
-
+      await authService.login(email, password); // Use authService to login
+      // The token is now handled in authService, so no need to capture it here
+  
       // Show success message in modal
       setModalMessage("Login successful!");
       setShowModal(true);
-    } catch (error) {
-      console.error("Error during login:", error);
-      setModalMessage("An error occurred during login.");
+    } catch (error: any) { 
+      setModalMessage(error.message || "An error occurred during login.");
       setShowModal(true);
     } finally {
       setIsSubmitting(false); // Re-enable button after the process is done
     }
   };
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#f9f5f0]">
