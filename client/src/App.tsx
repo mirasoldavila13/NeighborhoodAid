@@ -33,7 +33,7 @@ function App() {
         <Route path="/register" element={<UserRegistration />} />
         {/* Route for the login page */}
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/:userId" element={<Dashboard />} />
         {/* New route for /dashboard/report */}
         <Route path="/dashboard/report" element={<ReportOptionsPage />} />
 
