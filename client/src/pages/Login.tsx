@@ -16,10 +16,15 @@ const Login = () => {
   const handleCloseModal = () => {
     setShowModal(false);
     if (modalMessage === "Login successful!") {
-      navigate("/dashboard");
+      const userProfile = authService.getProfile(); // Fetch user profile
+      if (userProfile) {
+        navigate(`/dashboard/${userProfile.id}`); // Navigate to the dashboard with user ID
+      } else {
+        navigate("/dashboard"); // Fallback if userProfile is not available
+      }
     }
   };
-
+  
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true); // Disable the button when submission starts
