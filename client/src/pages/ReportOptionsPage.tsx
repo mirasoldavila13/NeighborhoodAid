@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import DashboardNav from "../components/DashboardNav";
 import Footer from "../components/Footer";
 import authService from "../services/authService.ts";
@@ -16,6 +16,7 @@ interface Report {
 }
 
 const ReportOptionsPage = () => {
+  const { userId } = useParams<{ userId: string }>(); // Get userId from URL parameters
   const authLoggedIn = authService.loggedIn();
   const [reports, setReports] = useState<Report[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +24,7 @@ const ReportOptionsPage = () => {
   // Fetch reports from backend
   const fetchReports = async () => {
     try {
-      const response = await axios.get("/api/reports");
+      const response = await axios.get(`/api/reports?userId=${userId}`);
       setReports(response.data);
     } catch (error) {
       setError("Failed to fetch reports");
@@ -32,7 +33,7 @@ const ReportOptionsPage = () => {
 
   useEffect(() => {
     fetchReports();
-  }, []);
+  }, [userId]); //depend on usrId to refetch if it changes
 
   return (
     <>
@@ -56,7 +57,7 @@ const ReportOptionsPage = () => {
                     authorities.
                   </p>
                   <Link
-                    to="/dashboard/report/authorities"
+                    to={`/dashboard/${userId}/report/authorities`}
                     className="bg-blue-500 text-white px-4 py-2 rounded"
                   >
                     Report to Authorities
@@ -71,7 +72,7 @@ const ReportOptionsPage = () => {
                     resolution.
                   </p>
                   <Link
-                    to="/dashboard/report/community"
+                    to={`/dashboard/${userId}/report/community`}
                     className="bg-green-500 text-white px-4 py-2 rounded"
                   >
                     Report to Community
