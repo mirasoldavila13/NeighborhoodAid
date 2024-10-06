@@ -11,7 +11,7 @@ const Issue = sequelize.define('Issue', {
     allowNull: false,
   },
   location: {
-    type: DataTypes.JSONB, // Store latitude and longitude as JSON data
+    type: DataTypes.JSONB, 
     allowNull: false,
     defaultValue: { lat: 0, lon: 0 },
   },
@@ -24,7 +24,7 @@ const Issue = sequelize.define('Issue', {
     defaultValue: 'reported',
   },
   picture: {
-    type: DataTypes.STRING, // Path to uploaded picture file
+    type: DataTypes.STRING, 
     allowNull: true,
   },
   email: {

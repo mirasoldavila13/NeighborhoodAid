@@ -3,7 +3,7 @@ import MapWithAddress from '../components/MapWithAddress';
 import DashboardNav from '../components/DashboardNav'; // Importing DashboardNav
 import Footer from '../components/Footer'; // Importing Footer
 import Modal from '../components/Modal'; // Import Modal for feedback
-import axios from 'axios';
+
 
 interface IssueData {
   title: string;
