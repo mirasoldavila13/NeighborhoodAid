@@ -26,175 +26,163 @@ interface CommentItem {
 }
 
 const Dashboard = () => {
-  const { userId } = useParams<{ userId: string }>(); // Get the user ID from the URL
-  const authLoggedIn = authService.loggedIn(); // Check if the user is logged in
-  const [feedItems, setFeedItems] = useState<FeedItem[]>([]); // State to store feed items
-  const [newFeedContent, setNewFeedContent] = useState<string>(""); // State for new feed content
-  const [error, setError] = useState<string | null>(null); // State for error messages
-  const [editingFeedId, setEditingFeedId] = useState<number | null>(null); // For edit mode
-  const [editContent, setEditContent] = useState<string>(""); // For editing post content
-  const [newComment, setNewComment] = useState<string>(""); // For comments
+  const { userId } = useParams<{ userId: string }>();
+  const authLoggedIn = authService.loggedIn();
+  const [feedItems, setFeedItems] = useState<FeedItem[]>([]);
+  const [newFeedContent, setNewFeedContent] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
+  const [editingFeedId, setEditingFeedId] = useState<number | null>(null);
+  const [editContent, setEditContent] = useState<string>("");
+  const [newComment, setNewComment] = useState<string>("");
 
-  // Fetch feeds
   const fetchFeeds = async () => {
     try {
-      const token = localStorage.getItem("jwtToken"); // Get the token from local storage
+      const token = localStorage.getItem("jwtToken");
       const response: AxiosResponse<FeedItem[]> = await axios.get(
         `/api/feed/${userId}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the request
+            Authorization: `Bearer ${token}`,
           },
         },
       );
-      setFeedItems(response.data); // Update state with fetched feed items
+      setFeedItems(response.data);
     } catch (err) {
       console.error("Error fetching feeds:", err);
-      setError("Error fetching feeds"); // Set error state if there's an issue
+      setError("Error fetching feeds");
     }
   };
 
-  // Create a feed
   const createFeed = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newFeedContent.trim()) return; // Prevent submission if the input is empty
+    if (!newFeedContent.trim()) return;
 
     try {
-      const token = localStorage.getItem("jwtToken"); // Get the token from local storage
+      const token = localStorage.getItem("jwtToken");
       const response: AxiosResponse<FeedItem> = await axios.post(
         "/api/feed",
         { content: newFeedContent },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the request
+            Authorization: `Bearer ${token}`,
           },
         },
       );
-      setFeedItems([response.data, ...feedItems]); // Add new feed to the state
-      setNewFeedContent(""); // Clear the input field
+      setFeedItems([response.data, ...feedItems]);
+      setNewFeedContent("");
     } catch (err) {
       console.error("Error creating feed:", err);
-      setError("Error creating feed"); // Set error state if there's an issue
+      setError("Error creating feed");
     }
   };
 
-  // Like a feed
   const likeFeed = async (feedId: number) => {
     try {
-      const token = localStorage.getItem("jwtToken"); // Get the token from local storage
+      const token = localStorage.getItem("jwtToken");
       const response: AxiosResponse<FeedItem> = await axios.post(
         `/api/feed/${feedId}/like`,
         {},
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the request
+            Authorization: `Bearer ${token}`,
           },
         },
       );
       setFeedItems(
-        feedItems.map((feed) => (feed.id === feedId ? response.data : feed)), // Update the feed with new likes
+        feedItems.map((feed) => (feed.id === feedId ? response.data : feed)),
       );
     } catch (err) {
       console.error("Error liking feed:", err);
-      setError("Error liking feed"); // Set error state if there's an issue
+      setError("Error liking feed");
     }
   };
 
-  // Delete a feed
   const deleteFeed = async (feedId: number) => {
     try {
-      const token = localStorage.getItem("jwtToken"); // Get the token from local storage
+      const token = localStorage.getItem("jwtToken");
       await axios.delete(`/api/feed/${feedId}`, {
         headers: {
-          Authorization: `Bearer ${token}`, // Include the token in the request
+          Authorization: `Bearer ${token}`,
         },
       });
-      setFeedItems(feedItems.filter((feed) => feed.id !== feedId)); // Remove the deleted feed from state
+      setFeedItems(feedItems.filter((feed) => feed.id !== feedId));
     } catch (err) {
       console.error("Error deleting feed:", err);
-      setError("Error deleting feed"); // Set error state if there's an issue
+      setError("Error deleting feed");
     }
   };
 
-  // Update a feed
   const updateFeed = async (feedId: number) => {
     try {
-      const token = localStorage.getItem("jwtToken"); // Get the token from local storage
+      const token = localStorage.getItem("jwtToken");
       const response: AxiosResponse<FeedItem> = await axios.put(
         `/api/feed/${feedId}`,
         { content: editContent },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the request
+            Authorization: `Bearer ${token}`,
           },
         },
       );
       setFeedItems(
-        feedItems.map((feed) => (feed.id === feedId ? response.data : feed)), // Update the feed with new content
+        feedItems.map((feed) => (feed.id === feedId ? response.data : feed)),
       );
-      setEditingFeedId(null); // Exit edit mode
-      setEditContent(""); // Clear the edit content
+      setEditingFeedId(null);
+      setEditContent("");
     } catch (err) {
       console.error("Error updating feed:", err);
-      setError("Error updating feed"); // Set error state if there's an issue
+      setError("Error updating feed");
     }
   };
 
-  // Comment on a feed
   const commentOnFeed = async (feedId: number, commentContent: string) => {
-    if (!commentContent.trim()) return; // Prevent submission if the input is empty
+    if (!commentContent.trim()) return;
 
     try {
-      const token = localStorage.getItem("jwtToken"); // Get the token from local storage
+      const token = localStorage.getItem("jwtToken");
       const response: AxiosResponse<CommentItem> = await axios.post(
         `/api/feed/${feedId}/comment`,
         { content: commentContent },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the request
+            Authorization: `Bearer ${token}`,
           },
         },
       );
       setFeedItems(
         feedItems.map((feed) =>
           feed.id === feedId
-            ? { ...feed, comments: [...feed.comments, response.data] } // Add new comment to the feed
+            ? { ...feed, comments: [...feed.comments, response.data] }
             : feed,
         ),
       );
-      setNewComment(""); // Clear the new comment input
+      setNewComment("");
     } catch (err) {
       console.error("Error commenting on feed:", err);
-      setError("Error commenting on feed"); // Set error state if there's an issue
+      setError("Error commenting on feed");
     }
   };
 
   useEffect(() => {
-    fetchFeeds(); // Fetch feeds when component mounts
-  }, [userId]); // Dependency on userId to refetch if it changes
+    fetchFeeds();
+  }, [userId]);
 
   return (
     <>
-      {!authLoggedIn ? ( // If not logged in, redirect to home
+      {!authLoggedIn ? (
         <Navigate to="/" />
       ) : (
         <div className="flex flex-col min-h-screen">
           <DashboardNav />
           <main className="flex-grow p-6">
             <div className="container mx-auto">
-              {/* Flexbox layout for weather and feed */}
               <div className="flex space-x-4">
-                {/* Weather widget */}
                 <div className="w-1/4">
                   <Weather />
                 </div>
-
-                {/* Feed section */}
                 <div className="w-3/4">
                   <h1 className="text-3xl font-bold mb-4">Community Feed</h1>
-                  {error && <p className="text-red-500 mb-4">{error}</p>}{" "}
-                  {/* Display error if any */}
-                  {/* Form to create a new feed */}
+                  {error && <p className="text-red-500 mb-4">{error}</p>}
                   <form onSubmit={createFeed} className="mb-6">
                     <textarea
                       className="w-full p-2 border rounded mb-2"
@@ -209,7 +197,6 @@ const Dashboard = () => {
                       Post
                     </button>
                   </form>
-                  {/* Display feeds */}
                   <div className="feed-list space-y-4">
                     {feedItems.length > 0 ? (
                       feedItems.map((feed) => (
@@ -252,7 +239,6 @@ const Dashboard = () => {
                               </>
                             )}
                           </div>
-                          {/* Edit Form */}
                           {editingFeedId === feed.id && (
                             <form
                               onSubmit={(e) => {
@@ -282,7 +268,6 @@ const Dashboard = () => {
                               </button>
                             </form>
                           )}
-                          {/* Comments */}
                           <div className="comments-section mt-4">
                             <h4 className="text-lg font-semibold mb-2">
                               Comments
@@ -304,7 +289,6 @@ const Dashboard = () => {
                                 No comments yet.
                               </p>
                             )}
-                            {/* Form to add a new comment */}
                             <form
                               onSubmit={(e) => {
                                 e.preventDefault();

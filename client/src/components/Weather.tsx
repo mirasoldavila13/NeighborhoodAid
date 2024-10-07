@@ -18,8 +18,6 @@ interface WeatherData {
 
 const Weather = () => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
-  const [latitude, setLatitude] = useState<number | null>(null);
-  const [longitude, setLongitude] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   // Fetch weather data from the backend
@@ -43,14 +41,12 @@ const Weather = () => {
       const response = await axios.get("https://ipapi.co/json"); // Third-party service for location data
       if (response.data) {
         const { latitude, longitude } = response.data;
-        setLatitude(latitude);
-        setLongitude(longitude);
         fetchWeather(latitude, longitude); // Fetch weather using OpenWeather geolocation
       }
     } catch (error) {
       console.error(
         "Failed to retrieve location from OpenWeather Geolocation API:",
-        error,
+        error
       );
       setError("Failed to retrieve location from OpenWeather Geolocation API");
     }
@@ -62,20 +58,18 @@ const Weather = () => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          setLatitude(latitude);
-          setLongitude(longitude);
           fetchWeather(latitude, longitude); // Fetch weather using browser geolocation
         },
-        (error) => {
+        (_) => {
           console.error(
-            "Browser geolocation permission denied, using OpenWeather Geolocation API",
+            "Browser geolocation permission denied, using OpenWeather Geolocation API"
           );
           fetchLocationFromOpenWeather(); // Fallback to OpenWeather geolocation
-        },
+        }
       );
     } else {
       console.error(
-        "Browser geolocation not supported, using OpenWeather Geolocation API",
+        "Browser geolocation not supported, using OpenWeather Geolocation API"
       );
       fetchLocationFromOpenWeather(); // Fallback if browser geolocation is not supported
     }
