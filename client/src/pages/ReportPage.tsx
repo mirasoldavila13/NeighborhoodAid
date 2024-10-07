@@ -66,7 +66,7 @@ const ReportPage = () => {
     try {
       const response = await axios.post("/api/reportAuthority", reportData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
         },
       });
       console.log("Report submitted successfully:", response.data);
