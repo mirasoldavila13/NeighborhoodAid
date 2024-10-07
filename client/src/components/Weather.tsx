@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 interface WeatherData {
   name: string; // City name
@@ -26,13 +26,13 @@ const Weather = () => {
   const fetchWeather = async (lat: number, lon: number) => {
     try {
       // Make the request to your backend server that handles the weather API call
-      const response = await axios.get('/api/weather', {
+      const response = await axios.get("/api/weather", {
         params: { lat, lon },
       });
       setWeatherData(response.data); // Save the fetched weather data
     } catch (error) {
-      console.error('Error fetching weather:', error);
-      setError('Failed to fetch weather data');
+      console.error("Error fetching weather:", error);
+      setError("Failed to fetch weather data");
     }
   };
 
@@ -40,7 +40,7 @@ const Weather = () => {
   const fetchLocationFromOpenWeather = async () => {
     try {
       // Use IP-based geolocation as a fallback
-      const response = await axios.get('https://ipapi.co/json'); // Third-party service for location data
+      const response = await axios.get("https://ipapi.co/json"); // Third-party service for location data
       if (response.data) {
         const { latitude, longitude } = response.data;
         setLatitude(latitude);
@@ -48,8 +48,11 @@ const Weather = () => {
         fetchWeather(latitude, longitude); // Fetch weather using OpenWeather geolocation
       }
     } catch (error) {
-      console.error('Failed to retrieve location from OpenWeather Geolocation API:', error);
-      setError('Failed to retrieve location from OpenWeather Geolocation API');
+      console.error(
+        "Failed to retrieve location from OpenWeather Geolocation API:",
+        error,
+      );
+      setError("Failed to retrieve location from OpenWeather Geolocation API");
     }
   };
 
@@ -64,12 +67,16 @@ const Weather = () => {
           fetchWeather(latitude, longitude); // Fetch weather using browser geolocation
         },
         (error) => {
-          console.error('Browser geolocation permission denied, using OpenWeather Geolocation API');
+          console.error(
+            "Browser geolocation permission denied, using OpenWeather Geolocation API",
+          );
           fetchLocationFromOpenWeather(); // Fallback to OpenWeather geolocation
-        }
+        },
       );
     } else {
-      console.error('Browser geolocation not supported, using OpenWeather Geolocation API');
+      console.error(
+        "Browser geolocation not supported, using OpenWeather Geolocation API",
+      );
       fetchLocationFromOpenWeather(); // Fallback if browser geolocation is not supported
     }
   }, []);
@@ -82,7 +89,9 @@ const Weather = () => {
         <div>
           <h3 className="text-xl font-bold mb-2">{weatherData.name}</h3>
           <p className="text-lg">Temperature: {weatherData.main.temp}°F</p>
-          <p className="text-md capitalize">Condition: {weatherData.weather[0].description}</p>
+          <p className="text-md capitalize">
+            Condition: {weatherData.weather[0].description}
+          </p>
           <p className="text-md">Wind: {weatherData.wind.speed} mph</p>
           <p className="text-md">Humidity: {weatherData.main.humidity}%</p>
           <img
