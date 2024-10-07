@@ -1,36 +1,49 @@
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/neighborhood_logo.svg";
-
+import authService from "../services/authService";
 
 const DashboardNav = () => {
   const navigate = useNavigate();
+  const userProfile = authService.getProfile(); // Fetch user profile from authService
+  const userId = userProfile ? userProfile.id : null; // Get user ID from the profile
+
   const logout = () => {
-    localStorage.removeItem('jwtToken');
-    navigate('/');
-  }
+    //use authService to handle logout
+    authService.logout();
+    navigate("/");
+  };
 
   return (
     <nav className="bg-white p-4 text-black">
       <div className="container mx-auto flex justify-between items-center">
         <Link to="/dashboard">
-        <img src={logo} alt="Logo" />
+          <img src={logo} alt="Logo" />
         </Link>
-        <Link to="/dashboard" className="text-2xl font-bold">
+        <Link to={`/dashboard/${userId}`} className="text-2xl font-bold">
           Neighborhood Aid Dashboard
         </Link>
         <ul className="flex space-x-6">
           <li>
-            <Link to="/dashboard/report" className="hover:text-gray-300">
+            <Link
+              to={`/dashboard/${userId}/report`}
+              className="hover:text-gray-300"
+            >
               Reports
             </Link>
           </li>
           <li>
-            <Link to="/dashboard/playlists" className="hover:text-gray-300">
+            <Link
+              to={`/dashboard/${userId}/playlists`}
+              className="hover:text-gray-300"
+            >
               Playlists
             </Link>
           </li>
           <li>
-            <Link to="/dashboard/profile" className="hover:text-gray-300">
+            <Link
+              to={`/dashboard/${userId}/profile`}
+              className="hover:text-gray-300"
+            >
               Profile
             </Link>
           </li>

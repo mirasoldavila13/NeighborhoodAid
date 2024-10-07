@@ -1,6 +1,7 @@
-import express from "express";
-import IssueAuthorityAuthority from "../models/reportAuthority.js";
-import authMiddleware from "../middleware/authMiddleware.js"; // Middleware to get user ID from auth
+import express from 'express';
+import reportAuthority from '../models/reportAuthority.js';
+import authMiddleware from '../middleware/authMiddleware.js';  // Middleware to get user ID from auth
+import axios from 'axios'; // Make sure to import axios
 
 const router = express.Router();
 
@@ -33,7 +34,7 @@ router.post("/", authMiddleware, async (req, res) => {
     const locationData = addressResponse.data;
 
     // Create a new report with weather and location data
-    const newReport = await ReportAuthority.create({
+    const newReport = await reportAuthority.create({
       title,
       description,
       location: JSON.stringify(location),
