@@ -10,7 +10,7 @@ import { Navigate } from "react-router-dom";
 const ReportPage = () => {
   // Add auth logic from your team member's code
   const authLoggedIn = authService.loggedIn(); // Check if the user is logged in
-  
+
   // Keep your state and form handling logic
   const [locationDetails, setLocationDetails] = useState<{
     fullAddress: string;
@@ -43,7 +43,7 @@ const ReportPage = () => {
   const handleLocationSelected = (
     lat: number,
     lon: number,
-    addressDetails: any
+    addressDetails: any,
   ) => {
     setLocationDetails({ ...addressDetails, lat, lon });
     fetchWeather(lat, lon);
@@ -60,13 +60,16 @@ const ReportPage = () => {
       email: "example@example.com",
       phone: "123-456-7890",
       contacted: false,
-      location: JSON.stringify({ lat: locationDetails?.lat, lon: locationDetails?.lon }),
+      location: JSON.stringify({
+        lat: locationDetails?.lat,
+        lon: locationDetails?.lon,
+      }),
     };
 
     try {
       const response = await axios.post("/api/reportAuthority", reportData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
         },
       });
       console.log("Report submitted successfully:", response.data);
@@ -182,7 +185,7 @@ const ReportPage = () => {
 
                 <button
                   type="submit"
-                  className={`p-2 bg-blue-500 text-white rounded ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  className={`p-2 bg-blue-500 text-white rounded ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Submitting..." : "Submit Report"}
