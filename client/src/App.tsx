@@ -1,15 +1,15 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LandingPage from './components/LandingPage';
-import Features from './pages/Features';
-import Pricing from './components/Pricing';
-import TestimonialsPage from './pages/Testimonials';
-import ReportLocalIssueFeature from './pages/ReportLocalIssueFeature';
-import Login from './pages/Login';
-import UserRegistration from './pages/UserRegistration';
-import Dashboard from './pages/Dashboard';
-import ReportPage from './pages/ReportPage';
-import ReportOptionsPage from './pages/ReportOptionsPage';
-import CommunityReport from './pages/CommunityReportPage';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LandingPage from "./components/LandingPage";
+import Features from "./pages/Features";
+import Pricing from "./components/Pricing";
+import TestimonialsPage from "./pages/Testimonials";
+import ReportLocalIssueFeature from "./pages/ReportLocalIssueFeature";
+import Login from "./pages/Login";
+import UserRegistration from "./pages/UserRegistration";
+import Dashboard from "./pages/Dashboard";
+import ReportPage from "./pages/ReportPage";
+import ReportOptionsPage from "./pages/ReportOptionsPage";
+import CommunityReportPage from "./pages/CommunityReportPage";
 
 function App() {
   return (
@@ -35,18 +35,24 @@ function App() {
 
         {/* Route for the login page */}
         <Route path="/login" element={<Login />} />
-
-        {/* Route for the user dashboard */}
-        <Route path="/dashboard" element={<Dashboard />} />
-
+        <Route path="/dashboard/:userId" element={<Dashboard />} />
         {/* New route for /dashboard/report */}
-        <Route path="/dashboard/report" element={<ReportOptionsPage />} />
+        <Route
+          path="/dashboard/:userId/report"
+          element={<ReportOptionsPage />}
+        />
 
         {/* Existing ReportPage for Authorities */}
-        <Route path="/dashboard/report/authorities" element={<ReportPage />} />
+        <Route
+          path="/dashboard/:userId/report/authorities"
+          element={<ReportPage />}
+        />
 
         {/* Placeholder page for Community Reports */}
-        <Route path="/dashboard/report/community" element={<CommunityReport />} />
+        <Route
+          path="/dashboard/:userId/report/community"
+          element={<CommunityReportPage />}
+        />
 
         {/* Catch-all route */}
         <Route path="*" element={<div>404 Not Found</div>} />

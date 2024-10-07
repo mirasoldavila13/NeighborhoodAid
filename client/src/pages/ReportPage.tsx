@@ -1,5 +1,5 @@
 import { useState } from "react";
-import MapWithAddress from "../components/MapWithAddress";
+import MapWithAddress from "../components/MapWithAddress"; // Uses OpenStreetMap API for the map
 import axios from "axios";
 import DashboardNav from "../components/DashboardNav";
 import Footer from "../components/Footer";
@@ -8,44 +8,81 @@ import authService from "../services/authService.ts";
 import { Navigate } from "react-router-dom";
 
 const ReportPage = () => {
-  const authLoggedIn = authService.loggedIn();
+  // Add auth logic from your team member's code
+  const authLoggedIn = authService.loggedIn(); // Check if the user is logged in
+  
+  // Keep your state and form handling logic
   const [locationDetails, setLocationDetails] = useState<{
     fullAddress: string;
     city: string;
+    lat: number;
+    lon: number;
   } | null>(null);
+
   const [weatherData, setWeatherData] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Fetch weather data
   const fetchWeather = async (lat: number, lon: number) => {
     try {
       const response = await axios.get("/api/weather", {
         params: { lat, lon },
       });
       setWeatherData(response.data);
-      setError(null); // Clear any previous errors
-      setIsModalOpen(false); // Close the modal when data is fetched successfully
+      setError(null);
+      setIsModalOpen(false);
     } catch (error) {
       setError("Failed to fetch weather data");
       setIsModalOpen(true);
     }
   };
 
+  // Handle location selection
   const handleLocationSelected = (
     lat: number,
     lon: number,
-    addressDetails: any,
+    addressDetails: any
   ) => {
-    setLocationDetails(addressDetails);
+    setLocationDetails({ ...addressDetails, lat, lon });
     fetchWeather(lat, lon);
   };
 
+  // Keep your handleSubmit function
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const reportData = {
+      title: "Sample Title",
+      description: "Sample description",
+      email: "example@example.com",
+      phone: "123-456-7890",
+      contacted: false,
+      location: JSON.stringify({ lat: locationDetails?.lat, lon: locationDetails?.lon }),
+    };
+
+    try {
+      const response = await axios.post("/api/reportAuthority", reportData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      console.log("Report submitted successfully:", response.data);
+    } catch (error) {
+      setError("Failed to report the issue");
+      setIsModalOpen(true);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Add auth check in the return JSX
   return (
     <>
       {!authLoggedIn ? (
-        <>
-          <Navigate to="/" />
-        </>
+        <Navigate to="/" />
       ) : (
         <div className="flex flex-col min-h-screen">
           <DashboardNav />
@@ -61,7 +98,8 @@ const ReportPage = () => {
                 type="error"
               />
 
-              <form>
+              {/* Form with your handleSubmit */}
+              <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <label className="block text-gray-700 font-bold mb-2">
                     Issue Title
@@ -70,6 +108,7 @@ const ReportPage = () => {
                     type="text"
                     className="w-full p-2 border rounded"
                     placeholder="Enter issue title"
+                    required
                   />
                 </div>
 
@@ -80,13 +119,14 @@ const ReportPage = () => {
                   <textarea
                     className="w-full p-2 border rounded"
                     placeholder="Describe the issue"
+                    required
                   />
                 </div>
 
-                {/* Reusable Map Component */}
+                {/* Map Component */}
                 <MapWithAddress onLocationChange={handleLocationSelected} />
 
-                {/* Display Location Details */}
+                {/* Location Details */}
                 {locationDetails && (
                   <div className="mb-4">
                     <h3 className="font-bold text-lg">Location Details</h3>
@@ -95,7 +135,7 @@ const ReportPage = () => {
                   </div>
                 )}
 
-                {/* Display Weather Data */}
+                {/* Weather Data */}
                 {weatherData && (
                   <div className="mb-4">
                     <h3 className="font-bold text-lg">
@@ -116,6 +156,7 @@ const ReportPage = () => {
                     type="email"
                     className="w-full p-2 border rounded"
                     placeholder="Enter your email"
+                    required
                   />
                 </div>
 
@@ -127,6 +168,7 @@ const ReportPage = () => {
                     type="text"
                     className="w-full p-2 border rounded"
                     placeholder="Enter your phone number"
+                    required
                   />
                 </div>
 
@@ -140,9 +182,10 @@ const ReportPage = () => {
 
                 <button
                   type="submit"
-                  className="p-2 bg-blue-500 text-white rounded"
+                  className={`p-2 bg-blue-500 text-white rounded ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  disabled={isSubmitting}
                 >
-                  Submit Report
+                  {isSubmitting ? "Submitting..." : "Submit Report"}
                 </button>
               </form>
             </div>

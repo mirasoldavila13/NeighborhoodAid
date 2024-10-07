@@ -3,8 +3,9 @@ import axios, { AxiosResponse } from "axios";
 import DashboardNav from "../components/DashboardNav";
 import Weather from "../components/Weather";
 import Footer from "../components/Footer";
-import authService from "../services/authService.ts";
-import { Navigate } from "react-router-dom";
+import authService from "../services/authService";
+import { useParams, Navigate } from "react-router-dom";
+
 interface FeedItem {
   id: number;
   content: string;
@@ -25,10 +26,11 @@ interface CommentItem {
 }
 
 const Dashboard = () => {
-  const authLoggedIn = authService.loggedIn();
-  const [feedItems, setFeedItems] = useState<FeedItem[]>([]);
-  const [newFeedContent, setNewFeedContent] = useState<string>("");
-  const [error, setError] = useState<string | null>(null);
+  const { userId } = useParams<{ userId: string }>(); // Get the user ID from the URL
+  const authLoggedIn = authService.loggedIn(); // Check if the user is logged in
+  const [feedItems, setFeedItems] = useState<FeedItem[]>([]); // State to store feed items
+  const [newFeedContent, setNewFeedContent] = useState<string>(""); // State for new feed content
+  const [error, setError] = useState<string | null>(null); // State for error messages
   const [editingFeedId, setEditingFeedId] = useState<number | null>(null); // For edit mode
   const [editContent, setEditContent] = useState<string>(""); // For editing post content
   const [newComment, setNewComment] = useState<string>(""); // For comments
@@ -36,139 +38,145 @@ const Dashboard = () => {
   // Fetch feeds
   const fetchFeeds = async () => {
     try {
-      const response: AxiosResponse<FeedItem[]> = await axios.get("/api/feed");
-      setFeedItems(response.data);
+      const token = localStorage.getItem("jwtToken"); // Get the token from local storage
+      const response: AxiosResponse<FeedItem[]> = await axios.get(
+        `/api/feed/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the request
+          },
+        },
+      );
+      setFeedItems(response.data); // Update state with fetched feed items
     } catch (err) {
       console.error("Error fetching feeds:", err);
-      setError("Error fetching feeds");
+      setError("Error fetching feeds"); // Set error state if there's an issue
     }
   };
 
   // Create a feed
   const createFeed = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newFeedContent.trim()) return;
+    if (!newFeedContent.trim()) return; // Prevent submission if the input is empty
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("jwtToken"); // Get the token from local storage
       const response: AxiosResponse<FeedItem> = await axios.post(
         "/api/feed",
         { content: newFeedContent },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`, // Include the token in the request
           },
         },
       );
-      setFeedItems([response.data, ...feedItems]);
-      setNewFeedContent("");
+      setFeedItems([response.data, ...feedItems]); // Add new feed to the state
+      setNewFeedContent(""); // Clear the input field
     } catch (err) {
       console.error("Error creating feed:", err);
-      setError("Error creating feed");
+      setError("Error creating feed"); // Set error state if there's an issue
     }
   };
 
   // Like a feed
   const likeFeed = async (feedId: number) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("jwtToken"); // Get the token from local storage
       const response: AxiosResponse<FeedItem> = await axios.post(
         `/api/feed/${feedId}/like`,
         {},
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`, // Include the token in the request
           },
         },
       );
       setFeedItems(
-        feedItems.map((feed) => (feed.id === feedId ? response.data : feed)),
+        feedItems.map((feed) => (feed.id === feedId ? response.data : feed)), // Update the feed with new likes
       );
     } catch (err) {
       console.error("Error liking feed:", err);
-      setError("Error liking feed");
+      setError("Error liking feed"); // Set error state if there's an issue
     }
   };
 
   // Delete a feed
   const deleteFeed = async (feedId: number) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("jwtToken"); // Get the token from local storage
       await axios.delete(`/api/feed/${feedId}`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // Include the token in the request
         },
       });
-      setFeedItems(feedItems.filter((feed) => feed.id !== feedId));
+      setFeedItems(feedItems.filter((feed) => feed.id !== feedId)); // Remove the deleted feed from state
     } catch (err) {
       console.error("Error deleting feed:", err);
-      setError("Error deleting feed");
+      setError("Error deleting feed"); // Set error state if there's an issue
     }
   };
 
   // Update a feed
   const updateFeed = async (feedId: number) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("jwtToken"); // Get the token from local storage
       const response: AxiosResponse<FeedItem> = await axios.put(
         `/api/feed/${feedId}`,
         { content: editContent },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`, // Include the token in the request
           },
         },
       );
       setFeedItems(
-        feedItems.map((feed) => (feed.id === feedId ? response.data : feed)),
+        feedItems.map((feed) => (feed.id === feedId ? response.data : feed)), // Update the feed with new content
       );
-      setEditingFeedId(null);
-      setEditContent("");
+      setEditingFeedId(null); // Exit edit mode
+      setEditContent(""); // Clear the edit content
     } catch (err) {
       console.error("Error updating feed:", err);
-      setError("Error updating feed");
+      setError("Error updating feed"); // Set error state if there's an issue
     }
   };
 
   // Comment on a feed
   const commentOnFeed = async (feedId: number, commentContent: string) => {
-    if (!commentContent.trim()) return;
+    if (!commentContent.trim()) return; // Prevent submission if the input is empty
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("jwtToken"); // Get the token from local storage
       const response: AxiosResponse<CommentItem> = await axios.post(
         `/api/feed/${feedId}/comment`,
         { content: commentContent },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`, // Include the token in the request
           },
         },
       );
       setFeedItems(
         feedItems.map((feed) =>
           feed.id === feedId
-            ? { ...feed, comments: [...feed.comments, response.data] }
+            ? { ...feed, comments: [...feed.comments, response.data] } // Add new comment to the feed
             : feed,
         ),
       );
-      setNewComment("");
+      setNewComment(""); // Clear the new comment input
     } catch (err) {
       console.error("Error commenting on feed:", err);
-      setError("Error commenting on feed");
+      setError("Error commenting on feed"); // Set error state if there's an issue
     }
   };
 
   useEffect(() => {
-    fetchFeeds();
-  }, []);
+    fetchFeeds(); // Fetch feeds when component mounts
+  }, [userId]); // Dependency on userId to refetch if it changes
 
   return (
     <>
-      {!authLoggedIn ? (
-        <>
-          <Navigate to="/" />
-        </>
+      {!authLoggedIn ? ( // If not logged in, redirect to home
+        <Navigate to="/" />
       ) : (
         <div className="flex flex-col min-h-screen">
           <DashboardNav />
@@ -184,7 +192,8 @@ const Dashboard = () => {
                 {/* Feed section */}
                 <div className="w-3/4">
                   <h1 className="text-3xl font-bold mb-4">Community Feed</h1>
-                  {error && <p className="text-red-500 mb-4">{error}</p>}
+                  {error && <p className="text-red-500 mb-4">{error}</p>}{" "}
+                  {/* Display error if any */}
                   {/* Form to create a new feed */}
                   <form onSubmit={createFeed} className="mb-6">
                     <textarea

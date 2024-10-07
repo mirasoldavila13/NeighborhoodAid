@@ -1,9 +1,11 @@
-// Handles CORS requestsi
 import cors from "cors";
 
 const corsOptions = {
   origin: "http://localhost:3000",
-  optionsSuccessStatus: 200,
+  methods: ['GET', 'POST'],
+  credentials: true // if using cookies or auth
 };
 
-export default cors(corsOptions);
+const corsMiddleware = cors(corsOptions);
+
+export default corsMiddleware;
