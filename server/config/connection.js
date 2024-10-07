@@ -1,7 +1,6 @@
 import Sequelize from "sequelize";
 import "dotenv/config";
 
-
 const sequelize =
   process.env.NODE_ENV === "production"
     ? new Sequelize(process.env.DATABASE_URL)
