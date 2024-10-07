@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import "dotenv/config";
 import express from "express";
 import corsMiddleware from "./middleware/corsMiddleware.js";
 import loggerMiddleware from "./middleware/loggerMiddleware.js";
@@ -60,7 +60,7 @@ if (process.env.NODE_ENV === "production") {
 
 (async () => {
   try {
-    // Sync the models with the database 
+    // Sync the models with the database
     await sequelize.sync({ alter: true });
     console.log("Database synced successfully.");
 

@@ -17,19 +17,22 @@ function App() {
       <Routes>
         {/* Route for the landing page */}
         <Route path="/" element={<LandingPage />} />
+
         {/* Route for the features page */}
         <Route path="/features" element={<Features />} />
-        {/* Route for Pricing page*/}
+
+        {/* Route for Pricing page */}
         <Route path="/pricing" element={<Pricing />} />
+
         {/* Route for Testimonials Page */}
         <Route path="/testimonials" element={<TestimonialsPage />} />
+
         {/* Route for Report Local Issue Feature */}
-        <Route
-          path="/report-local-issue"
-          element={<ReportLocalIssueFeature />}
-        />
-        {/* Route for the sign up page */}
+        <Route path="/report-local-issue" element={<ReportLocalIssueFeature />} />
+
+        {/* Route for the sign-up page */}
         <Route path="/register" element={<UserRegistration />} />
+
         {/* Route for the login page */}
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard/:userId" element={<Dashboard />} />
