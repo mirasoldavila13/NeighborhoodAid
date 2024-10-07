@@ -35,7 +35,7 @@ const ReportOptionsPage = () => {
     fetchReports();
   }, [userId]); //depend on usrId to refetch if it changes
 
-  return (
+  return ( 
     <>
       {!authLoggedIn ? (
         <>
@@ -123,3 +123,5 @@ const ReportOptionsPage = () => {
 };
 
 export default ReportOptionsPage;
+
+
