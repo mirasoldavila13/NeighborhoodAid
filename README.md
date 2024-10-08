@@ -77,10 +77,6 @@ This project was developed by **Mirasol Davila** in collaboration with:
   - Updated `client/src/pages/UserRegistration.tsx` to store the JWT token in localStorage upon successful user registration.
     
 - **[Sammy Kordi](https://github.com/thepeoplesengineer)**:
-
-- **Community Issue Form**:
-  - Created `client/src/components/CommunityIssueForm.tsx` to allow users to submit issues with fields such as title, description, picture upload, location, and contact details.
-  
 - **Community Report Page**:
   - Developed `client/src/pages/CommunityReportPage.tsx` to display the community report page where users can view and submit reports.
   
