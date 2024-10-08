@@ -17,7 +17,8 @@ NeighborhoodAid encourages users to:
 - **Maintain transparency** by tracking issue resolution in real time.
 - **Stay informed** with up-to-date weather and location information that is contextually relevant to their reports.
 
-### Core Features
+## Core Features
+
 - **Reporting System**: Users can report various local issues, including potholes, streetlight outages, and more, using an interactive map and real-time weather data.
 - **Progress Tracking**: Users receive updates on the status of their reports, such as when issues are in progress or resolved, promoting transparency.
 - **Community Engagement**: A community feed where users can create posts, like, comment, and engage with others about neighborhood updates and events.
@@ -28,14 +29,15 @@ NeighborhoodAid encourages users to:
 
 During the development of NeighborhoodAid, we gained a deep understanding and hands-on experience with various technologies and concepts:
 
-### 1. **Frontend Development with React and Tailwind CSS**
+### 1. **Frontend Development with React, Tailwind CSS, and Vite**
    - Learned to structure and manage a component-based architecture efficiently using React and TypeScript.
    - Utilized Tailwind CSS for consistent, responsive, and mobile-friendly designs, maintaining a unified visual identity across the platform.
    - Developed reusable components like Modals, Forms, and Navigation bars to optimize development speed and maintain code reusability.
+   - Used Vite for fast, efficient frontend development and bundling.
 
 ### 2. **Backend Development with Node.js, Express.js, and Sequelize**
    - Implemented a RESTful API using Express.js, managing routes for user authentication, feed management, reporting, and weather data retrieval.
-   - Gained experience with Sequelize for database modeling, migrations, and associations, ensuring data integrity and relationship consistency across models.
+   - Gained experience with Sequelize and Sequelize CLI for database modeling, migrations, and associations, ensuring data integrity and relationship consistency across models.
    - Configured middlewares such as CORS and logger to secure and monitor API requests, improving server reliability and performance.
 
 ### 3. **Authentication and Security Techniques**
@@ -43,9 +45,35 @@ During the development of NeighborhoodAid, we gained a deep understanding and ha
    - Integrated social login options (e.g., Facebook and Google) to enhance the user experience and streamline the registration process.
 
 ### 4. **API Integration and State Management**
-   - Integrated multiple APIs, such as OpenWeather for weather data and Nominatim for geolocation services, enriching user reports with contextual information.
-   - Used Axios for making HTTP requests, managing responses, and handling errors gracefully within the frontend components.
-   - Leveraged React’s state management hooks (`useState` and `useEffect`) to manage dynamic content and real-time updates for a responsive user interface.
+   - Integrated multiple APIs, including:
+     - **OpenWeather API** for weather data.
+     - **OpenWeather Geolocation API** for retrieving weather data based on coordinates.
+     - **OpenStreetMap** and **Nominatim** for location-based services (both client-side and server-side usage).
+     - **Browser Geolocation API** for fetching user location client-side.
+
+   - **OpenStreetMap Integration**:
+     - Utilized **React Leaflet**, a React wrapper for Leaflet, to create an interactive map component using OpenStreetMap tiles.
+     - Developed functionality to add dynamic markers on the map:
+       - Markers are placed based on user interactions (e.g., clicking on the map) or by fetching user coordinates from the Browser Geolocation API.
+       - The map updates in real-time, displaying markers that represent specific locations tied to user reports or user interactions.
+       - The component ensures that the map remains responsive and interactive across different devices, providing a seamless user experience for reporting and visualizing issues.
+
+   - **Nominatim Integration**:
+     - **Nominatim** uses OpenStreetMap data to find locations on Earth by name and address (geocoding). It also supports reverse geocoding, where it converts latitude and longitude coordinates into readable addresses or city names.
+     - For user-submitted reports:
+       - Used Nominatim to convert location names or addresses into coordinates, which are then displayed as markers on the OpenStreetMap component.
+     - For weather data and user location:
+       - Implemented reverse geocoding using the latitude and longitude obtained from the **OpenWeather Geolocation API** or the **Browser Geolocation API**.
+       - If Nominatim shows an unknown city or fails to provide an address, the **OpenWeather Geolocation API** is used as a fallback. This API retrieves the latitude and longitude of the user's location and provides the city name based on these coordinates, ensuring the platform consistently delivers accurate and relevant location information to the user.
+
+   - **API Workflow**:
+     - The application first attempts to use the **Browser Geolocation API** for client-side location fetching, allowing for precise user positioning and weather updates.
+     - If the user denies permission for the browser to access their location:
+       - The platform falls back to the **OpenWeather Geolocation API**, which uses the user's IP address to provide an approximate latitude and longitude for weather information.
+     - For location details:
+       - Nominatim is used for reverse geocoding to convert the latitude and longitude coordinates into a readable city name or address.
+       - If Nominatim fails to retrieve the city name or shows an unknown city, the platform uses the **OpenWeather Geolocation API** as a fallback to provide the city name and address based on the coordinates.
+     - Once the coordinates are obtained, the **OpenWeather API** displays the weather information based on these coordinates, ensuring users always receive accurate and up-to-date weather details.
 
 ### 5. **Full-Stack Development and Deployment**
    - Gained proficiency in full-stack development by connecting the frontend and backend using RESTful principles, ensuring smooth communication between components.
@@ -53,49 +81,35 @@ During the development of NeighborhoodAid, we gained a deep understanding and ha
    - Implemented environment management using dotenv to securely handle API keys, database credentials, and other sensitive information.
 
 ### 6. **Database Management and Migrations**
-   - Developed database models and migrations using Sequelize, focusing on ensuring data integrity and relationships between users, reports, and comments.
+   - Developed database models and migrations using Sequelize and Sequelize CLI, focusing on ensuring data integrity and relationships between users, reports, and comments.
    - Created seed files for testing and development purposes, allowing realistic simulation of database data during development cycles.
 
 ### 7. **Responsive and Accessible Design**
    - Ensured that all components, from forms to interactive maps, were responsive and accessible across different devices and screen sizes using Tailwind CSS utilities.
-   - Focused on accessibility standards by using semantic HTML elements, and keyboard navigations
+   - Focused on accessibility standards by using semantic HTML elements and keyboard navigation.
 
 ### 8. **Collaboration and Version Control**
    - Used Git and GitHub for collaborative development, managing feature branches, pull requests, and resolving merge conflicts efficiently.
    - Ensured code quality through peer reviews and implemented testing strategies for both frontend and backend components.
-
 ## Getting Started
 
-### Prerequisites
 
-- Node.js
-- PostgreSQL
-- npm (Node Package Manager)
+## Technologies Used
 
-### Installation
+- **Frontend**: React, Vite, TypeScript, Tailwind CSS
+- **Backend**: Node.js, Express.js, Sequelize, Sequelize CLI
+- **Database**: PostgreSQL
+- **APIs**: OpenWeather API, OpenWeather Geolocation API, OpenStreetMap, Nominatim, Browser Geolocation API
+- **Testing**: Postman for backend testing
+- **Deployment**: Vite for frontend, Node.js for backend
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/your-username/neighborhood-aid.git
-    ```
-2. Install dependencies:
-    ```bash
-    npm install
-    ```
-3. Set up environment variables:
-    - Create a `.env` file in the root directory.
-    - Add the necessary environment variables such as database credentials and API keys.
+## Features
 
-4. Run migrations and seed the database:
-    ```bash
-    npx sequelize-cli db:migrate
-    npx sequelize-cli db:seed:all
-    ```
+- **Dynamic Issue Reporting**: Users can report and track the status of community issues.
+- **Interactive Maps**: Integration with OpenStreetMap and Nominatim API for precise geolocation and visualization.
+- **Weather Updates**: Real-time weather information for reported locations using OpenWeather API.
+- **Community Engagement**: Comment system and community playlist powered by Spotify API.
 
-5. Start the development server:
-    ```bash
-    npm run dev
-    ```
 ## Table of Contents
 
 - [Installation](#installation)
@@ -183,17 +197,18 @@ This project was developed by **Mirasol Davila** in collaboration with:
   
 - **User Registration Page**:
   - Updated `client/src/pages/UserRegistration.tsx` to store the JWT token in localStorage upon successful user registration.
-- 14 Merge Pull Request    
+  - 14 Merge Pull Request
+  
 - **[Sammy Kordi](https://github.com/thepeoplesengineer)**:
     - **Community Report Page**:
     - Developed `client/src/pages/CommunityReportPage.tsx` to display the community report page where users can view and submit reports.
     - **Database Model for Community Reports**:
     - Created `server/models/reportCommunity.js` to define the model for community reports, including fields for title, description, location (stored as JSON), and other relevant information.
-    - 1 Merge Pull Request 
+     - 1 Merge Pull Request 
 
 - **[Isaiah Skidmore](https://github.com/IsaiahSkidmore)**:
     - Assisted in selecting the logo for the project.
-- 1 Merge Pull Request       
+    - 1 Merge Pull Request       
 - **[Diarmuid Murphy](https://github.com/dev-dermo)**:
   - Provided the starter code for the project structure and set up the API architecture.
 
