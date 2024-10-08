@@ -75,17 +75,18 @@ This project was developed by **Mirasol Davila** in collaboration with:
   
 - **User Registration Page**:
   - Updated `client/src/pages/UserRegistration.tsx` to store the JWT token in localStorage upon successful user registration.
-    
+- 14 Merge Pull Request    
 - **[Sammy Kordi](https://github.com/thepeoplesengineer)**:
 - **Community Report Page**:
   - Developed `client/src/pages/CommunityReportPage.tsx` to display the community report page where users can view and submit reports.
   
 - **Database Model for Community Reports**:
   - Created `server/models/reportCommunity.js` to define the model for community reports, including fields for title, description, location (stored as JSON), and other relevant information.
+- 1 Merge Pull Request 
 
 - **[Isaiah Skidmore](https://github.com/IsaiahSkidmore)**:
   - Assisted in selecting the logo for the project.
-      
+- 1 Merge Pull Request       
 - **[Diarmuid Murphy](https://github.com/dev-dermo)**:
   - Provided the starter code for the project structure and set up the API architecture.
 
