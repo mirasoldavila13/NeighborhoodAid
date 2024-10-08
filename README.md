@@ -209,8 +209,6 @@ This project was developed by **Mirasol Davila** in collaboration with:
 - **[Isaiah Skidmore](https://github.com/IsaiahSkidmore)**:
     - Assisted in selecting the logo for the project.
     - 1 Merge Pull Request       
-- **[Diarmuid Murphy](https://github.com/dev-dermo)**:
-  - Provided the starter code for the project structure and set up the API architecture.
 
 
 ## License
