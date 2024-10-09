@@ -1,4 +1,5 @@
 import { JwtPayload, jwtDecode } from "jwt-decode";
+import axios from 'axios';
 
 declare module "jwt-decode" {
   export interface JwtPayload {
@@ -7,18 +8,48 @@ declare module "jwt-decode" {
   }
 }
 
+interface UserData {
+  name: string;
+  email: string;
+  password: string;
+}
+
 class AuthService {
+
+  /**
+   * Handles user registration by sending a POST request to the /api/register endpoint.
+   * @param {UserData} userData - An object containing the user's registration information.
+   * @returns {Promise<{ token: string; message?: string }>} A promise that resolves to the response object containing 
+   * the JWT token and possibly user profile information if the registration is successful.
+   * @throws {Error} An error if registration fails, with a message indicating the reason for the failure.
+   */
+  async register(userData: UserData): Promise<{ token: string; message?: string }> {
+    const response = await fetch("/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.message || "Registration failed");
+    }
+
+    this.setToken(result.token); // Store the JWT token in local storage
+    return result; // Return the result for further use
+  }
+
   /**
    * Handles user login by sending a POST request to the /api/login endpoint.
-   * @param email User's email address.
-   * @param password User's password.
-   * @returns A promise that resolves to a string token if the login is successful.
-   * @throws An error if login fails.
-   *
+   * @param {string} email - User's email address.
+   * @param {string} password - User's password.
+   * @returns {Promise<string>} A promise that resolves to a string token if the login is successful.
+   * @throws {Error} An error if login fails.
    **/
-
   async login(email: string, password: string): Promise<string> {
-    // Send a POST request to the login endpoint with the user's email and password
     const response = await fetch("/api/login", {
       method: "POST",
       headers: {
@@ -33,64 +64,117 @@ class AuthService {
       throw new Error(result.message || "Login failed");
     }
 
-    // Use setToken to store the token in local storage
-    this.setToken(result.token); // Call the setToken method
+    this.setToken(result.token); // Store the token in local storage
     return result.token; // Return the token for further use
   }
 
-  //new method to set the token
+  // New method to set the token
   setToken(token: string) {
-    // Store the token in local storage
-    localStorage.setItem("jwtToken", token);
+    localStorage.setItem("jwtToken", token); // Store the token in local storage
   }
 
   // New method to handle logout
   logout() {
-    // Clear the token from local storage
-    localStorage.removeItem("jwtToken");
+    localStorage.removeItem("jwtToken"); // Clear the token from local storage
   }
-  
+
   getProfile(): JwtPayload | null {
-    // Return the decoded token
-    const token = this.getToken();
+    const token = this.getToken(); // Get the token
     if (token) {
-      return jwtDecode<JwtPayload>(token);
+      return jwtDecode<JwtPayload>(token); // Decode the token to get user profile
     }
-    return null;
+    return null; // Return null if no token
   }
 
   loggedIn(): boolean {
-    // Return a value that indicates if the user is logged in
-    const token = this.getToken();
-    return !!token && !this.isTokenExpired(token);
+    const token = this.getToken(); // Check if the user is logged in
+    return !!token && !this.isTokenExpired(token); // Return true if the token is valid
   }
 
   isTokenExpired(token: string): boolean {
-    // Return a value that indicates if the token is expired
     if (!token || token.split(".").length !== 3) {
       console.log("Invalid token format");
-      return true;
+      return true; // Return true if token format is invalid
     }
 
     try {
-      const decoded: JwtPayload = jwtDecode<JwtPayload>(token);
+      const decoded: JwtPayload = jwtDecode<JwtPayload>(token); // Decode the token
       let expirationTime = 0;
 
       if (decoded.exp) {
-        expirationTime = decoded.exp * 1000;
+        expirationTime = decoded.exp * 1000; // Convert expiration time to milliseconds
       }
-      return Date.now() >= expirationTime;
+      return Date.now() >= expirationTime; // Check if the token is expired
     } catch (err) {
       console.log(err);
-      return true;
+      return true; // Return true if an error occurs
     }
   }
 
   getToken(): string | null {
-    // Return the token
-    const loggedUser = localStorage.getItem("jwtToken") || "";
-    return loggedUser;
+    return localStorage.getItem("jwtToken") || null; // Return the token from local storage
   }
+
+  // New method to get Spotify access token
+  async getSpotifyAccessToken(): Promise<string> {
+    if (this.accessToken && this.tokenExpirationTime && Date.now() < this.tokenExpirationTime) {
+      return this.accessToken; // Return existing token if valid
+    }
+  
+    try {
+      const response = await axios.post('https://accounts.spotify.com/api/token', new URLSearchParams({
+        grant_type: 'client_credentials',
+        client_id: this.spotifyClientId,
+        client_secret: this.spotifyClientSecret,
+      }).toString(), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
+  
+      this.accessToken = response.data.access_token; // Store the access token
+      this.tokenExpirationTime = Date.now() + response.data.expires_in * 1000; // Set expiration time
+  
+      if (!this.accessToken) {
+        throw new Error('Failed to retrieve access token');
+      }
+  
+      return this.accessToken; // Return the new access token
+    } catch (error) {
+      // Check if error is an Axios error and has a response
+      if (axios.isAxiosError(error)) {
+        console.error('Error fetching Spotify access token:', error.response?.data || error);
+      } else {
+        console.error('Error fetching Spotify access token:', error);
+      }
+      throw new Error('Failed to fetch Spotify access token');
+    }
+  }
+  
+  
+
+  // New method to fetch user playlists from Spotify
+  async fetchUserPlaylists(): Promise<any> {
+    const token = await this.getSpotifyAccessToken(); // Get the access token
+  
+    try {
+      const response = await axios.get('https://api.spotify.com/v1/me/playlists', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data; // Return user playlists
+    } catch (error) {
+      // Use type assertion to specify the error type
+      if (axios.isAxiosError(error) && error.response) {
+        console.error('Error fetching playlists:', error.response.data);
+      } else {
+        console.error('Error fetching playlists:', error);
+      }
+      throw new Error('Failed to fetch playlists');
+    }
+  }
+  
 }
 
 export default new AuthService();
