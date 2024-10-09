@@ -198,20 +198,6 @@ This project was developed by **Mirasol Davila** in collaboration with:
   - Updated `client/src/pages/UserRegistration.tsx` to store the JWT token in localStorage upon successful user registration.
   - 14 Merge Pull Request
   
-- **[Sammy Kordi](https://github.com/thepeoplesengineer)**:
-    - **Community Report Page**:
-        - Developed `client/src/pages/CommunityReportPage.tsx` to display the community report page where users can view and submit reports in the early stages of the project.
-    - **Database Model for Community Reports**:
-        - Created `server/models/reportCommunity.js` to define the model for community reports, including fields for title, description, location (stored as JSON), and other relevant information in the early stages of the project.
-    - Contributed 1 pull request.  
-    - *Initially contributed in the early stages but later chose not to continue further involvement or collaboration. We appreciate their early efforts.*
-
-- **[Isaiah Skidmore](https://github.com/IsaiahSkidmore)**:
-    - Assisted in selecting the logo for the project in the early stages.
-    - Contributed 1 pull request.  
-    - *Initially contributed in the early stages but later chose not to continue further involvement or collaboration. We appreciate their early efforts.*
-
-
 
 ## License
 
