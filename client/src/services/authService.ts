@@ -1,5 +1,5 @@
 import { JwtPayload, jwtDecode } from "jwt-decode";
-import axios from 'axios';
+// import axios from 'axios';
 
 declare module "jwt-decode" {
   export interface JwtPayload {
@@ -15,10 +15,10 @@ interface UserData {
 }
 
 class AuthService {
-  private spotifyClientId: string = process.env.CLIENT_ID || ''; // Your Spotify Client ID
-  private spotifyClientSecret: string = process.env.CLIENT_SECRET || ''; // Your Spotify Client Secret
-  private accessToken: string | null = null;
-  private tokenExpirationTime: number | null = null;
+  // private spotifyClientId: string = process.env.CLIENT_ID || ''; // Your Spotify Client ID
+  // private spotifyClientSecret: string = process.env.CLIENT_SECRET || ''; // Your Spotify Client Secret
+  // private accessToken: string | null = null;
+  // private tokenExpirationTime: number | null = null;
 
   /**
    * Handles user registration by sending a POST request to the /api/register endpoint.
@@ -120,64 +120,64 @@ class AuthService {
   }
 
   // New method to get Spotify access token
-  async getSpotifyAccessToken(): Promise<string> {
-    if (this.accessToken && this.tokenExpirationTime && Date.now() < this.tokenExpirationTime) {
-      return this.accessToken; // Return existing token if valid
-    }
+  // async getSpotifyAccessToken(): Promise<string> {
+  //   if (this.accessToken && this.tokenExpirationTime && Date.now() < this.tokenExpirationTime) {
+  //     return this.accessToken; // Return existing token if valid
+  //   }
   
-    try {
-      const response = await axios.post('https://accounts.spotify.com/api/token', new URLSearchParams({
-        grant_type: 'client_credentials',
-        client_id: this.spotifyClientId,
-        client_secret: this.spotifyClientSecret,
-      }).toString(), {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      });
+  //   try {
+  //     const response = await axios.post('https://accounts.spotify.com/api/token', new URLSearchParams({
+  //       grant_type: 'client_credentials',
+  //       client_id: this.spotifyClientId,
+  //       client_secret: this.spotifyClientSecret,
+  //     }).toString(), {
+  //       headers: {
+  //         'Content-Type': 'application/x-www-form-urlencoded',
+  //       },
+  //     });
   
-      this.accessToken = response.data.access_token; // Store the access token
-      this.tokenExpirationTime = Date.now() + response.data.expires_in * 1000; // Set expiration time
+  //     this.accessToken = response.data.access_token; // Store the access token
+  //     this.tokenExpirationTime = Date.now() + response.data.expires_in * 1000; // Set expiration time
   
-      if (!this.accessToken) {
-        throw new Error('Failed to retrieve access token');
-      }
+  //     if (!this.accessToken) {
+  //       throw new Error('Failed to retrieve access token');
+  //     }
   
-      return this.accessToken; // Return the new access token
-    } catch (error) {
-      // Check if error is an Axios error and has a response
-      if (axios.isAxiosError(error)) {
-        console.error('Error fetching Spotify access token:', error.response?.data || error);
-      } else {
-        console.error('Error fetching Spotify access token:', error);
-      }
-      throw new Error('Failed to fetch Spotify access token');
-    }
-  }
+  //     return this.accessToken; // Return the new access token
+  //   } catch (error) {
+  //     // Check if error is an Axios error and has a response
+  //     if (axios.isAxiosError(error)) {
+  //       console.error('Error fetching Spotify access token:', error.response?.data || error);
+  //     } else {
+  //       console.error('Error fetching Spotify access token:', error);
+  //     }
+  //     throw new Error('Failed to fetch Spotify access token');
+  //   }
+  // }
   
   
 
   // New method to fetch user playlists from Spotify
-  async fetchUserPlaylists(): Promise<any> {
-    const token = await this.getSpotifyAccessToken(); // Get the access token
+  // async fetchUserPlaylists(): Promise<any> {
+  //   const token = await this.getSpotifyAccessToken(); // Get the access token
   
-    try {
-      const response = await axios.get('https://api.spotify.com/v1/me/playlists', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data; // Return user playlists
-    } catch (error) {
-      // Use type assertion to specify the error type
-      if (axios.isAxiosError(error) && error.response) {
-        console.error('Error fetching playlists:', error.response.data);
-      } else {
-        console.error('Error fetching playlists:', error);
-      }
-      throw new Error('Failed to fetch playlists');
-    }
-  }
+  //   try {
+  //     const response = await axios.get('https://api.spotify.com/v1/me/playlists', {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     return response.data; // Return user playlists
+  //   } catch (error) {
+  //     // Use type assertion to specify the error type
+  //     if (axios.isAxiosError(error) && error.response) {
+  //       console.error('Error fetching playlists:', error.response.data);
+  //     } else {
+  //       console.error('Error fetching playlists:', error);
+  //     }
+  //     throw new Error('Failed to fetch playlists');
+  //   }
+  // }
   
 }
 
