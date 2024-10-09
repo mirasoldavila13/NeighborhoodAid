@@ -16,7 +16,7 @@ const DashboardNav = () => {
   return (
     <nav className="bg-white p-4 text-black">
       <div className="container mx-auto flex justify-between items-center">
-        <Link to="/dashboard">
+        <Link to={`/dashboard/${userId}`}>
           <img src={logo} alt="Logo" />
         </Link>
         <Link to={`/dashboard/${userId}`} className="text-2xl font-bold">

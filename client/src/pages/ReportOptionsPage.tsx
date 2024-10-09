@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import DashboardNav from "../components/DashboardNav";
 import Footer from "../components/Footer";
-import authService from "../services/authService.ts";
+import authService from "../services/authService";
 import { Navigate } from "react-router-dom";
 
 interface Report {
@@ -15,7 +15,7 @@ interface Report {
   reporterEmail: string;
 }
 
-const ReportOptionsPage = () => {
+const ReportOptionsPage: React.FC = () => {
   const { userId } = useParams<{ userId: string }>(); // Get userId from URL parameters
   const authLoggedIn = authService.loggedIn();
   const [reports, setReports] = useState<Report[]>([]);
@@ -33,14 +33,12 @@ const ReportOptionsPage = () => {
 
   useEffect(() => {
     fetchReports();
-  }, [userId]); //depend on usrId to refetch if it changes
+  }, [userId]); // Depend on userId to refetch if it changes
 
-  return ( 
+  return (
     <>
       {!authLoggedIn ? (
-        <>
-          <Navigate to="/" />
-        </>
+        <Navigate to="/" />
       ) : (
         <div className="flex flex-col min-h-screen">
           <DashboardNav />
@@ -49,12 +47,9 @@ const ReportOptionsPage = () => {
               <h1 className="text-3xl font-bold mb-6">Create a Report</h1>
               <div className="grid grid-cols-2 gap-6">
                 <div className="p-4 border rounded shadow-md">
-                  <h2 className="text-xl font-semibold mb-4">
-                    Report to Authorities
-                  </h2>
+                  <h2 className="text-xl font-semibold mb-4">Report to Authorities</h2>
                   <p className="mb-4">
-                    Use this option to report issues directly to local
-                    authorities.
+                    Use this option to report issues directly to local authorities.
                   </p>
                   <Link
                     to={`/dashboard/${userId}/report/authorities`}
@@ -64,12 +59,9 @@ const ReportOptionsPage = () => {
                   </Link>
                 </div>
                 <div className="p-4 border rounded shadow-md">
-                  <h2 className="text-xl font-semibold mb-4">
-                    Report to Community
-                  </h2>
+                  <h2 className="text-xl font-semibold mb-4">Report to Community</h2>
                   <p className="mb-4">
-                    Share issues with the local community for discussion and
-                    resolution.
+                    Share issues with the local community for discussion and resolution.
                   </p>
                   <Link
                     to={`/dashboard/${userId}/report/community`}
@@ -87,22 +79,15 @@ const ReportOptionsPage = () => {
                 <div className="grid grid-cols-1 gap-4">
                   {reports.length > 0 ? (
                     reports.map((report) => (
-                      <div
-                        key={report.id}
-                        className="p-4 border rounded shadow"
-                      >
+                      <div key={report.id} className="p-4 border rounded shadow">
                         <h3 className="text-xl font-semibold mb-2">
                           {report.type === "Authorities"
                             ? "Reported to Authorities"
                             : "Reported to Community"}
                         </h3>
                         <p>{report.description}</p>
-                        <p className="text-sm text-gray-600">
-                          Status: {report.status}
-                        </p>
-                        <p className="text-sm text-gray-600">
-                          Reporter: {report.reporterEmail}
-                        </p>
+                        <p className="text-sm text-gray-600">Status: {report.status}</p>
+                        <p className="text-sm text-gray-600">Reporter: {report.reporterEmail}</p>
                         <p className="text-sm text-gray-600">
                           Date: {new Date(report.createdAt).toLocaleString()}
                         </p>
@@ -123,5 +108,3 @@ const ReportOptionsPage = () => {
 };
 
 export default ReportOptionsPage;
-
-

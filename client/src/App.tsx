@@ -10,6 +10,11 @@ import Dashboard from "./pages/Dashboard";
 import ReportPage from "./pages/ReportPage";
 import ReportOptionsPage from "./pages/ReportOptionsPage";
 import CommunityReportPage from "./pages/CommunityReportPage";
+import Spotify from "./pages/Spotify"; // Spotify related component
+import AuthCallback from "./pages/AuthCallback"; // Component to handle Spotify auth callback
+import NotFoundPage from "./components/404Page";
+import ConstructionPage from "./pages/ConstructionPage";
+
 
 function App() {
   return (
@@ -17,6 +22,7 @@ function App() {
       <Routes>
         {/* Route for the landing page */}
         <Route path="/" element={<LandingPage />} />
+        <Route path="/under-construction" element={<ConstructionPage />} />
 
         {/* Route for the features page */}
         <Route path="/features" element={<Features />} />
@@ -35,27 +41,26 @@ function App() {
 
         {/* Route for the login page */}
         <Route path="/login" element={<Login />} />
+
+        {/* Route for the Spotify authorization callback */}
+        <Route path="/auth/callback" element={<AuthCallback />} />
+
         <Route path="/dashboard/:userId" element={<Dashboard />} />
+        
         {/* New route for /dashboard/report */}
-        <Route
-          path="/dashboard/:userId/report"
-          element={<ReportOptionsPage />}
-        />
+        <Route path="/dashboard/:userId/report" element={<ReportOptionsPage />} />
+
+        {/* New route for Spotify API  `/dashboard/:userId/playlists`*/}
+        <Route path="/dashboard/:userId/playlists" element={<Spotify />} />
 
         {/* Existing ReportPage for Authorities */}
-        <Route
-          path="/dashboard/:userId/report/authorities"
-          element={<ReportPage />}
-        />
+        <Route path="/dashboard/:userId/report/authorities" element={<ReportPage />} />
 
         {/* Placeholder page for Community Reports */}
-        <Route
-          path="/dashboard/:userId/report/community"
-          element={<CommunityReportPage />}
-        />
+        <Route path="/dashboard/:userId/report/community" element={<CommunityReportPage />} />
 
         {/* Catch-all route */}
-        <Route path="*" element={<div>404 Not Found</div>} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );

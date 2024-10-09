@@ -1,11 +1,10 @@
-import { JwtPayload, jwtDecode } from "jwt-decode";
-import axios from 'axios';
+import {JwtPayload, jwtDecode} from "jwt-decode";
 
-declare module "jwt-decode" {
-  export interface JwtPayload {
-    id: number;
-    email: string;
-  }
+// Extend the JwtPayload interface to include custom fields like `id` and `name`.
+interface CustomJwtPayload extends JwtPayload {
+  id: number;
+  email: string;
+  name?: string; // Optional name property
 }
 
 interface UserData {
@@ -15,11 +14,6 @@ interface UserData {
 }
 
 class AuthService {
-  private spotifyClientId: string = process.env.CLIENT_ID || ''; // Your Spotify Client ID
-  private spotifyClientSecret: string = process.env.CLIENT_SECRET || ''; // Your Spotify Client Secret
-  private accessToken: string | null = null;
-  private tokenExpirationTime: number | null = null;
-
   /**
    * Handles user registration by sending a POST request to the /api/register endpoint.
    * @param {UserData} userData - An object containing the user's registration information.
@@ -72,20 +66,20 @@ class AuthService {
     return result.token; // Return the token for further use
   }
 
-  // New method to set the token
+  // Method to set the token
   setToken(token: string) {
     localStorage.setItem("jwtToken", token); // Store the token in local storage
   }
 
-  // New method to handle logout
+  // Method to handle logout
   logout() {
     localStorage.removeItem("jwtToken"); // Clear the token from local storage
   }
 
-  getProfile(): JwtPayload | null {
+  getProfile(): CustomJwtPayload | null {
     const token = this.getToken(); // Get the token
     if (token) {
-      return jwtDecode<JwtPayload>(token); // Decode the token to get user profile
+      return jwtDecode<CustomJwtPayload>(token); // Decode the token to get user profile
     }
     return null; // Return null if no token
   }
@@ -102,7 +96,7 @@ class AuthService {
     }
 
     try {
-      const decoded: JwtPayload = jwtDecode<JwtPayload>(token); // Decode the token
+      const decoded: CustomJwtPayload = jwtDecode<CustomJwtPayload>(token); // Decode the token
       let expirationTime = 0;
 
       if (decoded.exp) {
@@ -119,66 +113,10 @@ class AuthService {
     return localStorage.getItem("jwtToken") || null; // Return the token from local storage
   }
 
-  // New method to get Spotify access token
-  async getSpotifyAccessToken(): Promise<string> {
-    if (this.accessToken && this.tokenExpirationTime && Date.now() < this.tokenExpirationTime) {
-      return this.accessToken; // Return existing token if valid
-    }
-  
-    try {
-      const response = await axios.post('https://accounts.spotify.com/api/token', new URLSearchParams({
-        grant_type: 'client_credentials',
-        client_id: this.spotifyClientId,
-        client_secret: this.spotifyClientSecret,
-      }).toString(), {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      });
-  
-      this.accessToken = response.data.access_token; // Store the access token
-      this.tokenExpirationTime = Date.now() + response.data.expires_in * 1000; // Set expiration time
-  
-      if (!this.accessToken) {
-        throw new Error('Failed to retrieve access token');
-      }
-  
-      return this.accessToken; // Return the new access token
-    } catch (error) {
-      // Check if error is an Axios error and has a response
-      if (axios.isAxiosError(error)) {
-        console.error('Error fetching Spotify access token:', error.response?.data || error);
-      } else {
-        console.error('Error fetching Spotify access token:', error);
-      }
-      throw new Error('Failed to fetch Spotify access token');
-    }
+  getUserId(): number | null {
+    const profile = this.getProfile(); // Get user profile
+    return profile ? profile.id : null; // Return user ID or null if not found
   }
-  
-  
-
-  // New method to fetch user playlists from Spotify
-  async fetchUserPlaylists(): Promise<any> {
-    const token = await this.getSpotifyAccessToken(); // Get the access token
-  
-    try {
-      const response = await axios.get('https://api.spotify.com/v1/me/playlists', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data; // Return user playlists
-    } catch (error) {
-      // Use type assertion to specify the error type
-      if (axios.isAxiosError(error) && error.response) {
-        console.error('Error fetching playlists:', error.response.data);
-      } else {
-        console.error('Error fetching playlists:', error);
-      }
-      throw new Error('Failed to fetch playlists');
-    }
-  }
-  
 }
 
 export default new AuthService();
