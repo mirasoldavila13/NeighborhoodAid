@@ -143,7 +143,7 @@ NeighborhoodAid allows users to report community issues, track their progress, a
 
 ## Credits
 
-This project was developed by **Mirasol Davila** in collaboration with:
+This project was developed by **Mirasol Davila** 
 ## Mirasol Davila Contribution Summary
 
 | **Component/Feature**        | **Description**                                                                                                                                                       | **Details**                                                                                                                                                                                                 |
@@ -175,7 +175,7 @@ This project was developed by **Mirasol Davila** in collaboration with:
 | **Full-Stack Development**  | Combined frontend and backend technologies to create a seamless and integrated platform.                                                                               | Utilized React and TypeScript for frontend development and Express.js with Sequelize for the backend, connecting components using Axios for RESTful API interactions and state management.                     |
 
 
-### Collaborators
+### in collaboration with:
 
 - **[Justin Kao](https://github.com/PandaKao)**: 
   - Added the PostGIS extension for geometry support for storing longitude and latitude coordinates in `server/db/schema.sql`.
