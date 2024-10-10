@@ -155,29 +155,7 @@ class AuthService {
     }
   }
   
-  
 
-  // New method to fetch user playlists from Spotify
-  async fetchUserPlaylists(): Promise<any> {
-    const token = await this.getSpotifyAccessToken(); // Get the access token
-  
-    try {
-      const response = await axios.get('https://api.spotify.com/v1/me/playlists', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data; // Return user playlists
-    } catch (error) {
-      // Use type assertion to specify the error type
-      if (axios.isAxiosError(error) && error.response) {
-        console.error('Error fetching playlists:', error.response.data);
-      } else {
-        console.error('Error fetching playlists:', error);
-      }
-      throw new Error('Failed to fetch playlists');
-    }
-  }
   
 }
 
