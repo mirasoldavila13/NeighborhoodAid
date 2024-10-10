@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -7,13 +7,13 @@ module.exports = {
     const tableExists = await queryInterface.sequelize.query(`
       SELECT EXISTS (
         SELECT FROM information_schema.tables 
-        WHERE table_name = 'CommunityAuthorities'
+        WHERE table_name = 'ReportAuthorities'
       );
     `);
 
     // If the table does not exist, create it
     if (!tableExists[0][0].exists) {
-      await queryInterface.createTable('CommunityAuthorities', {
+      await queryInterface.createTable('ReportAuthorities', {
         id: {
           type: Sequelize.INTEGER,
           autoIncrement: true,
@@ -34,6 +34,10 @@ module.exports = {
         },
         lon: {
           type: Sequelize.DOUBLE,
+          allowNull: true,
+        },
+        weather: {
+          type: Sequelize.JSONB, // Change this to JSONB to store weather data
           allowNull: true,
         },
         address: {
@@ -77,6 +81,6 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     // Drop the table if it exists
-    await queryInterface.dropTable('CommunityAuthorities');
+    await queryInterface.dropTable('ReportAuthorities');
   },
 };

@@ -14,7 +14,7 @@
     "migrate:all": "npm run migrate:dev && npm run migrate:test && npm run migrate:prod"
   },
   "keywords": [],
-  "author": "",
+  "author": "Mirasol Davila",
   "license": "ISC",
   "description": "",
   "dependencies": {
