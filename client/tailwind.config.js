@@ -2,6 +2,7 @@
 module.exports = {
   content: [
     "./src/**/*.{ts,tsx,js,jsx}", // Points to the files you want to scan for class names
+    "./public/index.html",
   ],
   theme: {
     extend: {

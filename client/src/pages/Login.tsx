@@ -47,6 +47,10 @@ const Login = () => {
       setShowModal(true);
     }
   };
+<<<<<<< HEAD
+=======
+
+>>>>>>> release/v2.0
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-eggShell">
@@ -101,6 +105,10 @@ const Login = () => {
             or log in with
           </p>
           <div className="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0 justify-center">
+<<<<<<< HEAD
+=======
+
+>>>>>>> release/v2.0
             <button className="flex items-center justify-center py-2 space-x-3 border border-gray-300 rounded-md shadow-sm hover:bg-opacity-30 hover:shadow-lg transition duration-150 md:w-1/3">
               <img src={facebookIcon} alt="Facebook" className="w-6" />
               <span className="font-thin">Facebook</span>

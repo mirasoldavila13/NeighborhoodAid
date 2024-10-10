@@ -69,4 +69,8 @@ const MapWithAddress: React.FC<MapWithAddressProps> = ({ onLocationChange }) => 
     </div>
   );
 };
+<<<<<<< HEAD
 export default MapWithAddress;
+=======
+export default MapWithAddress;
+>>>>>>> release/v2.0

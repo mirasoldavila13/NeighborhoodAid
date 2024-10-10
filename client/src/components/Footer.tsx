@@ -18,31 +18,31 @@ const Footer = () => (
           <div className="mb-5 font-bold text-white capitalize">Features</div>
           <div className="flex flex-col items-center space-y-3 md:items-start">
             <a
-              href="/report-local-issue"
+              href="/under-construction"
               className="capitalize text-grayishViolet hover:text-purpleLight"
             >
               Report Local Issues
             </a>
             <a
-              href="#"
+              href="/under-construction"
               className="capitalize text-grayishViolet hover:text-purpleLight"
             >
               Track Issue Progress
             </a>
             <a
-              href="#"
+              href="/under-construction"
               className="capitalize text-grayishViolet hover:text-purpleLight"
             >
               Create and Share Playlists
             </a>
             <a
-              href="#"
+              href="/under-construction"
               className="capitalize text-grayishViolet hover:text-purpleLight"
             >
               Check the Weather
             </a>
             <a
-              href="#"
+              href="/under-construction"
               className="capitalize text-grayishViolet hover:text-purpleLight"
             >
               Join the Conversation
@@ -55,19 +55,19 @@ const Footer = () => (
           <div className="mb-5 font-bold text-white capitalize">Resources</div>
           <div className="flex flex-col items-center space-y-3 md:items-start">
             <a
-              href="#"
+              href="/under-construction"
               className="capitalize text-grayishViolet hover:text-purpleLight"
             >
               Blog
             </a>
             <a
-              href="#"
+              href="/under-construction"
               className="capitalize text-grayishViolet hover:text-purpleLight"
             >
               Developers
             </a>
             <a
-              href="#"
+              href="/under-construction"
               className="capitalize text-grayishViolet hover:text-purpleLight"
             >
               Support
@@ -80,25 +80,25 @@ const Footer = () => (
           <div className="mb-5 font-bold text-white capitalize">Company</div>
           <div className="flex flex-col items-center space-y-3 md:items-start">
             <a
-              href="#"
+              href="/under-construction"
               className="capitalize text-grayishViolet hover:text-purpleLight"
             >
               About
             </a>
             <a
-              href="#"
+              href="/under-construction"
               className="capitalize text-grayishViolet hover:text-purpleLight"
             >
               Our Team
             </a>
             <a
-              href="#"
+              href="/under-construction"
               className="capitalize text-grayishViolet hover:text-purpleLight"
             >
               Careers
             </a>
             <a
-              href="#"
+              href="/under-construction"
               className="capitalize text-grayishViolet hover:text-purpleLight"
             >
               Contact
@@ -109,16 +109,16 @@ const Footer = () => (
 
       {/* Social Media Icons */}
       <div className="flex space-x-6">
-        <a href="#">
+        <a href="/under-construction">
           <img src={facebookIcon} alt="Facebook" className="ficon" />
         </a>
-        <a href="#">
+        <a href="/under-construction">
           <img src={twitterIcon} alt="Twitter" className="ficon" />
         </a>
-        <a href="#">
+        <a href="/under-construction">
           <img src={pinterestIcon} alt="Pinterest" className="ficon" />
         </a>
-        <a href="#">
+        <a href="/under-construction">
           <img src={instagramIcon} alt="Instagram" className="ficon" />
         </a>
       </div>

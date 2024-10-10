@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from '../services/authService';
+import facebookIcon from "../assets/facebook.png";
+import googleIcon from "../assets/google.png";
+import backgroundImage from "../assets/login_image.jpeg";
 
 const UserRegistration = () => {
   const navigate = useNavigate();
@@ -14,17 +17,9 @@ const UserRegistration = () => {
   const handleCloseModal = () => {
     setShowModal(false);
     if (modalMessage === "User registered successfully!") {
-<<<<<<< HEAD
+
       navigate("/dashboard");
-    }
-  };
 
-  // Validation and form submission
-  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    // Validate if all fields are filled
-=======
       const userProfile = authService.getProfile();
       if (userProfile) {
         navigate(`/dashboard/${userProfile.id}`);
@@ -35,7 +30,16 @@ const UserRegistration = () => {
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
->>>>>>> f9c102c923a6d9522029760f6c9165e81c7b7598
+      const userProfile = authService.getProfile();
+      if (userProfile) {
+        navigate(`/dashboard/${userProfile.id}`);
+      }
+    }
+  };
+
+  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     if (!name || !email || !password || !confirmPassword) {
       setModalMessage("All fields are required!");
       setShowModal(true);
@@ -94,26 +98,61 @@ const UserRegistration = () => {
           </p>
 
           <form onSubmit={handleSignup}>
-            <input type="text" className="w-full p-4 mb-4 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light" placeholder="Enter your name" value={name} onChange={(e) => setName(e.target.value)} required />
-            <input type="email" className="w-full p-4 mb-4 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light" placeholder="Enter your email address" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            <input type="password" className="w-full p-4 mb-4 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-            <input type="password" className="w-full p-4 mb-6 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light" placeholder="Confirm your password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
-            <button type="submit" className="w-full md:w-auto flex justify-center items-center p-4 font-sans font-bold text-white rounded-md shadow-lg bg-purpleLight hover:bg-opacity-90 hover:shadow-lg transition duration-300">
+            <input
+              type="text"
+              className="w-full p-4 mb-4 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+            <input
+              type="email"
+              className="w-full p-4 mb-4 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light"
+              placeholder="Enter your email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              className="w-full p-4 mb-4 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              className="w-full p-4 mb-6 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light"
+              placeholder="Confirm your password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+
+            <button
+              type="submit"
+              className="w-full md:w-auto flex justify-center items-center p-4 font-sans font-bold text-white rounded-md shadow-lg bg-purpleLight hover:bg-opacity-90 hover:shadow-lg transition duration-300"
+            >
               <span>Sign Up</span>
             </button>
           </form>
 
-          {showModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-              <div className="bg-white p-6 rounded-lg shadow-lg">
-                <h3 className="text-xl font-semibold mb-4">Registration Status</h3>
-                <p>{modalMessage}</p>
-                <button className="mt-4 text-purpleLight" onClick={handleCloseModal}>
-                  Close
-                </button>
-              </div>
-            </div>
-          )}
+          {/* Social Logins */}
+          <p className="py-4 text-sm font-thin text-center text-gray-400">
+            or sign up with
+          </p>
+          <div className="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0 justify-center">
+            <button className="flex items-center justify-center py-2 space-x-3 border border-gray-300 rounded-md shadow-sm hover:bg-opacity-30 hover:shadow-lg transition duration-150 md:w-1/3">
+              <img src={facebookIcon} alt="Facebook" className="w-6" />
+              <span className="font-thin">Facebook</span>
+            </button>
+            <button className="flex items-center justify-center py-2 space-x-3 border border-gray-300 rounded-md shadow-sm hover:bg-opacity-30 hover:shadow-lg transition duration-150 md:w-1/3">
+              <img src={googleIcon} alt="Google" className="w-6" />
+              <span className="font-thin">Google</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

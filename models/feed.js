@@ -6,6 +6,8 @@ export default (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Feed.belongsTo(models.User, { foreignKey: "userId" });
+      // Add the association to the Comment model
+      Feed.hasMany(models.Comment, { foreignKey: "feedId", as: "comments" });
     }
   }
 
@@ -23,7 +25,7 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Feed",
-    },
+    }
   );
 
   return Feed;

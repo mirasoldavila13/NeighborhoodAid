@@ -96,15 +96,27 @@ const commentOnFeed = async (req, res) => {
   const userId = req.user.id;
 
   try {
+    // Check if the feed exists
     const feed = await Feed.findByPk(feedId);
     if (!feed) return res.status(404).json({ message: "Feed not found" });
 
-    const comment = await Comment.create({ content, feedId, userId });
+    // Create the comment
+    const comment = await Comment.create({
+      content,
+      feedId,
+      userId,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    // Return the created comment
     res.status(201).json(comment);
   } catch (error) {
+    console.error("Error creating comment:", error);
     res.status(500).json({ error: "Failed to comment on feed" });
   }
 };
+
 
 export default {
   getAllFeeds,

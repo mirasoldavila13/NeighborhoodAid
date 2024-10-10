@@ -1,5 +1,5 @@
 import { useState } from "react";
-import MapWithAddress from "../components/MapWithAddress"; // Uses OpenStreetMap API for the map
+import MapWithAddress from "../components/MapWithAddress";
 import axios from "axios";
 import DashboardNav from "../components/DashboardNav";
 import Footer from "../components/Footer";
@@ -8,10 +8,8 @@ import authService from "../services/authService.ts";
 import { Navigate } from "react-router-dom";
 
 const ReportPage = () => {
-  // Add auth logic from your team member's code
-  const authLoggedIn = authService.loggedIn(); // Check if the user is logged in
+  const authLoggedIn = authService.loggedIn();
   
-  // Keep your state and form handling logic
   const [locationDetails, setLocationDetails] = useState<{
     fullAddress: string;
     city: string;
@@ -24,7 +22,6 @@ const ReportPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Fetch weather data
   const fetchWeather = async (lat: number, lon: number) => {
     try {
       const response = await axios.get("/api/weather", {
@@ -39,17 +36,11 @@ const ReportPage = () => {
     }
   };
 
-  // Handle location selection
-  const handleLocationSelected = (
-    lat: number,
-    lon: number,
-    addressDetails: any
-  ) => {
+  const handleLocationSelected = (lat: number, lon: number, addressDetails: any) => {
     setLocationDetails({ ...addressDetails, lat, lon });
     fetchWeather(lat, lon);
   };
 
-  // Keep your handleSubmit function
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -78,7 +69,6 @@ const ReportPage = () => {
     }
   };
 
-  // Add auth check in the return JSX
   return (
     <>
       {!authLoggedIn ? (
@@ -90,7 +80,6 @@ const ReportPage = () => {
             <div className="container mx-auto">
               <h2 className="text-2xl font-bold mb-4">Report an Issue</h2>
 
-              {/* Error Modal */}
               <Modal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
@@ -98,7 +87,6 @@ const ReportPage = () => {
                 type="error"
               />
 
-              {/* Form with your handleSubmit */}
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <label className="block text-gray-700 font-bold mb-2">
@@ -123,10 +111,8 @@ const ReportPage = () => {
                   />
                 </div>
 
-                {/* Map Component */}
                 <MapWithAddress onLocationChange={handleLocationSelected} />
 
-                {/* Location Details */}
                 {locationDetails && (
                   <div className="mb-4">
                     <h3 className="font-bold text-lg">Location Details</h3>
@@ -135,7 +121,6 @@ const ReportPage = () => {
                   </div>
                 )}
 
-                {/* Weather Data */}
                 {weatherData && (
                   <div className="mb-4">
                     <h3 className="font-bold text-lg">
