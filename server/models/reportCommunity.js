@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from "../config/connection.js"; 
 
-const Issue = sequelize.define('Issue', {
+const ReportCommunity = sequelize.define('ReportCommunity', {
   title: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -39,4 +39,4 @@ const Issue = sequelize.define('Issue', {
   timestamps: true, 
 });
 
-export default Issue;
+export default ReportCommunity;
