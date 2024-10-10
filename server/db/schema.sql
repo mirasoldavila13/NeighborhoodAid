@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS neighborhoodAid;
-CREATE DATABASE neighborhoodAid;
+DROP DATABASE IF EXISTS neighboorhoodAid;
+CREATE DATABASE neighboorhoodAid;
 
-\c neighborhoodAid;
+\c neighboorhoodAid;
 
 -- Enable the PostGIS extension for spatial data support
 CREATE EXTENSION IF NOT EXISTS postgis;
