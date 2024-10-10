@@ -9,99 +9,103 @@ NeighborhoodAid is a **RESTful API** and **React-based** platform designed to em
 
 ## Motivation
 
-We were motivated to create NeighborhoodAid to provide a practical and comprehensive solution for civic engagement and local issue resolution. Our goal was to streamline the process of reporting, tracking, and managing community issues while fostering community interaction and collaboration. We believe that when communities work together, they become stronger and more resilient, and our platform serves as a bridge to facilitate that collaboration.
+The motivation behind NeighborhoodAid is to provide a practical and comprehensive solution for civic engagement and local issue resolution. The goal is to streamline the process of reporting, tracking, and managing community issues while fostering community interaction and collaboration. We believe that when communities work together, they become stronger and more resilient, and our platform serves as a bridge to facilitate that collaboration.
 
 NeighborhoodAid encourages users to:
+
 - **Empower their community** by addressing small problems before they escalate.
 - **Engage collaboratively** with neighbors on larger projects.
-- **Maintain transparency** by tracking issue resolution in real time.
-- **Stay informed** with up-to-date weather and location information that is contextually relevant to their reports.
+- **Maintain transparency** by tracking issue resolution in real-time.
+- **Stay informed** with up-to-date weather and location information relevant to their reports.
 
 ## Core Features
 
-- **Reporting System**: Users can report various local issues, including potholes, streetlight outages, and more, using an interactive map and real-time weather data.
-- **Progress Tracking**: Users receive updates on the status of their reports, such as when issues are in progress or resolved, promoting transparency.
-- **Community Engagement**: A community feed where users can create posts, like, comment, and engage with others about neighborhood updates and events.
-- **Weather Information**: Real-time weather updates are provided based on the user's location, ensuring that users have the latest information when submitting reports or planning events.
-- **Authentication**: Secure login and registration functionalities using JWT, bcrypt, and social media integrations for a seamless user experience.
+- **Reporting System**: Users can report various local issues using an interactive map and real-time weather data.
+- **Progress Tracking**: Users receive updates on the status of their reports, promoting transparency.
+- **Community Engagement**: A community feed where users can engage with others about neighborhood updates and events.
+- **Weather Information**: Real-time weather updates based on the user's location.
+- **Authentication**: Secure login and registration functionalities using JWT, bcrypt, and social media integrations.
 
-## What We Learned
+## Table of Contents
 
-During the development of NeighborhoodAid, we gained a deep understanding and hands-on experience with various technologies and concepts:
+- [What We Did](#what-we-did)
+- [Technologies Used](#technologies-used)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Attribution Watermark](#attribution-watermark)
+- [Credits](#credits)
+- [Version 2.0](#version-20)
+- [License](#license)
+- [Badges](#badges)
+- [How to Contribute](#how-to-contribute)
+- [Tests](#tests)
+- [Questions](#questions)
+- [Walkthrough Video](#walkthrough-video)
 
-### 1. **Frontend Development with React, Tailwind CSS, and Vite**
-   - Learned to structure and manage a component-based architecture efficiently using React and TypeScript.
-   - Utilized Tailwind CSS for consistent, responsive, and mobile-friendly designs, maintaining a unified visual identity across the platform.
-   - Developed reusable components like Modals, Forms, and Navigation bars to optimize development speed and maintain code reusability.
-   - Used Vite for fast, efficient frontend development and bundling.
+## What We Did
 
-### 2. **Backend Development with Node.js, Express.js, and Sequelize**
-   - Implemented a RESTful API using Express.js, managing routes for user authentication, feed management, reporting, and weather data retrieval.
-   - Gained experience with Sequelize and Sequelize CLI for database modeling, migrations, and associations, ensuring data integrity and relationship consistency across models.
-   - Configured middlewares such as CORS and logger to secure and monitor API requests, improving server reliability and performance.
+During the development of NeighborhoodAid, our team gained a deep understanding and hands-on experience with various technologies and concepts:
 
-### 3. **Authentication and Security Techniques**
-   - Implemented secure authentication mechanisms using bcrypt for password hashing and JWT for session management, ensuring data security and user privacy.
-   - Integrated social login options (e.g., Facebook and Google) to enhance the user experience and streamline the registration process.
+### 1. Frontend Development with React, Tailwind CSS, and Vite
 
-### 4. **API Integration and State Management**
-   - Integrated multiple APIs, including:
-     - **OpenWeather API** for weather data.
-     - **OpenWeather Geolocation API** for retrieving weather data based on coordinates.
-     - **OpenStreetMap** and **Nominatim** for location-based services (both client-side and server-side usage).
-     - **Browser Geolocation API** for fetching user location client-side.
+- Structured and managed a component-based architecture efficiently using React and TypeScript.
+- Utilized Tailwind CSS for consistent, responsive, and mobile-friendly designs, maintaining a unified visual identity across the platform.
+- Developed reusable components like Modals, Forms, and Navigation bars to optimize development speed and maintain code reusability.
+- Used Vite for fast, efficient frontend development and bundling.
 
-   - **OpenStreetMap Integration**:
-     - Utilized **React Leaflet**, a React wrapper for Leaflet, to create an interactive map component using OpenStreetMap tiles.
-     - Developed functionality to add dynamic markers on the map:
-       - Markers are placed based on user interactions (e.g., clicking on the map) or by fetching user coordinates from the Browser Geolocation API.
-       - The map updates in real-time, displaying markers that represent specific locations tied to user reports or user interactions.
-       - The component ensures that the map remains responsive and interactive across different devices, providing a seamless user experience for reporting and visualizing issues.
+### 2. Backend Development with Node.js, Express.js, and Sequelize
 
-   - **Nominatim Integration**:
-     - **Nominatim** uses OpenStreetMap data to find locations on Earth by name and address (geocoding). It also supports reverse geocoding, where it converts latitude and longitude coordinates into readable addresses or city names.
-     - For user-submitted reports:
-       - Used Nominatim to convert location names or addresses into coordinates, which are then displayed as markers on the OpenStreetMap component.
-     - For weather data and user location:
-       - Implemented reverse geocoding using the latitude and longitude obtained from the **OpenWeather Geolocation API** or the **Browser Geolocation API**.
-       - If Nominatim shows an unknown city or fails to provide an address, the **OpenWeather Geolocation API** is used as a fallback. This API retrieves the latitude and longitude of the user's location and provides the city name based on these coordinates, ensuring the platform consistently delivers accurate and relevant location information to the user.
+- Implemented a RESTful API using Express.js, managing routes for user authentication, feed management, reporting, and weather data retrieval.
+- Gained experience with Sequelize and Sequelize CLI for database modeling, migrations, and associations, ensuring data integrity and relationship consistency across models.
+- Configured middlewares such as **CORS** and logger to secure and monitor API requests, improving server reliability and performance.
 
-   - **API Workflow**:
-     - The application first attempts to use the **Browser Geolocation API** for client-side location fetching, allowing for precise user positioning and weather updates.
-     - If the user denies permission for the browser to access their location:
-       - The platform falls back to the **OpenWeather Geolocation API**, which uses the user's IP address to provide an approximate latitude and longitude for weather information.
-     - For location details:
-       - Nominatim is used for reverse geocoding to convert the latitude and longitude coordinates into a readable city name or address.
-       - If Nominatim fails to retrieve the city name or shows an unknown city, the platform uses the **OpenWeather Geolocation API** as a fallback to provide the city name and address based on the coordinates.
-     - Once the coordinates are obtained, the **OpenWeather API** displays the weather information based on these coordinates, ensuring users always receive accurate and up-to-date weather details.
+### 3. Authentication and Security Techniques
 
-### 5. **Full-Stack Development and Deployment**
-   - Gained proficiency in full-stack development by connecting the frontend and backend using RESTful principles, ensuring smooth communication between components.
-   - Configured the backend server for production deployment, ensuring compatibility with client-side routing for the React application.
-   - Implemented environment management using dotenv to securely handle API keys, database credentials, and other sensitive information.
+- Implemented secure authentication mechanisms using **bcrypt** for password hashing and **JWT** for session management, ensuring data security and user privacy.
+- Integrated social login options (e.g., Facebook and Google) to enhance the user experience and streamline the registration process.
 
-### 6. **Database Management and Migrations**
-   - Developed database models and migrations using Sequelize and Sequelize CLI, focusing on ensuring data integrity and relationships between users, reports, and comments.
-   - Created seed files for testing and development purposes, allowing realistic simulation of database data during development cycles.
+### 4. API Integration and State Management
 
-### 7. **Responsive and Accessible Design**
-   - Ensured that all components, from forms to interactive maps, were responsive and accessible across different devices and screen sizes using Tailwind CSS utilities.
-   - Focused on accessibility standards by using semantic HTML elements and keyboard navigation.
+- Integrated multiple APIs, including:
+  - **OpenWeather API** for weather data.
+  - **OpenWeather Geolocation API** for retrieving weather data based on coordinates.
+  - **OpenStreetMap** and **Nominatim** for location-based services.
+  - **Browser Geolocation API** for fetching user location client-side.
+- Developed an interactive map component using **React Leaflet** with dynamic marker handling and state management for a user-friendly experience.
+- Implemented a robust API workflow with fallback mechanisms to ensure accurate and up-to-date location and weather information.
 
-### 8. **Collaboration and Version Control**
-   - Used Git and GitHub for collaborative development, managing feature branches, pull requests, and resolving merge conflicts efficiently.
-   - Ensured code quality through peer reviews and implemented testing strategies for both frontend and backend components.
-## Getting Started
+### 5. Full-Stack Development and Deployment
 
+- Gained proficiency in full-stack development by connecting the frontend and backend using RESTful principles, ensuring smooth communication between components.
+- Configured the backend server for production deployment, ensuring compatibility with client-side routing for the React application.
+- Implemented environment management using **dotenv** to securely handle API keys, database credentials, and other sensitive information.
+
+### 6. Database Management and Migrations
+
+- Developed database models and migrations using Sequelize and Sequelize CLI, focusing on ensuring data integrity and relationships between users, reports, and comments.
+- Created seed files for testing and development purposes, allowing realistic simulation of database data during development cycles.
+
+### 7. Responsive and Accessible Design
+
+- Ensured that all components, from forms to interactive maps, were responsive and accessible across different devices and screen sizes using Tailwind CSS utilities.
+- Focused on accessibility standards by using semantic HTML elements and keyboard navigation.
+
+### 8. Collaboration and Version Control
+
+- Used Git and GitHub for collaborative development, managing feature branches, pull requests, and resolving merge conflicts efficiently.
+- Ensured code quality through peer reviews and implemented testing strategies for both frontend and backend components.
 
 ## Technologies Used
 
 - **Frontend**: React, Vite, TypeScript, Tailwind CSS
-- **Backend**: Node.js, Express.js, Sequelize, Sequelize CLI
+- **Backend**: JavaScript, Node.js, Express.js, Sequelize, Sequelize CLI, CORS
 - **Database**: PostgreSQL
 - **APIs**: OpenWeather API, OpenWeather Geolocation API, OpenStreetMap, Nominatim, Browser Geolocation API
+- **HTTP Client**: Axios
 - **Testing**: Postman for backend testing
 - **Deployment**: Vite for frontend, Node.js for backend
+
 
 ## Features
 
@@ -109,19 +113,6 @@ During the development of NeighborhoodAid, we gained a deep understanding and ha
 - **Interactive Maps**: Integration with OpenStreetMap and Nominatim API for precise geolocation and visualization.
 - **Weather Updates**: Real-time weather information for reported locations using OpenWeather API.
 - **Community Engagement**: Comment system and community playlist powered by Spotify API.
-
-## Table of Contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Credits](#credits)
-- [License](#license)
-- [Badges](#badges)
-- [Features](#features)
-- [How to Contribute](#how-to-contribute)
-- [Tests](#tests)
-- [Questions](#questions)
-- [Walkthrough Video](#walkthrough-video)
 
 ## Installation
 
@@ -141,38 +132,43 @@ NeighborhoodAid allows users to report community issues, track their progress, a
 
 > **Note**: Ensure that all required API keys are set up in your environment variables.
 
+## Attribution Watermark
+
+NeighborhoodAid initially originated as a group project. However, due to team availability and shifting responsibilities, the project has since been further developed and expanded individually by **Mirasol Davila**. All subsequent feature implementations, optimizations, and refinements were led solely by Mirasol Davila to enhance the platform’s functionality, scalability, and user experience.
+
 ## Credits
 
-This project was developed by **Mirasol Davila** 
-## Mirasol Davila Contribution Summary
+### Version 1.0 Contributions
 
-| **Component/Feature**        | **Description**                                                                                                                                                       | **Details**                                                                                                                                                                                                 |
-|-----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **LandingPage.tsx**         | Developed as the main entry point for the Neighborhood Aid platform.                                                                                                  | Integrated child components (Nav, Hero, Features, FAQ, Testimonials, Newsletter, Footer) using React and TypeScript for a cohesive, maintainable, and responsive design with Tailwind CSS.                  |
-| **Nav.tsx**                 | Designed and developed the navigation component for desktop and mobile views.                                                                                         | Implemented dynamic menu state management, responsive design with Tailwind CSS, accessibility enhancements using semantic HTML, and consistent visual styling for hover and interaction states.               |
-| **Newsletter.tsx**          | Created a subscription section to encourage user engagement and sign-ups.                                                                                             | Developed responsive form elements, incorporated Tailwind CSS for consistent styling, and ensured accessibility with semantic structuring and clear placeholder texts.                                        |
-| **FAQ.tsx**                 | Built an interactive FAQ section using an accordion-style interface.                                                                                                  | Managed state with `useState`, implemented dynamic styling for active states using Tailwind CSS, and ensured accessibility with semantic HTML and screen reader support.                                     |
-| **Features.tsx**            | Showcased platform features using an interactive tab system.                                                                                                          | Developed dynamic feature panels with React, integrated SVG assets, and used Tailwind CSS for responsiveness and consistent styling.                                                                          |
-| **Pricing.tsx**             | Developed the Pricing component highlighting different subscription plans.                                                                                            | Designed tiered pricing cards with Tailwind CSS, integrated navigation components, ensured responsive behavior across devices, and included interactive CTAs to drive user engagement.                       |
-| **Testimonials.tsx**        | Built the Testimonials component to showcase user feedback.                                                                                                           | Implemented a responsive grid layout, applied Tailwind CSS for consistent styling, and created a dynamic testimonial display system with hover effects and interactive design elements.                       |
-| **MapWithAddress.tsx**      | Developed an interactive map component using React, TypeScript, and React Leaflet.                                                                                   | Integrated OpenStreetMap, Nominatim, and OpenWeather APIs for robust geolocation capabilities and developed dynamic marker handling and state management for a user-friendly experience.                     |
-| **ReportPage.tsx**          | Created the Report page for users to submit detailed reports about local issues.                                                                                      | Integrated `MapWithAddress` for location selection, weather data fetching, and developed a comprehensive form with Tailwind CSS for a streamlined reporting experience.                                      |
-| **authService.ts**          | Enhanced the authentication service to include registration, login, and Spotify API integration.                                                                       | Developed robust JWT token management, error handling, and session management functionalities. Implemented Spotify API calls for fetching user playlists and managing authentication tokens.                  |
-| **Middleware Implementations** | Added critical middlewares to manage and secure server requests.                                                                                                       | Implemented CORS for cross-origin requests, logger for monitoring and debugging, and error handling middleware for consistent API responses.                                                                 |
-| **Database Migrations**     | Developed migrations for essential tables such as Users, Issues, Feeds, and Comments using Sequelize.                                                                 | Applied up and down migrations to manage schema changes, implemented validation rules, and ensured schema alignment with project requirements.                                                               |
-| **Database Modeling**       | Defined and managed associations between Sequelize models for Feeds, Comments, and Users.                                                                             | Implemented relationships (`belongsTo`, `hasMany`) and ensured proper model initialization for data integrity.                                                                                               |
-| **API Routes Contributions**| Developed robust API routes for managing authentication, community feeds, and reporting issues.                                                                        | Implemented routes for creating, updating, deleting, and fetching feed posts. Integrated report submission routes with weather and geolocation APIs for enhanced context and error handling mechanisms.       |
-| **Database Seeding Contribution** | Created seed scripts for populating authority reports for testing and development purposes.                                                                     | Developed seed files using Sequelize’s bulkCreate with error handling and structured sample data for realistic testing scenarios.                                                                            |
-| **.sequelizerc Configuration** | Customized the `.sequelizerc` file to ensure organized paths for migrations, models, and seeders.                                                                  | Configured paths for models, seeders, and migrations, ensuring consistent file structuring and ease of access for development and database management.                                                        |
-| **Server Configuration**    | Enhanced the `server.js` file with middleware integration, route organization, and production setup.                                                                   | Integrated CORS, logger, and error handling middleware, structured routes for clarity, and set up production configuration for serving the client-side application.                                           |
-| **Modal.tsx**               | Developed a reusable modal component for displaying dynamic messages.                                                                                                 | Implemented flexible props for type safety, dynamic rendering based on state, and used Tailwind CSS for styling. Ensured reusability and accessibility across modules.                                        |
-| **Weather.tsx**             | Developed a component to provide real-time weather updates.                                                                                                           | Integrated multiple APIs (browser geolocation, OpenWeather) and used Axios for API calls. Styled with Tailwind CSS for a clean and responsive display. Included error handling for user feedback.            |
-| **Hero.tsx**                | Designed the hero section for the platform’s landing page.                                                                                                            | Structured a visually engaging layout with responsive flex settings, integrated SVG images, and styled text for emphasis. Ensured the component is responsive and accessible.                                 |
-| **DashboardNav.tsx**        | Developed the dashboard navigation component for logged-in users.                                                                                                     | Included navigation links, integrated authentication checks, and implemented logout functionality. Styled with Tailwind CSS for responsive behavior and user experience.                                      |
-| **Dashboard.tsx**           | Developed the Dashboard page, providing an interactive community feed and weather updates.                                                                             | Implemented authentication checks, dynamic post management (like, comment, edit, delete), and integrated the Weather component. Styled for consistency using Tailwind CSS.                                   |
-| **Login.tsx & UserRegistration.tsx** | Created the login and registration pages for secure user authentication.                                                                                              | Integrated form validation, used `authService` for login and registration functionality, implemented a modal for feedback, and styled with Tailwind CSS for a professional and responsive design.             |
-| **RESTful API Implementation** | Built the backend API using Express.js to follow RESTful principles for efficient and organized data handling.                                                         | Developed routes for CRUD operations across various models (e.g., user registration, feeds, reporting), ensuring data integrity and secure interactions with authentication middleware.                      |
-| **Full-Stack Development**  | Combined frontend and backend technologies to create a seamless and integrated platform.                                                                               | Utilized React and TypeScript for frontend development and Express.js with Sequelize for the backend, connecting components using Axios for RESTful API interactions and state management.                     |
+**Mirasol Davila** served as the **Lead Full Stack Developer** for the initial version of NeighborhoodAid, taking charge of the majority of development tasks. Below is a summary of the key contributions made by Mirasol Davila:
+
+| **Component/Feature**            | **Description**                                                                                                                                            | **Details**                                                                                                                                                                                                 |
+|----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **LandingPage.tsx**              | Developed as the main entry point for the Neighborhood Aid platform.                                                                                       | Integrated child components (Nav, Hero, Features, FAQ, Testimonials, Newsletter, Footer) using React and TypeScript for a cohesive, maintainable, and responsive design with Tailwind CSS.                  |
+| **Nav.tsx**                      | Designed and developed the navigation component for desktop and mobile views.                                                                              | Implemented dynamic menu state management, responsive design with Tailwind CSS, accessibility enhancements using semantic HTML, and consistent visual styling for hover and interaction states.              |
+| **Newsletter.tsx**               | Created a subscription section to encourage user engagement and sign-ups.                                                                                  | Developed responsive form elements, incorporated Tailwind CSS for consistent styling, and ensured accessibility with semantic structuring and clear placeholder texts.                                       |
+| **FAQ.tsx**                      | Built an interactive FAQ section using an accordion-style interface.                                                                                       | Managed state with `useState`, implemented dynamic styling for active states using Tailwind CSS, and ensured accessibility with semantic HTML and screen reader support.                                    |
+| **Features.tsx**                 | Showcased platform features using an interactive tab system.                                                                                               | Developed dynamic feature panels with React, integrated SVG assets, and used Tailwind CSS for responsiveness and consistent styling.                                                                         |
+| **Pricing.tsx**                  | Developed the Pricing component highlighting different subscription plans.                                                                                 | Designed tiered pricing cards with Tailwind CSS, integrated navigation components, ensured responsive behavior across devices, and included interactive CTAs to drive user engagement.                       |
+| **Testimonials.tsx**             | Built the Testimonials component to showcase user feedback.                                                                                                | Implemented a responsive grid layout, applied Tailwind CSS for consistent styling, and created a dynamic testimonial display system with hover effects and interactive design elements.                       |
+| **MapWithAddress.tsx**           | Developed an interactive map component using React, TypeScript, and React Leaflet.                                                                         | Integrated OpenStreetMap, Nominatim, and OpenWeather APIs for robust geolocation capabilities and developed dynamic marker handling and state management for a user-friendly experience.                    |
+| **ReportPage.tsx**               | Created the Report page for users to submit detailed reports about local issues.                                                                           | Integrated `MapWithAddress` for location selection, weather data fetching, and developed a comprehensive form with Tailwind CSS for a streamlined reporting experience.                                      |
+| **authService.ts**               | Enhanced the authentication service to include registration, login, and Spotify API integration.                                                            | Developed robust JWT token management, error handling, and session management functionalities. Implemented Spotify API calls for fetching user playlists and managing authentication tokens.                 |
+| **Middleware Implementations**   | Added critical middlewares to manage and secure server requests.                                                                                           | Implemented CORS for cross-origin requests, logger for monitoring and debugging, and error handling middleware for consistent API responses.                                                                |
+| **Database Migrations**          | Developed migrations for essential tables such as Users, Issues, Feeds, and Comments using Sequelize.                                                      | Applied up and down migrations to manage schema changes, implemented validation rules, and ensured schema alignment with project requirements.                                                               |
+| **Database Modeling**            | Defined and managed associations between Sequelize models for Feeds, Comments, and Users.                                                                  | Implemented relationships (`belongsTo`, `hasMany`) and ensured proper model initialization for data integrity.                                                                                              |
+| **API Routes Contributions**     | Developed robust API routes for managing authentication, community feeds, and reporting issues.                                                            | Implemented routes for creating, updating, deleting, and fetching feed posts. Integrated report submission routes with weather and geolocation APIs for enhanced context and error handling mechanisms.      |
+| **Database Seeding Contribution**| Created seed scripts for populating authority reports for testing and development purposes.                                                                | Developed seed files using Sequelize’s bulkCreate with error handling and structured sample data for realistic testing scenarios.                                                                            |
+| **.sequelizerc Configuration**   | Customized the `.sequelizerc` file to ensure organized paths for migrations, models, and seeders.                                                          | Configured paths for models, seeders, and migrations, ensuring consistent file structuring and ease of access for development and database management.                                                       |
+| **Server Configuration**         | Enhanced the `server.js` file with middleware integration, route organization, and production setup.                                                        | Integrated CORS, logger, and error handling middleware, structured routes for clarity, and set up production configuration for serving the client-side application.                                           |
+| **Modal.tsx**                    | Developed a reusable modal component for displaying dynamic messages.                                                                                      | Implemented flexible props for type safety, dynamic rendering based on state, and used Tailwind CSS for styling. Ensured reusability and accessibility across modules.                                        |
+| **Weather.tsx**                  | Developed a component to provide real-time weather updates.                                                                                                | Integrated multiple APIs (browser geolocation, OpenWeather) and used Axios for API calls. Styled with Tailwind CSS for a clean and responsive display. Included error handling for user feedback.            |
+| **Hero.tsx**                     | Designed the hero section for the platform’s landing page.                                                                                                 | Structured a visually engaging layout with responsive flex settings, integrated SVG images, and styled text for emphasis. Ensured the component is responsive and accessible.                                 |
+| **DashboardNav.tsx**             | Developed the dashboard navigation component for logged-in users.                                                                                          | Included navigation links, integrated authentication checks, and implemented logout functionality. Styled with Tailwind CSS for responsive behavior and user experience.                                      |
+| **Dashboard.tsx**                | Developed the Dashboard page, providing an interactive community feed and weather updates.                                                                  | Implemented authentication checks, dynamic post management (like, comment, edit, delete), and integrated the Weather component. Styled for consistency using Tailwind CSS.                                   |
+| **Login.tsx & UserRegistration.tsx**| Created the login and registration pages for secure user authentication.                                                                                   | Integrated form validation, used `authService` for login and registration functionality, implemented a modal for feedback, and styled with Tailwind CSS for a professional and responsive design.           |
+| **RESTful API Implementation**   | Built the backend API using Express.js to follow RESTful principles for efficient and organized data handling.                                              | Developed routes for CRUD operations across various models (e.g., user registration, feeds, reporting), ensuring data integrity and secure interactions with authentication middleware.                      |
+| **Full-Stack Development**       | Combined frontend and backend technologies to create a seamless and integrated platform.                                                                    | Utilized React and TypeScript for frontend development and Express.js with Sequelize for the backend, connecting components using Axios for RESTful API interactions and state management.                     |
 
 
 ### in collaboration with:
@@ -193,11 +189,19 @@ This project was developed by **Mirasol Davila**
   
 - **Authentication Service**:
   - Developed `client/src/services/authService.ts` to handle JWT-based authentication, including token retrieval, expiration checking, and profile decoding.
-  
-- **User Registration Page**:
-  - Updated `client/src/pages/UserRegistration.tsx` to store the JWT token in localStorage upon successful user registration.
-  - 14 Merge Pull Request
-  
+
+## Version 2.0
+
+As we transition into **Version 2.0**, Mirasol Davila will be taking the lead in continuing the development of NeighborhoodAid. While **Justin Kao** contributed to the foundational aspects of Version 1.0, the ongoing enhancements and features for Version 2.0 will be solely developed by Mirasol Davila. This will allow for a streamlined and focused approach to further improve the platform's functionality, user experience, and scalability. 
+
+I am excited to implement new features and improvements, including:
+
+- Enhanced user interface and experience.
+- Integration of additional APIs, such as the Spotify API for community playlists.
+- Improved data handling and reporting capabilities.
+
+Stay tuned for exciting updates as we evolve NeighborhoodAid into a more robust and user-friendly platform!
+
 
 ## License
 
