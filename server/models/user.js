@@ -1,39 +1,35 @@
-import { Model, DataTypes } from "sequelize";
-import sequelize from "../config/connection.js";
+"use strict";
+import { Model } from "sequelize";
 
-class User extends Model {
-  // Define associations with Feed and Comment models
-  static associate(models) {
-    User.hasMany(models.Feed, { foreignKey: "userId" }); // One user has many feeds
-    User.hasMany(models.Comment, { foreignKey: "userId" }); // One user can have many comments
+export default (sequelize, DataTypes) => {
+  class User extends Model {
+    static associate(models) {
+      // define association here
+      User.hasMany(models.Feed, { foreignKey: "userId" });
+    }
   }
-}
 
-// Define the User model
-User.init(
-  {
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true,
+  User.init(
+    {
+      name: DataTypes.STRING,
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: true,
+        },
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
     },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    {
+      sequelize,
+      modelName: "User",
     },
-  },
-  {
-    sequelize,
-    modelName: "User",
-    timestamps: true, // Automatically manages `createdAt` and `updatedAt`
-  }
-);
+  );
 
-export default User;
+  return User;
+};
