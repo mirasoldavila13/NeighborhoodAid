@@ -54,6 +54,8 @@
     "@types/geojson": "^7946.0.14",
     "dotenv": "^16.4.5",
     "mapbox-gl": "^3.7.0",
+    "pg": "^8.13.0",
+    "pg-hstore": "^2.3.4",
     "react-leaflet": "^4.2.1",
     "react-router-dom": "^6.26.2",
     "sequelize": "^6.37.3"
