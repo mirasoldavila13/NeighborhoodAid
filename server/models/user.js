@@ -1,39 +1,47 @@
+"use strict";
 import { Model, DataTypes } from "sequelize";
-import sequelize from "../config/connection.js";
 
-class User extends Model {
-  // Define associations with Feed and Comment models
-  static associate(models) {
-    User.hasMany(models.Feed, { foreignKey: "userId" }); // One user has many feeds
-    User.hasMany(models.Comment, { foreignKey: "userId" }); // One user can have many comments
+const User = (sequelize) => {
+  class User extends Model {
+    static associate(models) {
+      // Define association with Feed model
+      User.hasMany(models.Feed, { foreignKey: "userId" });
+    }
   }
-}
 
-// Define the User model
-User.init(
-  {
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true,
+  User.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        allowNull: true, // Allow null if necessary
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: true, // Validate email format
+        },
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: {
+            args: [6, 100], // Minimum length for password
+            msg: "Password must be between 6 and 100 characters long",
+          },
+        },
       },
     },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    {
+      sequelize,
+      modelName: "User",
+      timestamps: true, // Enable timestamps
     },
-  },
-  {
-    sequelize,
-    modelName: "User",
-    timestamps: true, // Automatically manages `createdAt` and `updatedAt`
-  }
-);
+  );
 
-export default User;
+  return User;
+};
+
+export default User; 

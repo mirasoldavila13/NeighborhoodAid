@@ -1,8 +1,7 @@
-const path = require('path');
+import path from 'path';
 
-module.exports = {
-  'config': path.resolve(__dirname, 'config', 'config.json'),  // Path to config.json in server/config
-  'models-path': path.resolve(__dirname, 'models'),            // Path to models in server/models
-  'seeders-path': path.resolve(__dirname, 'seeders'),          // Path to seeders in server/seeders
-  'migrations-path': path.resolve(__dirname, '../migrations'), // Path to migrations, which is outside the server folder
+export default {
+  'models-path': path.resolve('server/models'),
+  'seeders-path': path.resolve('server/seeds'),
+  'migrations-path': path.resolve('migrations')
 };
