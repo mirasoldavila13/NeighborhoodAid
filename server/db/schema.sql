@@ -1,6 +1,7 @@
-DROP DATABASE IF EXISTS change_this_db;
-CREATE DATABASE change_this_db;
+DROP DATABASE IF EXISTS neighborhoodAid;
+CREATE DATABASE neighborhoodAid;
 
-\c change_this_db;
--- need this extension for geometry for longitude/latitude
+\c neighborhoodAid;
+
+-- Enable the PostGIS extension for spatial data support
 CREATE EXTENSION IF NOT EXISTS postgis;
