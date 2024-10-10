@@ -26,7 +26,7 @@ Comment.init(
   {
     sequelize,
     modelName: 'Comment',
-    timestamps: true, // Enable createdAt and updatedAt fields
+    timestamps: true, 
   }
 );
 
