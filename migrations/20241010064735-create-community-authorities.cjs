@@ -7,13 +7,13 @@ module.exports = {
     const tableExists = await queryInterface.sequelize.query(`
       SELECT EXISTS (
         SELECT FROM information_schema.tables 
-        WHERE table_name = 'ReportAuthorities'
+        WHERE table_name = 'CommunityAuthorities'
       );
     `);
 
     // If the table does not exist, create it
     if (!tableExists[0][0].exists) {
-      await queryInterface.createTable('ReportAuthorities', {
+      await queryInterface.createTable('CommunityAuthorities', {
         id: {
           type: Sequelize.INTEGER,
           autoIncrement: true,
@@ -34,10 +34,6 @@ module.exports = {
         },
         lon: {
           type: Sequelize.DOUBLE,
-          allowNull: true,
-        },
-        weather: {
-          type: Sequelize.JSONB,
           allowNull: true,
         },
         address: {
@@ -81,6 +77,6 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     // Drop the table if it exists
-    await queryInterface.dropTable('ReportAuthorities');
+    await queryInterface.dropTable('CommunityAuthorities');
   },
 };
