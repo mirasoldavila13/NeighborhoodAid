@@ -189,19 +189,46 @@ NeighborhoodAid initially originated as a group project. However, due to team av
   
 - **Authentication Service**:
   - Developed `client/src/services/authService.ts` to handle JWT-based authentication, including token retrieval, expiration checking, and profile decoding.
+## Version 2.0 Contributions
 
-## Version 2.0
+### Overview
+The development of **Version 2.0** of NeighborhoodAid is continuing under the leadership of Mirasol Davila. Given the ambitious goal of completing Version 1.0 in less than a week, significant strides were made in laying the groundwork for the platform. Although some core components were established, additional features and enhancements are now being developed to ensure the platform reaches its full potential.
 
-As we transition into **Version 2.0**, Mirasol Davila will be taking the lead in continuing the development of NeighborhoodAid. While **Justin Kao** contributed to the foundational aspects of Version 1.0, the ongoing enhancements and features for Version 2.0 will be solely developed by Mirasol Davila. This will allow for a streamlined and focused approach to further improve the platform's functionality, user experience, and scalability. 
+While **Justin Kao** contributed to foundational aspects of Version 1.0, he has decided to step back from the project to focus on other commitments. As a result, Mirasol Davila will lead the efforts to enhance and complete the platform, ensuring that Version 2.0 achieves its objectives while building on the solid foundation established.
 
-I am excited to implement new features and improvements, including:
+### Key Objectives for Version 2.0
+The following features and improvements are prioritized in this version:
 
-- Enhanced user interface and experience.
-- Integration of additional APIs, such as the Spotify API for community playlists.
-- Improved data handling and reporting capabilities.
+1. **Report Management System**:
+   - Storing user-submitted reports to authorities in the database.
+   - Storing community reports for neighborhood-level issues.
+   - Displaying all reports submitted by a user in their dashboard for easy tracking.
 
-Stay tuned for exciting updates as we evolve NeighborhoodAid into a more robust and user-friendly platform!
+2. **Tracking and Interaction**:
+   - Implementing a tracking mechanism for the status and progress of each report.
+   - Displaying all user comments in the community feed to foster neighborhood engagement.
 
+3. **Spotify API Integration**:
+   - Allowing users to share their favorite songs or playlists with the NeighborhoodAid community.
+   - Developing a feature where NeighborhoodAid aggregates these songs into a collaborative neighborhood playlist, creating a sense of shared community through music.
+
+### Database Migrations and Enhancements
+| **Component**             | **Description**                                                                                                    | **Status**  |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------|-------------|
+| **User Table Migration**  | Updated migration for the `Users` table to check for table existence before creation, ensuring schema consistency across environments. | Completed  |
+| **Feeds and Comments**    | Enhanced migrations for `Feeds` and `Comments` tables with validation and schema checks to maintain data integrity. | Completed  |
+| **ReportAuthorities**     | Developed a new migration for the `ReportAuthorities` table, including relevant fields like latitude and longitude. Ensured table creation only if it doesn’t already exist. | Completed  |
+| **CommunityReports**      | Added migration for the `CommunityReports` table without weather details, ensuring creation only if not already present. | Completed  |
+
+### Next Steps
+- **Backend Enhancements**: Continue building the API to support the new reporting and tracking features.
+- **UI/UX Updates**: Improve the user interface for a seamless and intuitive experience when interacting with reports and community features.
+- **API Integrations**: Finalize the Spotify API integration to create engaging music-sharing features within the neighborhood community.
+
+### Notes
+NeighborhoodAid is evolving with a focus on strengthening community engagement through efficient reporting systems and shared neighborhood experiences. Under Mirasol Davila’s continued leadership, the project aims to expand its capabilities, ensuring it meets user needs effectively and fosters a connected community environment.
+
+**Reflection**: The progress achieved in such a short timeframe highlights the collaborative spirit and dedication to delivering a meaningful platform. Version 2.0 will build upon this momentum, ensuring NeighborhoodAid becomes a robust and user-friendly tool for communities.
 
 ## License
 
