@@ -1,47 +1,44 @@
 "use strict";
-import { Model, DataTypes } from "sequelize";
+import { Model, DataTypes } from "sequelize"; // Import Model and DataTypes from sequelize
+import sequelize from "../config/connection.js";
 
-const User = (sequelize) => {
-  class User extends Model {
-    static associate(models) {
-      // Define association with Feed model
-      User.hasMany(models.Feed, { foreignKey: "userId" });
-    }
+
+// Define the User model as a class extending Model
+class User extends Model {
+  static associate(models) {
+    // Define associations here
+    User.hasMany(models.Feed, { foreignKey: "userId" });
+    User.hasMany(models.Comment, { foreignKey: "userId" });
+    User.hasMany(models.ReportAuthority, { foreignKey: "userId" });
+    User.hasMany(models.ReportCommunity, { foreignKey: "userId" });
   }
+}
 
-  User.init(
-    {
-      name: {
-        type: DataTypes.STRING,
-        allowNull: true, // Allow null if necessary
-      },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-        validate: {
-          isEmail: true, // Validate email format
-        },
-      },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          len: {
-            args: [6, 100], // Minimum length for password
-            msg: "Password must be between 6 and 100 characters long",
-          },
-        },
+// Initialize the User model
+User.init(
+  {
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false, // Ensure name is not null
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true, // Validate that email is a valid email format
       },
     },
-    {
-      sequelize,
-      modelName: "User",
-      timestamps: true, // Enable timestamps
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false, // Ensure password is not null
     },
-  );
+  },
+  {
+    sequelize, // Pass the connection instance
+    modelName: "User", // Name of the model
+  }
+);
 
-  return User;
-};
-
-export default User; 
+// Export the User model
+export default User;

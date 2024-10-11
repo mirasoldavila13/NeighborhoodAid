@@ -37,33 +37,12 @@ fs.readdirSync(new URL(".", import.meta.url).pathname)
     db[model.default.name] = model.default(sequelize, Sequelize.DataTypes);
   });
 
-// Set up associations (relationships) between models
+// Set up associations
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }
 });
-
-// Explicitly import models for associations
-import User from "./user.js";
-import Feed from "./feed.js";
-import Comment from "./comment.js"; // Import other models as needed
-import Report from "./report.js";
-import ReportAuthority from "./reportAuthority.js";
-import ReportCommunity from "./reportCommunity.js";
-
-// Define associations between User and other models
-User.hasMany(Feed, { foreignKey: "userId" });
-Feed.belongsTo(User, { foreignKey: "userId" });
-
-User.hasMany(Comment, { foreignKey: "userId" });
-Comment.belongsTo(User, { foreignKey: "userId" });
-
-User.hasMany(Report, { foreignKey: "userId" });
-Report.belongsTo(User, { foreignKey: "userId" });
-
-ReportAuthority.belongsTo(User, { foreignKey: "userId" });
-ReportCommunity.belongsTo(User, { foreignKey: "userId" });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
