@@ -8,11 +8,16 @@ import { Navigate } from "react-router-dom";
 
 interface Report {
   id: number;
-  type: string; // 'Authorities' or 'Community'
+  title: string;
   description: string;
+  lat: number;
+  lon: number;
+  email: string;
+  phone: string;
+  contacted: boolean;
   createdAt: string;
   status: string; // 'Open' or 'Resolved'
-  reporterEmail: string;
+  city: string;
 }
 
 const ReportOptionsPage: React.FC = () => {
@@ -21,15 +26,34 @@ const ReportOptionsPage: React.FC = () => {
   const [reports, setReports] = useState<Report[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch reports from backend
+  // Fetch reports from the backend
   const fetchReports = async () => {
     try {
-      const response = await axios.get(`/api/reports?userId=${userId}`);
-      setReports(response.data);
+      console.log("Fetching reports for user ID:", userId); // Log the user ID
+      const token = authService.getToken(); // Get the JWT token
+  
+      const response = await axios.get(`/api/reportAuthority/${userId}/reports`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include token in the request header
+        },
+      });
+  
+      console.log("Reports fetched:", response.data); // Log the response data
+  
+      // Check if reports were returned
+      if (response.data && response.data.length > 0) {
+        setReports(response.data);
+        setError(null); // Clear any previous error
+      } else {
+        setReports([]); // Set reports to an empty array if no reports are found
+        setError("No reports available yet."); // Provide a message for clarity
+      }
     } catch (error) {
-      setError("Failed to fetch reports");
+      console.error("Error fetching reports:", error);
+      setError("Failed to fetch reports"); // Display this message only if an error occurs
     }
   };
+  
 
   useEffect(() => {
     fetchReports();
@@ -80,14 +104,11 @@ const ReportOptionsPage: React.FC = () => {
                   {reports.length > 0 ? (
                     reports.map((report) => (
                       <div key={report.id} className="p-4 border rounded shadow">
-                        <h3 className="text-xl font-semibold mb-2">
-                          {report.type === "Authorities"
-                            ? "Reported to Authorities"
-                            : "Reported to Community"}
-                        </h3>
+                        <h3 className="text-xl font-semibold mb-2">{report.title}</h3>
                         <p>{report.description}</p>
                         <p className="text-sm text-gray-600">Status: {report.status}</p>
-                        <p className="text-sm text-gray-600">Reporter: {report.reporterEmail}</p>
+                        <p className="text-sm text-gray-600">Reporter: {report.email}</p>
+                        <p className="text-sm text-gray-600">City: {report.city}</p>
                         <p className="text-sm text-gray-600">
                           Date: {new Date(report.createdAt).toLocaleString()}
                         </p>
