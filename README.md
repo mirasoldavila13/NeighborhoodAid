@@ -213,6 +213,12 @@ The following features and improvements are prioritized in this version:
    - Allowing users to share their favorite songs or playlists with the NeighborhoodAid community.
    - Developing a feature where NeighborhoodAid aggregates these songs into a collaborative neighborhood playlist, creating a sense of shared community through music.
 
+| **Feature**                       | **Description**                                                                                                           | **Status**   |
+|-----------------------------------|---------------------------------------------------------------------------------------------------------------------------|--------------|
+| **Report Management System**      | Implementation of a comprehensive reporting feature that allows users to submit reports on local issues to authorities. This feature integrates multiple APIs, including OpenWeather for weather data and Nominatim for geolocation, ensuring accurate address and weather information is collected. User authentication is managed through protected routes, ensuring that only logged-in users can submit reports. Axios is used for making API requests to fetch weather and location data, as well as submitting reports to the server. Upon submission, reports are stored in the `ReportAuthorities` table in the database, linking each report to the corresponding user through the user ID. | Completed    |
+| **Tracking and Interaction**      | Implementing a tracking mechanism for the status and progress of each report, enhancing user engagement with the reporting process. | In Progress  |
+| **Spotify API Integration**       | Allowing users to share their favorite songs or playlists with the NeighborhoodAid community, fostering a sense of shared community through music. | In Progress  |
+
 ### Database Migrations and Enhancements
 | **Component**             | **Description**                                                                                                    | **Status**  |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------|-------------|
