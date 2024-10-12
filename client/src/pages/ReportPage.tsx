@@ -5,11 +5,12 @@ import DashboardNav from "../components/DashboardNav";
 import Footer from "../components/Footer";
 import Modal from "../components/Modal";
 import authService from "../services/authService.ts";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const ReportPage = () => {
   const authLoggedIn = authService.loggedIn();
-  
+  const navigate = useNavigate(); // Hook for navigation
+
   const [locationDetails, setLocationDetails] = useState<{
     fullAddress: string;
     city: string;
@@ -21,6 +22,13 @@ const ReportPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [reportData, setReportData] = useState({
+    title: '',
+    description: '',
+    email: '',
+    phone: '',
+    contacted: false,
+  });
 
   const fetchWeather = async (lat: number, lon: number) => {
     try {
@@ -36,37 +44,50 @@ const ReportPage = () => {
     }
   };
 
-  const handleLocationSelected = (lat: number, lon: number, addressDetails: any) => {
+  const handleLocationSelected = async (lat: number, lon: number, addressDetails: any) => {
     setLocationDetails({ ...addressDetails, lat, lon });
-    fetchWeather(lat, lon);
+    await fetchWeather(lat, lon);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const reportData = {
-      title: "Sample Title",
-      description: "Sample description",
-      email: "example@example.com",
-      phone: "123-456-7890",
-      contacted: false,
-      location: JSON.stringify({ lat: locationDetails?.lat, lon: locationDetails?.lon }),
-    };
-
     try {
-      const response = await axios.post("/api/reportAuthority", reportData, {
+      const response = await axios.post("/api/reportAuthority", {
+        ...reportData,
+        location: {
+          lat: locationDetails?.lat,
+          lon: locationDetails?.lon,
+        },
+        cityName: locationDetails?.city,  // Pass the city name
+        fullAddress: locationDetails?.fullAddress,  // Pass the full address
+      }, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+          Authorization: `Bearer ${authService.getToken()}`,
         },
       });
       console.log("Report submitted successfully:", response.data);
+      
+      // Navigate to the dashboard after successful submission
+      const userProfile = authService.getProfile(); // Get the user profile from authService
+      if (userProfile) {
+        navigate(`/dashboard/${userProfile.id}/report`);
+      }
     } catch (error) {
       setError("Failed to report the issue");
       setIsModalOpen(true);
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setReportData(prevData => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   return (
@@ -89,11 +110,12 @@ const ReportPage = () => {
 
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                  <label className="block text-gray-700 font-bold mb-2">
-                    Issue Title
-                  </label>
+                  <label className="block text-gray-700 font-bold mb-2">Issue Title</label>
                   <input
                     type="text"
+                    name="title"
+                    value={reportData.title}
+                    onChange={handleChange}
                     className="w-full p-2 border rounded"
                     placeholder="Enter issue title"
                     required
@@ -101,10 +123,11 @@ const ReportPage = () => {
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-gray-700 font-bold mb-2">
-                    Description
-                  </label>
+                  <label className="block text-gray-700 font-bold mb-2">Description</label>
                   <textarea
+                    name="description"
+                    value={reportData.description}
+                    onChange={handleChange}
                     className="w-full p-2 border rounded"
                     placeholder="Describe the issue"
                     required
@@ -123,9 +146,7 @@ const ReportPage = () => {
 
                 {weatherData && (
                   <div className="mb-4">
-                    <h3 className="font-bold text-lg">
-                      {locationDetails?.city} Weather
-                    </h3>
+                    <h3 className="font-bold text-lg">{locationDetails?.city} Weather</h3>
                     <p>Temperature: {weatherData.main.temp}°F</p>
                     <p>Condition: {weatherData.weather[0].description}</p>
                     <p>Wind Speed: {weatherData.wind.speed} mph</p>
@@ -134,11 +155,12 @@ const ReportPage = () => {
                 )}
 
                 <div className="mb-4">
-                  <label className="block text-gray-700 font-bold mb-2">
-                    Your Email
-                  </label>
+                  <label className="block text-gray-700 font-bold mb-2">Your Email</label>
                   <input
                     type="email"
+                    name="email"
+                    value={reportData.email}
+                    onChange={handleChange}
                     className="w-full p-2 border rounded"
                     placeholder="Enter your email"
                     required
@@ -146,11 +168,12 @@ const ReportPage = () => {
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-gray-700 font-bold mb-2">
-                    Phone
-                  </label>
+                  <label className="block text-gray-700 font-bold mb-2">Phone</label>
                   <input
                     type="text"
+                    name="phone"
+                    value={reportData.phone}
+                    onChange={handleChange}
                     className="w-full p-2 border rounded"
                     placeholder="Enter your phone number"
                     required
@@ -158,10 +181,14 @@ const ReportPage = () => {
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-gray-700 font-bold mb-2">
-                    Have You Contacted Local Authorities?
-                  </label>
-                  <input type="checkbox" className="mr-2" />
+                  <label className="block text-gray-700 font-bold mb-2">Have You Contacted Local Authorities?</label>
+                  <input
+                    type="checkbox"
+                    name="contacted"
+                    checked={reportData.contacted}
+                    onChange={e => setReportData({ ...reportData, contacted: e.target.checked })}
+                    className="mr-2"
+                  />
                   <span>Yes</span>
                 </div>
 
