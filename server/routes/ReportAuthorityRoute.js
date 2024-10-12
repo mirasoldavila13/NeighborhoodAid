@@ -1,43 +1,41 @@
 import express from 'express';
 import reportAuthority from '../models/reportAuthority.js';
-import authMiddleware from '../middleware/authMiddleware.js';  // Middleware to get user ID from auth
-import axios from 'axios'; // Make sure to import axios
+import authMiddleware from '../middleware/authMiddleware.js';
+import axios from 'axios';
 
 const router = express.Router();
 
-// Create a new report (protected route)
 router.post("/", authMiddleware, async (req, res) => {
-  const { title, description, location, email, phone, contacted } = req.body;
-  const userId = req.user.id; // Assuming authMiddleware adds the user's ID to req.user
+  // Capture relevant data from the request body
+  const { title, description, location, email, phone, contacted, cityName, fullAddress } = req.body;
+  const userId = req.user.id; // Get the user ID from the authenticated user
 
   try {
-    // Fetch weather data from the weather route
-    const weatherResponse = await axios.get(
-      "http://localhost:3001/api/weather",
-      {
-        params: { lat: location.lat, lon: location.lon },
+    // Log the incoming request body for debugging
+    console.log("Request body:", req.body);
+
+    // Validate the incoming location data
+    if (!location || !location.lat || !location.lon) {
+      return res.status(400).json({ message: "Latitude and longitude are required" });
+    }
+
+    // Fetch weather data using OpenWeather API
+    const weatherResponse = await axios.get('http://api.openweathermap.org/data/2.5/weather', {
+      params: {
+        lat: location.lat,
+        lon: location.lon,
+        appid: process.env.WEATHER_API_KEY, // Use your actual API key
       },
-    );
+    });
+
     const weatherData = weatherResponse.data;
 
-    // Fetch city and address from Nominatim
-    const addressResponse = await axios.get(
-      `https://nominatim.openstreetmap.org/reverse`,
-      {
-        params: {
-          format: "json",
-          lat: location.lat,
-          lon: location.lon,
-        },
-      },
-    );
-    const locationData = addressResponse.data;
-
-    // Create a new report with weather and location data
+    // Create a new report using the data from the request body
     const newReport = await reportAuthority.create({
       title,
       description,
-      location: JSON.stringify(location),
+      lat: location.lat, // Store latitude directly
+      lon: location.lon, // Store longitude directly
       email,
       phone,
       contacted,
@@ -47,16 +45,18 @@ router.post("/", authMiddleware, async (req, res) => {
         wind: weatherData.wind.speed,
         humidity: weatherData.main.humidity,
       },
-      address: locationData.display_name, // Store full address
-      city: locationData.address.city, // Store city name
-      userId, // Storing the user who created the report
+      address: fullAddress, // Use the full address from the request body
+      city: cityName || 'Unknown City', // Use city name from the request body or default to 'Unknown City'
+      userId, // Store the user ID who created the report
     });
 
-    res.status(201).json(newReport);
+    res.status(201).json(newReport); // Respond with the created report
   } catch (error) {
-    console.error("Error creating report:", error);
-    res.status(500).json({ message: "Failed to create report" });
+    // Log any error that occurs
+    console.error("Error creating report:", error.response?.data || error.message);
+    res.status(500).json({ message: "Failed to create report" }); // Respond with an error message
   }
 });
 
+// Export the router
 export default router;
