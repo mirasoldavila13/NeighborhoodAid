@@ -1,8 +1,11 @@
-import { DataTypes } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 import sequelize from '../config/connection.js';  // Assuming your connection.js exports the Sequelize instance
 
-// Define the ReportAuthority model
-const ReportAuthority = sequelize.define('ReportAuthority', {
+// Define the ReportAuthority model by extending Model
+class ReportAuthority extends Model {}
+
+// Initialize the model with attributes
+ReportAuthority.init({
   title: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -48,6 +51,8 @@ const ReportAuthority = sequelize.define('ReportAuthority', {
     allowNull: false,  // Assuming userId references the user who submitted the report
   }
 }, {
+  sequelize,
+  modelName: 'ReportAuthority',
   timestamps: true,
 });
 
