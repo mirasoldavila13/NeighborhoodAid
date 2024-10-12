@@ -5,6 +5,7 @@ import axios from 'axios';
 
 const router = express.Router();
 
+//POST route for creating a report
 router.post("/", authMiddleware, async (req, res) => {
   // Capture relevant data from the request body
   const { title, description, location, email, phone, contacted, cityName, fullAddress } = req.body;
@@ -55,6 +56,21 @@ router.post("/", authMiddleware, async (req, res) => {
     // Log any error that occurs
     console.error("Error creating report:", error.response?.data || error.message);
     res.status(500).json({ message: "Failed to create report" }); // Respond with an error message
+  }
+});
+
+// New route for fetching reports by user ID
+router.get("/:userId/reports", authMiddleware, async (req, res) => {
+  const userId = req.params.userId; // Get the user ID from the route parameters
+
+  try {
+    const reports = await reportAuthority.findAll({
+      where: { userId }, // Query the ReportAuthorities table for reports belonging to the user
+    });
+    res.status(200).json(reports); // Respond with the reports
+  } catch (error) {
+    console.error("Error fetching reports:", error);
+    res.status(500).json({ message: "Failed to fetch reports" });
   }
 });
 
