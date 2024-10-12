@@ -15,30 +15,42 @@ class User extends Model {
 }
 
 // Initialize the User model
+// Initialize the User model
 User.init(
   {
     name: {
       type: DataTypes.STRING,
-      allowNull: false, // Ensure name is not null
+      allowNull: false,
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
       validate: {
-        isEmail: true, // Validate that email is a valid email format
+        isEmail: true,
       },
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false, // Ensure password is not null
+      allowNull: false,
+    },
+    createdAt: { // Add createdAt field
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW, // Automatically set the current timestamp
+      allowNull: false,
+    },
+    updatedAt: { // Add updatedAt field
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+      allowNull: false,
     },
   },
   {
-    sequelize, // Pass the connection instance
-    modelName: "User", // Name of the model
+    sequelize,
+    modelName: "User",
   }
 );
+
 
 // Export the User model
 export default User;
