@@ -8,7 +8,7 @@ const DashboardNav = () => {
   const userId = userProfile ? userProfile.id : null; // Get user ID from the profile
 
   const logout = () => {
-    //use authService to handle logout
+    // Use authService to handle logout
     authService.logout();
     navigate("/");
   };
@@ -25,10 +25,18 @@ const DashboardNav = () => {
         <ul className="flex space-x-6">
           <li>
             <Link
-              to={`/dashboard/${userId}/report`}
+              to={`/dashboard/${userId}/create-report`} 
               className="hover:text-gray-300"
             >
-              Reports
+              Create Report
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={`/dashboard/${userId}/reported-issues`} 
+              className="hover:text-gray-300"
+            >
+              Reported Issues
             </Link>
           </li>
           <li>
