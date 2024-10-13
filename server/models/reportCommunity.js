@@ -1,8 +1,7 @@
-// server/models/communityReports.js
 import { DataTypes } from 'sequelize';
 import sequelize from "../config/connection.js"; 
 
-const CommunityReports = sequelize.define('CommunityReports', {
+const ReportCommunity = sequelize.define('CommunityReports', {
   title: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -32,8 +31,16 @@ const CommunityReports = sequelize.define('CommunityReports', {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  userId: { // Add this field
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'Users', // Adjust if your users table has a different name
+      key: 'id'
+    }
+  }
 }, {
   timestamps: true, 
 });
 
-export default CommunityReports;
+export default ReportCommunity;
