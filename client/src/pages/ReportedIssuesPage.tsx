@@ -12,11 +12,17 @@ interface Report {
   lat: number;
   lon: number;
   email: string;
-  phone: string;
+  phone?: string;
   contacted: boolean;
   createdAt: string;
   status: string; // 'Open', 'In Progress', or 'Resolved'
   city: string;
+  weather?: {  
+    condition?: string;
+    temperature?: number;
+    humidity?: number;
+    wind?: number;
+  };
 }
 
 const ReportedIssuesPage: React.FC = () => {
@@ -30,15 +36,26 @@ const ReportedIssuesPage: React.FC = () => {
   const fetchReports = async () => {
     try {
       const token = authService.getToken();
-      const response = await axios.get(`/api/reportAuthority/${userId}/reports`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      
+      // Fetch authority reports
+      const authorityResponse = await axios.get(`/api/reportAuthority/${userId}/reports`, {
+        headers: { Authorization: `Bearer ${token}` },
       });
 
+      // Fetch community reports with userId
+      const communityResponse = await axios.get(`/api/community-issues?userId=${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      // Combine both reports
+      const combinedReports = [
+        ...authorityResponse.data,
+        ...communityResponse.data,
+      ];
+
       // Check if reports were returned
-      if (response.data && response.data.length > 0) {
-        setReports(response.data);
+      if (combinedReports.length > 0) {
+        setReports(combinedReports);
         setError(null);
       } else {
         setReports([]);
@@ -104,6 +121,12 @@ const ReportedIssuesPage: React.FC = () => {
                         <p className="text-sm text-gray-600">
                           Date: {new Date(report.createdAt).toLocaleString()}
                         </p>
+                        {/* Render weather information if it exists */}
+                        {report.weather && report.weather.condition && (
+                          <p className="text-sm text-gray-600">
+                            Weather Condition: {report.weather.condition}
+                          </p>
+                        )}
                       </div>
                     ))
                   ) : (
