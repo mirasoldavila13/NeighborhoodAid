@@ -122,6 +122,28 @@ router.delete("/reports/:id", authMiddleware, async (req, res) => {
   }
 });
 
+// Get a single report by userId and reportId
+router.get("/:userId/reports/:reportId", authMiddleware, async (req, res) => {
+  const { userId, reportId } = req.params;
+
+  try {
+    const report = await reportAuthority.findOne({
+      where: {
+        userId,
+        id: reportId,
+      },
+    });
+
+    if (!report) {
+      return res.status(404).json({ message: "Report not found" });
+    }
+
+    res.status(200).json(report);
+  } catch (error) {
+    console.error("Error fetching report:", error);
+    res.status(500).json({ message: "Failed to fetch report" });
+  }
+});
 
 
 // Export the router
