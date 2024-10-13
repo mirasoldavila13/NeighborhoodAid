@@ -3,5 +3,12 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+  "compilerOptions": {
+    // Add any other compiler options you need here
+    "typeRoots": [
+      "./node_modules/@types", // Default types
+      "./@types"               // Your custom types
+    ]
+  }
 }
