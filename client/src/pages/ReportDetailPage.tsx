@@ -4,7 +4,7 @@ import { useParams, Navigate } from "react-router-dom";
 import DashboardNav from "../components/DashboardNav";
 import Footer from "../components/Footer";
 import authService from "../services/authService";
-import ReportMap from "../components/ReportMap"; // Import the ReportMap component
+import ReportMap from "../components/ReportMap"; 
 
 const ReportDetailPage: React.FC = () => {
   const { userId, reportId } = useParams<{ userId: string; reportId: string }>();
@@ -52,16 +52,20 @@ const ReportDetailPage: React.FC = () => {
                   <p className="text-sm text-gray-600">Reporter: {report.email}</p>
                   <p className="text-sm text-gray-600">City: {report.city}</p>
                   <p className="text-sm text-gray-600">Date: {new Date(report.createdAt).toLocaleString()}</p>
-
-                  {/* Add Tailwind styling around the ReportMap */}
-                  <div className="my-6 p-4 border rounded-lg shadow-md bg-white">
-                    <ReportMap 
-                      lat={report.lat} 
-                      lon={report.lon} 
-                      title={report.title} 
-                      description={report.description} 
-                    />
-                  </div>
+                  
+                  {}
+                  {report.weather && (
+                    <div className="my-4">
+                      <h2 className="text-lg font-bold">Weather Information</h2>
+                      <p>Condition: {report.weather.condition}</p>
+                      <p>Temperature: {(report.weather.temperature - 273.15).toFixed(2)} °C</p>
+                      <p>Humidity: {report.weather.humidity} %</p>
+                      <p>Wind Speed: {report.weather.wind} m/s</p>
+                    </div>
+                  )}
+                  
+                  {/* Pass lat and lon to the ReportMap */}
+                  <ReportMap lat={report.lat} lon={report.lon} title={report.title} description={report.description} />
                 </div>
               ) : (
                 <p>Loading report...</p>
