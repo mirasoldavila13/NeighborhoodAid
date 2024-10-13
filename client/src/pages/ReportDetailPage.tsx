@@ -1,28 +1,28 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import authService from "../services/authService";
+import { useParams, Navigate } from "react-router-dom";
 import DashboardNav from "../components/DashboardNav";
 import Footer from "../components/Footer";
-import { Navigate } from "react-router-dom";
+import authService from "../services/authService";
 
 const ReportDetailPage: React.FC = () => {
-  const { reportId } = useParams<{ reportId: string }>();
-  const [report, setReport] = useState<any>(null);
+  const { userId, reportId } = useParams<{ userId: string; reportId: string }>(); // Get userId and reportId from URL parameters
+  const [report, setReport] = useState<any>(null); // Use any or define a proper type
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const authLoggedIn = authService.loggedIn();
 
-  // Fetch the report details by ID
+  // Fetch the specific report from the backend
   const fetchReport = async () => {
-    const token = authService.getToken(); // Get the JWT token
-
     try {
-      const response = await axios.get(`/api/reportAuthority/report/${reportId}`, {
+      const token = authService.getToken(); // Get the JWT token
+      const response = await axios.get(`/api/reportAuthority/${userId}/reports/${reportId}`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // Include token in the request header
         },
       });
+
       setReport(response.data);
+      setError(null); // Clear any previous error
     } catch (error) {
       console.error("Error fetching report:", error);
       setError("Failed to fetch report");
@@ -31,58 +31,36 @@ const ReportDetailPage: React.FC = () => {
 
   useEffect(() => {
     fetchReport();
-  }, [reportId]);
-
-  const handleDelete = async () => {
-    const token = authService.getToken(); // Get the JWT token
-
-    try {
-      await axios.delete(`/api/reportAuthority/report/${reportId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      navigate("/dashboard"); // Navigate back to the dashboard after deletion
-    } catch (error) {
-      console.error("Error deleting report:", error);
-      setError("Failed to delete report");
-    }
-  };
-
-  // Check if the user is logged in
-  if (!authService.loggedIn()) {
-    return <Navigate to="/" />;
-  }
+  }, [userId, reportId]); // Fetch report when userId or reportId changes
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <DashboardNav />
-      <main className="flex-grow p-6">
-        <div className="container mx-auto">
-          {error && <p className="text-red-500">{error}</p>}
-          {report ? (
-            <div className="p-4 border rounded shadow">
-              <h2 className="text-2xl font-semibold mb-2">{report.title}</h2>
-              <p>{report.description}</p>
-              <p>Status: {report.status}</p>
-              <p>Reporter: {report.email}</p>
-              <p>City: {report.city}</p>
-              <p>Date: {new Date(report.createdAt).toLocaleString()}</p>
-              <button
-                onClick={handleDelete}
-                className="bg-red-500 text-white px-4 py-2 rounded mt-4"
-              >
-                Delete Report
-              </button>
-              {/* Add an Edit button that navigates to the Edit Report page if needed */}
+    <>
+      {!authLoggedIn ? (
+        <Navigate to="/" />
+      ) : (
+        <div className="flex flex-col min-h-screen">
+          <DashboardNav />
+          <main className="flex-grow p-6">
+            <div className="container mx-auto">
+              {error && <p className="text-red-500">{error}</p>}
+              {report ? (
+                <div className="p-4 border rounded shadow">
+                  <h1 className="text-2xl font-bold mb-4">{report.title}</h1>
+                  <p>{report.description}</p>
+                  <p className="text-sm text-gray-600">Status: {report.status || 'Open'}</p>
+                  <p className="text-sm text-gray-600">Reporter: {report.email}</p>
+                  <p className="text-sm text-gray-600">City: {report.city}</p>
+                  <p className="text-sm text-gray-600">Date: {new Date(report.createdAt).toLocaleString()}</p>
+                </div>
+              ) : (
+                <p>Loading report...</p>
+              )}
             </div>
-          ) : (
-            <p>Loading report...</p>
-          )}
+          </main>
+          <Footer />
         </div>
-      </main>
-      <Footer />
-    </div>
+      )}
+    </>
   );
 };
 
