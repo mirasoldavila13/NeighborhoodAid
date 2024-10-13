@@ -1,4 +1,4 @@
-import "dotenv/config"; // Load environment variables
+import "dotenv/config";
 import express from "express";
 import corsMiddleware from "./middleware/corsMiddleware.js";
 import loggerMiddleware from "./middleware/loggerMiddleware.js";
@@ -12,6 +12,7 @@ import feedRoutes from "./routes/api/feed.js";
 import reportRoutes from "./routes/ReportAuthorityRoute.js";
 import weatherRoutes from "./routes/weatherRoute.js";
 import reportAuthorityRoutes from './routes/ReportAuthorityRoute.js';
+import communityRoutes from './routes/communityRoutes.js'; 
 
 // Helper variables for file path
 const __filename = fileURLToPath(import.meta.url);
@@ -23,18 +24,19 @@ const PORT = process.env.PORT || 3001;
 // Middleware Setup
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(corsMiddleware); // CORS middleware for client requests
-app.use(loggerMiddleware); // Log all incoming requests
+app.use(corsMiddleware); 
+app.use(loggerMiddleware); 
 
 // Static files setup (Make sure this path is correct for production)
-app.use(express.static("../client/dist")); // Adjust if needed based on your folder structure
+app.use(express.static("../client/dist")); 
 
 // Route Setup
-app.use(weatherRoutes); // Weather API routes
-app.use('/api/reportAuthority', reportAuthorityRoutes); // Report authority route
-app.use("/api/feed", feedRoutes); // Feed routes
-app.use("/api/report", reportRoutes); // Report routes
-app.use("/api", authRoutes); // User routes for registration and other endpoints
+app.use(weatherRoutes);
+app.use('/api/reportAuthority', reportAuthorityRoutes); 
+app.use("/api/community-issues", communityRoutes);
+app.use("/api/feed", feedRoutes); 
+app.use("/api/report", reportRoutes);
+app.use("/api", authRoutes); 
 
 // Test route to check if server is working
 app.get("/api/test", (req, res) => {
