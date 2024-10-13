@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
 import { Link, useParams, Navigate } from "react-router-dom"; // Combine imports for better readability
 import DashboardNav from "../components/DashboardNav";
 import Footer from "../components/Footer";
