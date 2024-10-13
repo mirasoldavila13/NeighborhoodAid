@@ -206,8 +206,12 @@ The following features and improvements are prioritized in this version:
    - Displaying all reports submitted by a user in their dashboard for easy tracking.
 
 2. **Tracking and Interaction**:
-   - Implementing a tracking mechanism for the status and progress of each report.
-   - Displaying all user comments in the community feed to foster neighborhood engagement.
+   - Implemented a tracking mechanism for the status and progress of each report, enhancing user engagement with the reporting process.
+   - This includes the ability to filter reported issues by status (reported, in progress, resolved) and display associated data such as weather information for each issue.
+   - Contributions include updates in **ReportedIssuesPage.tsx** to implement filtering, and **ReportAuthorityRoute.js** to handle API responses effectively.
+   - Enhanced weather data integration in **Weather.tsx** to provide real-time weather for reported locations, contributing to a more informed user experience.
+   - Updates in **ReportMap.tsx** to accurately reflect weather data alongside report locations.
+   - Integrated OpenStreetMap API to fetch and display maps based on the report's location.
 
 3. **Spotify API Integration**:
    - Allowing users to share their favorite songs or playlists with the NeighborhoodAid community.
@@ -216,7 +220,7 @@ The following features and improvements are prioritized in this version:
 | **Feature**                       | **Description**                                                                                                           | **Status**   |
 |-----------------------------------|---------------------------------------------------------------------------------------------------------------------------|--------------|
 | **Report Management System**      | Implementation of a comprehensive reporting feature that allows users to submit reports on local issues to authorities. This feature integrates multiple APIs, including OpenWeather for weather data and Nominatim for geolocation, ensuring accurate address and weather information is collected. User authentication is managed through protected routes, ensuring that only logged-in users can submit reports. Axios is used for making API requests to fetch weather and location data, as well as submitting reports to the server. Upon submission, reports are stored in the `ReportAuthorities` table in the database, linking each report to the corresponding user through the user ID. | Completed    |
-| **Tracking and Interaction**      | Implementing a tracking mechanism for the status and progress of each report, enhancing user engagement with the reporting process. | In Progress  |
+| **Tracking and Interaction**      | Implemented a tracking mechanism for the status and progress of each report, enhancing user engagement with the reporting process. This includes the ability to filter reported issues by status (reported, in progress, resolved) and display associated data such as weather information for each issue. Weather data is stored for each report based on the latitude and longitude of the reported location. Additionally, it sets the default position of the React Leaflet map using the report's latitude and longitude, utilizing OpenStreetMap API for map rendering. | Completed |
 | **Spotify API Integration**       | Allowing users to share their favorite songs or playlists with the NeighborhoodAid community, fostering a sense of shared community through music. | In Progress  |
 
 ### Database Migrations and Enhancements
