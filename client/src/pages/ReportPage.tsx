@@ -4,7 +4,7 @@ import axios from "axios";
 import DashboardNav from "../components/DashboardNav";
 import Footer from "../components/Footer";
 import Modal from "../components/Modal";
-import authService from "../services/authService.ts";
+import authService from "../services/authService";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const ReportPage = () => {
@@ -98,8 +98,8 @@ const ReportPage = () => {
         <div className="flex flex-col min-h-screen">
           <DashboardNav />
           <main className="flex-grow p-6">
-            <div className="container mx-auto">
-              <h2 className="text-2xl font-bold mb-4">Report an Issue</h2>
+            <div className="container mx-auto border p-6 rounded-lg shadow-lg">
+              <h2 className="text-2xl font-bold mb-4 text-center">Report an Issue</h2>
 
               <Modal
                 isOpen={isModalOpen}
