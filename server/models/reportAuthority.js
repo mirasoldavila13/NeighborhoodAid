@@ -49,6 +49,11 @@ ReportAuthority.init({
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,  // Assuming userId references the user who submitted the report
+  },
+  status: {
+    type: DataTypes.STRING, // You can use ENUM if you want to limit it to specific values
+    allowNull: false,
+    defaultValue: 'Open', // Set default status to 'Open'
   }
 }, {
   sequelize,

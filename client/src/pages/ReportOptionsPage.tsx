@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, Navigate } from "react-router-dom"; // Combine imports for better readability
 import DashboardNav from "../components/DashboardNav";
 import Footer from "../components/Footer";
 import authService from "../services/authService";
-import { Navigate } from "react-router-dom";
 
 interface Report {
   id: number;
@@ -31,15 +30,15 @@ const ReportOptionsPage: React.FC = () => {
     try {
       console.log("Fetching reports for user ID:", userId); // Log the user ID
       const token = authService.getToken(); // Get the JWT token
-  
+
       const response = await axios.get(`/api/reportAuthority/${userId}/reports`, {
         headers: {
           Authorization: `Bearer ${token}`, // Include token in the request header
         },
       });
-  
+
       console.log("Reports fetched:", response.data); // Log the response data
-  
+
       // Check if reports were returned
       if (response.data && response.data.length > 0) {
         setReports(response.data);
@@ -53,7 +52,6 @@ const ReportOptionsPage: React.FC = () => {
       setError("Failed to fetch reports"); // Display this message only if an error occurs
     }
   };
-  
 
   useEffect(() => {
     fetchReports();
@@ -104,7 +102,9 @@ const ReportOptionsPage: React.FC = () => {
                   {reports.length > 0 ? (
                     reports.map((report) => (
                       <div key={report.id} className="p-4 border rounded shadow">
-                        <h3 className="text-xl font-semibold mb-2">{report.title}</h3>
+                        <Link to={`/dashboard/${userId}/report/${report.id}`} className="text-xl font-semibold mb-2">
+                          {report.title}
+                        </Link>
                         <p>{report.description}</p>
                         <p className="text-sm text-gray-600">Status: {report.status}</p>
                         <p className="text-sm text-gray-600">Reporter: {report.email}</p>

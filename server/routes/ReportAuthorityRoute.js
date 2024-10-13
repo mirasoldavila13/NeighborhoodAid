@@ -74,5 +74,55 @@ router.get("/:userId/reports", authMiddleware, async (req, res) => {
   }
 });
 
+
+// New route for updating a report
+router.put("/reports/:id", authMiddleware, async (req, res) => {
+  const { id } = req.params; // Get report ID from route parameters
+  const { title, description, email, phone, contacted, city, lat, lon } = req.body; // Get updated data from request body
+
+  try {
+    const report = await reportAuthority.findByPk(id); // Find the report by ID
+    if (!report) {
+      return res.status(404).json({ message: "Report not found" });
+    }
+
+    // Update report details
+    report.title = title;
+    report.description = description;
+    report.email = email;
+    report.phone = phone;
+    report.contacted = contacted;
+    report.city = city;
+    report.lat = lat;
+    report.lon = lon;
+
+    await report.save(); // Save changes to the database
+    res.status(200).json(report); // Respond with the updated report
+  } catch (error) {
+    console.error("Error updating report:", error);
+    res.status(500).json({ message: "Failed to update report" });
+  }
+});
+
+// New route for deleting a report
+router.delete("/reports/:id", authMiddleware, async (req, res) => {
+  const { id } = req.params; // Get report ID from route parameters
+
+  try {
+    const report = await reportAuthority.findByPk(id); // Find the report by ID
+    if (!report) {
+      return res.status(404).json({ message: "Report not found" });
+    }
+
+    await report.destroy(); // Delete the report
+    res.status(204).send(); // Respond with no content
+  } catch (error) {
+    console.error("Error deleting report:", error);
+    res.status(500).json({ message: "Failed to delete report" });
+  }
+});
+
+
+
 // Export the router
 export default router;
