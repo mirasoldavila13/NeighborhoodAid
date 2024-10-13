@@ -1,7 +1,8 @@
+// server/models/communityReports.js
 import { DataTypes } from 'sequelize';
 import sequelize from "../config/connection.js"; 
 
-const ReportCommunity = sequelize.define('ReportCommunity', {
+const CommunityReports = sequelize.define('CommunityReports', {
   title: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -23,10 +24,6 @@ const ReportCommunity = sequelize.define('ReportCommunity', {
     type: DataTypes.ENUM('reported', 'in progress', 'resolved'),
     defaultValue: 'reported',
   },
-  picture: {
-    type: DataTypes.STRING, 
-    allowNull: true,
-  },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -39,4 +36,4 @@ const ReportCommunity = sequelize.define('ReportCommunity', {
   timestamps: true, 
 });
 
-export default ReportCommunity;
+export default CommunityReports;
