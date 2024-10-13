@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import ReportPage from "./pages/ReportPage";
 import ReportOptionsPage from "./pages/ReportOptionsPage";
 import CommunityReportPage from "./pages/CommunityReportPage";
+import ReportDetailPage from './pages/ReportDetailPage';
 import NotFoundPage from "./components/404Page";
 import ConstructionPage from "./pages/ConstructionPage";
 
@@ -52,6 +53,8 @@ function App() {
 
         {/* Placeholder page for Community Reports */}
         <Route path="/dashboard/:userId/report/community" element={<CommunityReportPage />} />
+
+        <Route path="/dashboard/:userId/report/:reportId" element={<ReportDetailPage />} /> 
 
         {/* Catch-all route */}
         <Route path="*" element={<NotFoundPage />} />
