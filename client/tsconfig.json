@@ -1,14 +1,23 @@
 {
+  // Author: Mirasol Davila
+  // GitHub: https://github.com/mirasoldavila13
+  // This configuration file sets TypeScript compiler options and project references.
+
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    // Add any other compiler options you need here
+    "target": "es6",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "typeRoots": [
-      "./node_modules/@types", // Default types
-      "./@types"               // Your custom types
+      "./node_modules/@types",
+      "./@types"
     ]
   }
 }
