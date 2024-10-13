@@ -4,25 +4,26 @@ import { useParams, Navigate } from "react-router-dom";
 import DashboardNav from "../components/DashboardNav";
 import Footer from "../components/Footer";
 import authService from "../services/authService";
+import ReportMap from "../components/ReportMap"; // Import the ReportMap component
 
 const ReportDetailPage: React.FC = () => {
-  const { userId, reportId } = useParams<{ userId: string; reportId: string }>(); // Get userId and reportId from URL parameters
-  const [report, setReport] = useState<any>(null); // Use any or define a proper type
+  const { userId, reportId } = useParams<{ userId: string; reportId: string }>();
+  const [report, setReport] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const authLoggedIn = authService.loggedIn();
 
   // Fetch the specific report from the backend
   const fetchReport = async () => {
     try {
-      const token = authService.getToken(); // Get the JWT token
+      const token = authService.getToken();
       const response = await axios.get(`/api/reportAuthority/${userId}/reports/${reportId}`, {
         headers: {
-          Authorization: `Bearer ${token}`, // Include token in the request header
+          Authorization: `Bearer ${token}`,
         },
       });
 
       setReport(response.data);
-      setError(null); // Clear any previous error
+      setError(null);
     } catch (error) {
       console.error("Error fetching report:", error);
       setError("Failed to fetch report");
@@ -31,7 +32,7 @@ const ReportDetailPage: React.FC = () => {
 
   useEffect(() => {
     fetchReport();
-  }, [userId, reportId]); // Fetch report when userId or reportId changes
+  }, [userId, reportId]);
 
   return (
     <>
@@ -51,6 +52,16 @@ const ReportDetailPage: React.FC = () => {
                   <p className="text-sm text-gray-600">Reporter: {report.email}</p>
                   <p className="text-sm text-gray-600">City: {report.city}</p>
                   <p className="text-sm text-gray-600">Date: {new Date(report.createdAt).toLocaleString()}</p>
+
+                  {/* Add Tailwind styling around the ReportMap */}
+                  <div className="my-6 p-4 border rounded-lg shadow-md bg-white">
+                    <ReportMap 
+                      lat={report.lat} 
+                      lon={report.lon} 
+                      title={report.title} 
+                      description={report.description} 
+                    />
+                  </div>
                 </div>
               ) : (
                 <p>Loading report...</p>
