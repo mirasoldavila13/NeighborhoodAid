@@ -9,7 +9,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 const ReportPage = () => {
   const authLoggedIn = authService.loggedIn();
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   const [locationDetails, setLocationDetails] = useState<{
     fullAddress: string;
@@ -60,8 +60,8 @@ const ReportPage = () => {
           lat: locationDetails?.lat,
           lon: locationDetails?.lon,
         },
-        cityName: locationDetails?.city,  // Pass the city name
-        fullAddress: locationDetails?.fullAddress,  // Pass the full address
+        cityName: locationDetails?.city,
+        fullAddress: locationDetails?.fullAddress,
       }, {
         headers: {
           Authorization: `Bearer ${authService.getToken()}`,
@@ -69,10 +69,9 @@ const ReportPage = () => {
       });
       console.log("Report submitted successfully:", response.data);
       
-      // Navigate to the dashboard after successful submission
-      const userProfile = authService.getProfile(); // Get the user profile from authService
+      const userProfile = authService.getProfile();
       if (userProfile) {
-        navigate(`/dashboard/${userProfile.id}/report`);
+        navigate(`/dashboard/${userProfile.id}/reported-issues`);
       }
     } catch (error) {
       setError("Failed to report the issue");
