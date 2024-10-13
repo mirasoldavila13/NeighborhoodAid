@@ -5,6 +5,7 @@ import DashboardNav from "../components/DashboardNav";
 import Footer from "../components/Footer";
 import authService from "../services/authService";
 import ReportMap from "../components/ReportMap";
+import Weather from "../components/Weather"; // Import the Weather component
 
 const ReportDetailPage: React.FC = () => {
   const { userId, reportId } = useParams<{ userId: string; reportId: string }>();
@@ -17,22 +18,44 @@ const ReportDetailPage: React.FC = () => {
   const fetchReport = async () => {
     try {
       const token = authService.getToken();
-      const response = await axios.get(`/api/reportAuthority/${userId}/reports/${reportId}`, {
+      
+      // Attempt to fetch the report from the authority reports
+      const authorityResponse = await axios.get(`/api/reportAuthority/${userId}/reports/${reportId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      setReport(response.data);
-      setError(null);
-
-
-      if (!response.data.weather) {
-        await fetchCurrentWeather(response.data.lat, response.data.lon);
+      if (authorityResponse.data) {
+        setReport(authorityResponse.data);
+        setError(null);
+        
+        // Fetch the weather only if this is an authority report
+        await fetchCurrentWeather(authorityResponse.data.lat, authorityResponse.data.lon);
       }
     } catch (error) {
-      console.error("Error fetching report:", error);
-      setError("Failed to fetch report");
+      console.error("Error fetching authority report:", error);
+      setError("Failed to fetch authority report, checking community reports...");
+
+      // If the authority report fetch fails, try fetching from community reports
+      try {
+        const communityResponse = await axios.get(`/api/community-issues/${reportId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        
+        if (communityResponse.data) {
+          setReport(communityResponse.data);
+          setError(null);
+          
+          // Fetch weather data using community report coordinates
+          await fetchCurrentWeather(communityResponse.data.location.lat, communityResponse.data.location.lon);
+        }
+      } catch (communityError) {
+        console.error("Error fetching community report:", communityError);
+        setError("Failed to fetch report from community reports");
+      }
     }
   };
 
@@ -69,34 +92,14 @@ const ReportDetailPage: React.FC = () => {
                   <p className="text-sm text-gray-600">City: {report.city}</p>
                   <p className="text-sm text-gray-600">Date: {new Date(report.createdAt).toLocaleString()}</p>
 
-                
-                  {report.weather ? (
-                    <div className="my-4">
-                      <h2 className="text-lg font-bold">Weather Information</h2>
-                      <p>Condition: {report.weather.condition}</p>
-                      <p>Temperature: {(report.weather.temperature - 273.15).toFixed(2)} °C</p>
-                      <p>Humidity: {report.weather.humidity} %</p>
-                      <p>Wind Speed: {report.weather.wind} m/s</p>
-                    </div>
-                  ) : currentWeather ? (
-                    <div className="my-4">
-                      <h2 className="text-lg font-bold">Current Weather</h2>
-                      <p>Condition: {currentWeather.condition}</p>
-                      <p>Temperature: {(currentWeather.temperature - 273.15).toFixed(2)} °C</p>
-                      <p>Humidity: {currentWeather.humidity} %</p>
-                      <p>Wind Speed: {currentWeather.wind} m/s</p>
-                    </div>
-                  ) : (
-                    <p>Loading weather data...</p>
-                  )}
+                  {/* Use the Weather component and pass the lat and lon */}
+                  <Weather lat={report.lat || report.location.lat} lon={report.lon || report.location.lon} />
 
-                  
-                  <ReportMap lat={report.lat} lon={report.lon} title={report.title} description={report.description} />
-                  
+                  <ReportMap lat={report.lat || report.location.lat} lon={report.lon || report.location.lon} title={report.title} description={report.description} />
+
                   <Link to={`/dashboard/${userId}/reported-issues`} className="mt-4 inline-block bg-blue-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-600 transition duration-200">
                     Back to Reported Issues
                   </Link>
-
                 </div>
               ) : (
                 <p>Loading report...</p>
