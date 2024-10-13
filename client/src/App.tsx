@@ -11,9 +11,9 @@ import ReportPage from "./pages/ReportPage";
 import ReportOptionsPage from "./pages/ReportOptionsPage";
 import CommunityReportPage from "./pages/CommunityReportPage";
 import ReportDetailPage from './pages/ReportDetailPage';
+import ReportedIssuesPage from './pages/ReportedIssuesPage'; // Import the ReportedIssuesPage component
 import NotFoundPage from "./components/404Page";
 import ConstructionPage from "./pages/ConstructionPage";
-
 
 function App() {
   return (
@@ -41,18 +41,19 @@ function App() {
         {/* Route for the login page */}
         <Route path="/login" element={<Login />} />
 
-
         <Route path="/dashboard/:userId" element={<Dashboard />} />
-        
-        {/* New route for /dashboard/report */}
-        <Route path="/dashboard/:userId/report" element={<ReportOptionsPage />} />
 
+        {/* New route for /dashboard/create-report */}
+        <Route path="/dashboard/:userId/create-report" element={<ReportOptionsPage />} />
 
         {/* Existing ReportPage for Authorities */}
-        <Route path="/dashboard/:userId/report/authorities" element={<ReportPage />} />
+        <Route path="/dashboard/:userId/create-report/authorities" element={<ReportPage />} />
 
         {/* Placeholder page for Community Reports */}
-        <Route path="/dashboard/:userId/report/community" element={<CommunityReportPage />} />
+        <Route path="/dashboard/:userId/create-report/community" element={<CommunityReportPage />} />
+
+        {/* Route for Reported Issues */}
+        <Route path="/dashboard/:userId/reported-issues" element={<ReportedIssuesPage />} /> {/* New route */}
 
         <Route path="/dashboard/:userId/report/:reportId" element={<ReportDetailPage />} /> 
 
