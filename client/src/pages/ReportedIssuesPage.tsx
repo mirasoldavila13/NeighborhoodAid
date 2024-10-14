@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useParams, Navigate } from "react-router-dom";
-import DashboardNav from "../components/DashboardNav";
+import DashboardNav from "../components/DashboardNav"; 
 import Footer from "../components/Footer";
 import authService from "../services/authService";
 
@@ -31,7 +31,8 @@ const ReportedIssuesPage: React.FC = () => {
   const authLoggedIn = authService.loggedIn();
   const [reports, setReports] = useState<Report[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [filter, setFilter] = useState<string>("All");
+  const [statusFilter, setStatusFilter] = useState<string>("All");
+  const [typeFilter, setTypeFilter] = useState<string>("All");
 
   const fetchReports = async () => {
     try {
@@ -84,8 +85,10 @@ const ReportedIssuesPage: React.FC = () => {
   }, [userId]);
 
   const filteredReports = reports.filter((report) => {
-    if (filter === "All") return true;
-    return report.status.toLowerCase() === filter.toLowerCase();
+    const statusMatch =
+      statusFilter === "All" || report.status.toLowerCase() === statusFilter.toLowerCase();
+    const typeMatch = typeFilter === "All" || report.type.toLowerCase() === typeFilter.toLowerCase();
+    return statusMatch && typeMatch;
   });
 
   return (
@@ -97,7 +100,7 @@ const ReportedIssuesPage: React.FC = () => {
           <DashboardNav />
           <main className="flex-grow p-6">
             <div className="container mx-auto">
-              <h1 className="text-4xl font-bold mb-6 text-gray-800">
+              <h1 className="text-4xl font-bold mb-6 text-gray-800 text-center">
                 Reported Issues
               </h1>
 
@@ -106,21 +109,33 @@ const ReportedIssuesPage: React.FC = () => {
                 {/* Left Sidebar */}
                 <div className="w-full md:w-1/4 md:pr-4 mb-6 md:mb-0">
                   {/* Filter Section */}
-                  <div className="bg-white p-4 rounded-lg shadow-md">
+                  <div className="bg-white p-4 rounded-lg shadow-md transition-shadow duration-500 hover:shadow-lg">
                     <h2 className="text-2xl font-semibold mb-4">Filters</h2>
-                    <label htmlFor="filter" className="block mb-2 text-lg">
+                    <label htmlFor="statusFilter" className="block mb-2 text-lg">
                       Filter by Status:
                     </label>
                     <select
-                      id="filter"
-                      value={filter}
-                      onChange={(e) => setFilter(e.target.value)}
+                      id="statusFilter"
+                      value={statusFilter}
+                      onChange={(e) => setStatusFilter(e.target.value)}
                       className="border p-2 rounded bg-white shadow-md w-full">
                       <option value="All">All</option>
                       <option value="Open">Open</option>
                       <option value="In Progress">In Progress</option>
                       <option value="Resolved">Resolved</option>
                       <option value="Reported">Reported</option>
+                    </select>
+                    <label htmlFor="typeFilter" className="block mb-2 mt-4 text-lg">
+                      Filter by Type:
+                    </label>
+                    <select
+                      id="typeFilter"
+                      value={typeFilter}
+                      onChange={(e) => setTypeFilter(e.target.value)}
+                      className="border p-2 rounded bg-white shadow-md w-full">
+                      <option value="All">All</option>
+                      <option value="Authority">Authority Reports</option>
+                      <option value="Community">Community Reports</option>
                     </select>
                   </div>
                 </div>
