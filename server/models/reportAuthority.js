@@ -1,64 +1,67 @@
-import { Model, DataTypes } from 'sequelize';
-import sequelize from '../config/connection.js';  // Assuming your connection.js exports the Sequelize instance
+import { Model, DataTypes } from "sequelize";
+import sequelize from "../config/connection.js"; // Assuming your connection.js exports the Sequelize instance
 
 // Define the ReportAuthority model by extending Model
 class ReportAuthority extends Model {}
 
 // Initialize the model with attributes
-ReportAuthority.init({
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false,
+ReportAuthority.init(
+  {
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    lat: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
+    lon: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
+    weather: {
+      type: DataTypes.JSONB, 
+      allowNull: true,
+    },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: true, 
+    },
+    city: {
+      type: DataTypes.STRING,
+      allowNull: true, 
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    contacted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    status: {
+      type: DataTypes.STRING, 
+      allowNull: false,
+      defaultValue: "Open",
+    },
   },
-  description: {
-    type: DataTypes.TEXT,
-    allowNull: false,
+  {
+    sequelize,
+    modelName: "ReportAuthority",
+    timestamps: true,
   },
-  lat: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
-  },
-  lon: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
-  },
-  weather: {
-    type: DataTypes.JSONB,  // Store weather data as JSON object
-    allowNull: true,
-  },
-  address: {
-    type: DataTypes.STRING,
-    allowNull: true,  // Full address
-  },
-  city: {
-    type: DataTypes.STRING,
-    allowNull: true,  // City name
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  phone: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  contacted: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
-  },
-  userId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,  // Assuming userId references the user who submitted the report
-  },
-  status: {
-    type: DataTypes.STRING, // You can use ENUM if you want to limit it to specific values
-    allowNull: false,
-    defaultValue: 'Open', // Set default status to 'Open'
-  }
-}, {
-  sequelize,
-  modelName: 'ReportAuthority',
-  timestamps: true,
-});
+);
 
 export default ReportAuthority;
