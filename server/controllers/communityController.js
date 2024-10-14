@@ -5,7 +5,6 @@ import axios from 'axios';
 export const createReport = async (req, res) => {
   const { title, description, location, email, phone, contacted } = req.body;
   const userId = req.user.id; 
-
   
   const { lat, lon } = location;
 
@@ -17,6 +16,9 @@ export const createReport = async (req, res) => {
     // Extract city name from the response
     const cityData = geolocationResponse.data;
     const cityName = cityData.length > 0 ? cityData[0].name : 'Unknown City';
+
+    // Log the city name for debugging
+    console.log("City Name:", cityName);
 
     // Create a new report in the database
     const newReport = await ReportCommunity.create({

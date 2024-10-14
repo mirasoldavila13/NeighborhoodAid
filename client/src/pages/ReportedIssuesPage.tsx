@@ -6,7 +6,8 @@ import Footer from "../components/Footer";
 import authService from "../services/authService";
 
 interface Report {
-  id: string; // Change to string to accommodate unique ids
+  id: string;
+  originalId: number;
   title: string;
   description: string;
   lat: number;
@@ -15,15 +16,14 @@ interface Report {
   phone?: string;
   contacted: boolean;
   createdAt: string;
-  status: string; // 'Open', 'In Progress', or 'Resolved'
-  city: string;
+  status: string;
   weather?: {
     condition?: string;
     temperature?: number;
     humidity?: number;
     wind?: number;
   };
-  type: string; // To specify if it's a community report or authority report
+  type: string;
 }
 
 const ReportedIssuesPage: React.FC = () => {
@@ -33,36 +33,39 @@ const ReportedIssuesPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<string>("All");
 
-  // Fetch reports from the backend
   const fetchReports = async () => {
     try {
       const token = authService.getToken();
 
-      // Fetch authority reports
-      const authorityResponse = await axios.get(`/api/reportAuthority/${userId}/reports`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const authorityResponse = await axios.get(
+        `/api/reportAuthority/${userId}/reports`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
-      // Fetch community reports
-      const communityResponse = await axios.get(`/api/community-issues/${userId}/reports`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const communityResponse = await axios.get(
+        `/api/community-issues/${userId}/reports`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
-      // Combine both reports and create unique ids
       const combinedReports = [
-        ...authorityResponse.data.map(report => ({
+        ...authorityResponse.data.map((report: Report) => ({
           ...report,
-          id: `authority-${report.id}`, // Prefix to make it unique
+          id: `authority-${report.id}`,
+          originalId: report.id,
           type: "Authority",
         })),
-        ...communityResponse.data.map(report => ({
+        ...communityResponse.data.map((report: Report) => ({
           ...report,
-          id: `community-${report.id}`, // Prefix to make it unique
+          id: `community-${report.id}`,
+          originalId: report.id,
           type: "Community",
         })),
       ];
 
-      // Check if reports were returned
       if (combinedReports.length > 0) {
         setReports(combinedReports);
         setError(null);
@@ -80,10 +83,9 @@ const ReportedIssuesPage: React.FC = () => {
     fetchReports();
   }, [userId]);
 
-  // Filter reports based on the selected status
-  const filteredReports = reports.filter(report => {
+  const filteredReports = reports.filter((report) => {
     if (filter === "All") return true;
-    return report.status.toLowerCase() === filter.toLowerCase(); // Ensure lowercase comparison
+    return report.status.toLowerCase() === filter.toLowerCase();
   });
 
   return (
@@ -91,20 +93,24 @@ const ReportedIssuesPage: React.FC = () => {
       {!authLoggedIn ? (
         <Navigate to="/" />
       ) : (
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen bg-white">
           <DashboardNav />
           <main className="flex-grow p-6">
             <div className="container mx-auto">
-              <h1 className="text-3xl font-bold mb-6">Reported Issues</h1>
+              <h1 className="text-4xl font-bold mb-6 text-gray-800">
+                Reported Issues
+              </h1>
 
               {/* Filter Dropdown */}
               <div className="mb-4">
-                <label htmlFor="filter" className="mr-2">Filter by Status:</label>
+                <label htmlFor="filter" className="mr-2 text-lg">
+                  Filter by Status:
+                </label>
                 <select
                   id="filter"
                   value={filter}
                   onChange={(e) => setFilter(e.target.value)}
-                  className="border p-2 rounded"
+                  className="border p-2 rounded bg-white shadow-md"
                 >
                   <option value="All">All</option>
                   <option value="Open">Open</option>
@@ -120,18 +126,41 @@ const ReportedIssuesPage: React.FC = () => {
                 <div className="grid grid-cols-1 gap-4">
                   {filteredReports.length > 0 ? (
                     filteredReports.map((report) => (
-                      <div key={report.id} className="p-4 border rounded shadow">
-                        <Link to={`/dashboard/${userId}/report/${report.id}`} className="text-xl font-semibold mb-2">
-                          {report.title} ({report.type}) {/* Display report type */}
-                        </Link>
-                        <p>{report.description}</p>
-                        <p className="text-sm text-gray-600">Status: {report.status}</p>
-                        <p className="text-sm text-gray-600">Reporter: {report.email}</p>
-                        <p className="text-sm text-gray-600">City: {report.city}</p>
+                      <div
+                        key={report.id}
+                        className="p-4 border rounded-lg shadow bg-white hover:shadow-xl transition-shadow duration-300"
+                      >
+                        {/* Flex container to align circle and title */}
+                        <div className="flex items-center">
+                          {/* Smaller Colored Circle for Report Type */}
+                          <span
+                            className={`inline-block w-2 h-2 rounded-full mr-2 ${
+                              report.type === "Community"
+                                ? "bg-green-500"
+                                : "bg-blue-500"
+                            }`}
+                          />
+                          <Link
+                            to={`/dashboard/${userId}/report/${report.originalId}`}
+                            className="text-xl font-semibold text-gray-900"
+                          >
+                            {report.title}
+                          </Link>
+                        </div>
+                        {/* Rest of the content */}
+                        <p className="text-gray-700 mt-2">{report.description}</p>
+                        <p className="text-sm text-gray-600">
+                          {report.type === "Community"
+                            ? "Community Status:"
+                            : "Authority Status:"}{" "}
+                          {report.status}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          Reporter: {report.email}
+                        </p>
                         <p className="text-sm text-gray-600">
                           Date: {new Date(report.createdAt).toLocaleString()}
                         </p>
-                        {/* Render weather information if it exists */}
                         {report.weather && report.weather.condition && (
                           <p className="text-sm text-gray-600">
                             Weather Condition: {report.weather.condition}
