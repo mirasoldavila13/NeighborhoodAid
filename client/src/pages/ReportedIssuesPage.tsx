@@ -101,76 +101,93 @@ const ReportedIssuesPage: React.FC = () => {
                 Reported Issues
               </h1>
 
-              {/* Filter Dropdown */}
-              <div className="mb-4">
-                <label htmlFor="filter" className="mr-2 text-lg">
-                  Filter by Status:
-                </label>
-                <select
-                  id="filter"
-                  value={filter}
-                  onChange={(e) => setFilter(e.target.value)}
-                  className="border p-2 rounded bg-white shadow-md"
-                >
-                  <option value="All">All</option>
-                  <option value="Open">Open</option>
-                  <option value="In Progress">In Progress</option>
-                  <option value="Resolved">Resolved</option>
-                  <option value="Reported">Reported</option>
-                </select>
-              </div>
+              {/* Main Flex Container */}
+              <div className="flex flex-col md:flex-row">
+                {/* Left Sidebar */}
+                <div className="w-full md:w-1/4 md:pr-4 mb-6 md:mb-0">
+                  {/* Filter Section */}
+                  <div className="bg-white p-4 rounded-lg shadow-md">
+                    <h2 className="text-2xl font-semibold mb-4">Filters</h2>
+                    <label htmlFor="filter" className="block mb-2 text-lg">
+                      Filter by Status:
+                    </label>
+                    <select
+                      id="filter"
+                      value={filter}
+                      onChange={(e) => setFilter(e.target.value)}
+                      className="border p-2 rounded bg-white shadow-md w-full">
+                      <option value="All">All</option>
+                      <option value="Open">Open</option>
+                      <option value="In Progress">In Progress</option>
+                      <option value="Resolved">Resolved</option>
+                      <option value="Reported">Reported</option>
+                    </select>
+                  </div>
+                </div>
 
-              {/* Reports Feed */}
-              <div className="mt-12">
-                {error && <p className="text-red-500">{error}</p>}
-                <div className="grid grid-cols-1 gap-4">
-                  {filteredReports.length > 0 ? (
-                    filteredReports.map((report) => (
-                      <div
-                        key={report.id}
-                        className="p-4 border rounded-lg shadow bg-white hover:shadow-xl transition-shadow duration-300"
-                      >
-                        {/* Flex container to align circle and title */}
-                        <div className="flex items-center">
-                          {/* Smaller Colored Circle for Report Type */}
-                          <span
-                            className={`inline-block w-2 h-2 rounded-full mr-2 ${
-                              report.type === "Community"
-                                ? "bg-green-500"
-                                : "bg-blue-500"
-                            }`}
-                          />
-                          <Link
-                            to={`/dashboard/${userId}/report/${report.originalId}`}
-                            className="text-xl font-semibold text-gray-900"
-                          >
-                            {report.title}
-                          </Link>
-                        </div>
-                        {/* Rest of the content */}
-                        <p className="text-gray-700 mt-2">{report.description}</p>
-                        <p className="text-sm text-gray-600">
-                          {report.type === "Community"
-                            ? "Community Status:"
-                            : "Authority Status:"}{" "}
-                          {report.status}
-                        </p>
-                        <p className="text-sm text-gray-600">
-                          Reporter: {report.email}
-                        </p>
-                        <p className="text-sm text-gray-600">
-                          Date: {new Date(report.createdAt).toLocaleString()}
-                        </p>
-                        {report.weather && report.weather.condition && (
-                          <p className="text-sm text-gray-600">
-                            Weather Condition: {report.weather.condition}
+                {/* Right Content Area */}
+                <div className="w-full md:w-3/4">
+                  {error && <p className="text-red-500">{error}</p>}
+                  <div className="grid grid-cols-1 gap-4">
+                    {filteredReports.length > 0 ? (
+                      filteredReports.map((report) => (
+                        <div
+                          key={report.id}
+                          className="p-4 border rounded-lg shadow bg-white hover:shadow-xl transition-shadow duration-300"
+                        >
+                          {/* Flex container to align circle and title */}
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center">
+                              {/* Smaller Colored Circle for Report Type */}
+                              <span
+                                className={`inline-block w-2 h-2 rounded-full mr-2 ${
+                                  report.type === "Community"
+                                    ? "bg-green-500"
+                                    : "bg-blue-500"
+                                }`}
+                              />
+                              <Link
+                                to={`/dashboard/${userId}/report/${report.originalId}`}
+                                className="text-xl font-semibold text-gray-900"
+                              >
+                                {report.title}
+                              </Link>
+                            </div>
+                            <div className="flex space-x-2">
+                              <Link
+                                to={`/dashboard/${userId}/report/${report.originalId}`}
+                                className="text-sm text-blue-500 hover:underline"
+                              >
+                                View
+                              </Link>
+                            </div>
+                          </div>
+                          <p className="text-gray-700 mt-2">
+                            {report.description}
                           </p>
-                        )}
-                      </div>
-                    ))
-                  ) : (
-                    <p>No reports available yet.</p>
-                  )}
+                          <p className="text-sm text-gray-600">
+                            {report.type === "Community"
+                              ? "Community Status:"
+                              : "Authority Status:"}{" "}
+                            {report.status}
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            Reporter: {report.email}
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            Date: {new Date(report.createdAt).toLocaleString()}
+                          </p>
+                          {report.weather && report.weather.condition && (
+                            <p className="text-sm text-gray-600">
+                              Weather Condition: {report.weather.condition}
+                            </p>
+                          )}
+                        </div>
+                      ))
+                    ) : (
+                      <p>No reports available yet.</p>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
