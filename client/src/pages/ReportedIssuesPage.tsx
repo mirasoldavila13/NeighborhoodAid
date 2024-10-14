@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 import authService from "../services/authService";
 
 interface Report {
-  id: number;
+  id: string; // Change to string to accommodate unique ids
   title: string;
   description: string;
   lat: number;
@@ -17,12 +17,13 @@ interface Report {
   createdAt: string;
   status: string; // 'Open', 'In Progress', or 'Resolved'
   city: string;
-  weather?: {  
+  weather?: {
     condition?: string;
     temperature?: number;
     humidity?: number;
     wind?: number;
   };
+  type: string; // To specify if it's a community report or authority report
 }
 
 const ReportedIssuesPage: React.FC = () => {
@@ -36,21 +37,29 @@ const ReportedIssuesPage: React.FC = () => {
   const fetchReports = async () => {
     try {
       const token = authService.getToken();
-      
+
       // Fetch authority reports
       const authorityResponse = await axios.get(`/api/reportAuthority/${userId}/reports`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      // Fetch community reports with userId
-      const communityResponse = await axios.get(`/api/community-issues?userId=${userId}`, {
+      // Fetch community reports
+      const communityResponse = await axios.get(`/api/community-issues/${userId}/reports`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      // Combine both reports
+      // Combine both reports and create unique ids
       const combinedReports = [
-        ...authorityResponse.data,
-        ...communityResponse.data,
+        ...authorityResponse.data.map(report => ({
+          ...report,
+          id: `authority-${report.id}`, // Prefix to make it unique
+          type: "Authority",
+        })),
+        ...communityResponse.data.map(report => ({
+          ...report,
+          id: `community-${report.id}`, // Prefix to make it unique
+          type: "Community",
+        })),
       ];
 
       // Check if reports were returned
@@ -74,7 +83,7 @@ const ReportedIssuesPage: React.FC = () => {
   // Filter reports based on the selected status
   const filteredReports = reports.filter(report => {
     if (filter === "All") return true;
-    return report.status === filter;
+    return report.status.toLowerCase() === filter.toLowerCase(); // Ensure lowercase comparison
   });
 
   return (
@@ -101,6 +110,7 @@ const ReportedIssuesPage: React.FC = () => {
                   <option value="Open">Open</option>
                   <option value="In Progress">In Progress</option>
                   <option value="Resolved">Resolved</option>
+                  <option value="Reported">Reported</option>
                 </select>
               </div>
 
@@ -112,7 +122,7 @@ const ReportedIssuesPage: React.FC = () => {
                     filteredReports.map((report) => (
                       <div key={report.id} className="p-4 border rounded shadow">
                         <Link to={`/dashboard/${userId}/report/${report.id}`} className="text-xl font-semibold mb-2">
-                          {report.title}
+                          {report.title} ({report.type}) {/* Display report type */}
                         </Link>
                         <p>{report.description}</p>
                         <p className="text-sm text-gray-600">Status: {report.status}</p>
