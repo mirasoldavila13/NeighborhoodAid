@@ -49,15 +49,21 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
-// GET route for fetching reports by user ID
-router.get("/", authMiddleware, async (req, res) => {
-  const userId = req.user.id; 
+// GET route for fetching reports by user ID and status
+router.get("/:userId/reports", authMiddleware, async (req, res) => {
+  const userId = req.params.userId;
+  const { status } = req.query; 
 
   try {
+    const whereClause = { userId }; 
+    if (status) {
+      whereClause.status = status; 
+    }
+
     const reports = await ReportCommunity.findAll({
-      where: { userId }, 
+      where: whereClause,
     });
-    res.status(200).json(reports); 
+    res.status(200).json(reports);
   } catch (error) {
     console.error("Error fetching reports:", error);
     res.status(500).json({ message: "Failed to fetch reports" });
