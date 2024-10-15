@@ -111,13 +111,13 @@ const Dashboard: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <DashboardNav />
-      <main className="flex-grow p-6">
+      <main className="flex-grow p-6 mt-16 overflow-auto">
         <div className="container mx-auto">
-          <div className="flex space-x-4">
-            <div className="w-1/4">
+          <div className="flex flex-col lg:flex-row space-x-4">
+            <div className="lg:w-1/4 mb-4 lg:mb-0">
               <Weather />
             </div>
-            <div className="w-3/4">
+            <div className="lg:w-3/4">
               {/* Task Manager */}
               <div className="bg-white shadow-md rounded p-4 border mb-6">
                 <h2 className="text-2xl font-bold mb-4">Task Manager</h2>
