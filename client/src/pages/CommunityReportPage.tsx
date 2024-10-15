@@ -79,7 +79,7 @@ const CommunityReport: React.FC = () => {
         <div className="flex flex-col min-h-screen">
           <DashboardNav />
           <main className="flex-grow p-6">
-            <div className="container mx-auto p-6 border rounded-lg shadow-lg bg-white">
+            <div className="container mx-auto max-w-2xl p-6 border rounded-lg shadow-lg bg-white mt-16"> {/* Unified styling */}
               <h1 className="text-3xl font-bold mb-6 text-center">Report a Community Issue</h1>
               <Modal
                 isOpen={!!errorMessage || !!successMessage}
@@ -92,7 +92,7 @@ const CommunityReport: React.FC = () => {
               />
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                  <label htmlFor="title" className="block text-xl font-semibold text-gray-700">Issue Title:</label>
+                  <label htmlFor="title" className="block text-lg font-semibold text-gray-700">Issue Title:</label>
                   <input
                     id="title"
                     name="title"
@@ -104,7 +104,7 @@ const CommunityReport: React.FC = () => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="description" className="block text-xl font-semibold text-gray-700">Description:</label>
+                  <label htmlFor="description" className="block text-lg font-semibold text-gray-700">Description:</label>
                   <textarea
                     id="description"
                     name="description"

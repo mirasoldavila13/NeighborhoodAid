@@ -97,110 +97,96 @@ const ReportPage = () => {
         <div className="flex flex-col min-h-screen">
           <DashboardNav />
           <main className="flex-grow p-6">
-            <div className="container mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 mt-16 flex justify-center"> {/* Increased margin-top here */}
-              <div className="w-full border p-6 rounded-lg shadow-lg">
-                <h2 className="text-2xl font-bold mb-4 text-center">Report an Issue</h2>
+            <div className="container mx-auto max-w-2xl p-6 border rounded-lg shadow-lg bg-white mt-16">
+              <h2 className="text-3xl font-bold mb-4 text-center">Report an Issue</h2>
 
-                <Modal
-                  isOpen={isModalOpen}
-                  onClose={() => setIsModalOpen(false)}
-                  message={error || ""}
-                  type="error"
-                />
+              <Modal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                message={error || ""}
+                type="error"
+              />
 
-                <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit}>
+                <div className="mb-4">
+                  <label className="block text-lg font-semibold text-gray-700 mb-2">Issue Title</label>
+                  <input
+                    type="text"
+                    name="title"
+                    value={reportData.title}
+                    onChange={handleChange}
+                    className="w-full p-2 border rounded"
+                    placeholder="Enter issue title"
+                    required
+                  />
+                </div>
+
+                <div className="mb-4">
+                  <label className="block text-lg font-semibold text-gray-700 mb-2">Description</label>
+                  <textarea
+                    name="description"
+                    value={reportData.description}
+                    onChange={handleChange}
+                    className="w-full p-2 border rounded"
+                    placeholder="Describe the issue"
+                    required
+                  />
+                </div>
+
+                <MapWithAddress onLocationChange={handleLocationSelected} />
+
+                {locationDetails && (
                   <div className="mb-4">
-                    <label className="block text-gray-700 font-bold mb-2">Issue Title</label>
-                    <input
-                      type="text"
-                      name="title"
-                      value={reportData.title}
-                      onChange={handleChange}
-                      className="w-full p-2 border rounded"
-                      placeholder="Enter issue title"
-                      required
-                    />
+                    <h3 className="font-bold text-lg">Location Details</h3>
+                    <p>City: {locationDetails.city}</p>
+                    <p>Address: {locationDetails.fullAddress}</p>
                   </div>
+                )}
 
+                {weatherData && (
                   <div className="mb-4">
-                    <label className="block text-gray-700 font-bold mb-2">Description</label>
-                    <textarea
-                      name="description"
-                      value={reportData.description}
-                      onChange={handleChange}
-                      className="w-full p-2 border rounded"
-                      placeholder="Describe the issue"
-                      required
-                    />
+                    <h3 className="font-bold text-lg">{locationDetails?.city} Weather</h3>
+                    <p>Temperature: {weatherData.main.temp}°F</p>
+                    <p>Condition: {weatherData.weather[0].description}</p>
+                    <p>Wind Speed: {weatherData.wind.speed} mph</p>
+                    <p>Humidity: {weatherData.main.humidity}%</p>
                   </div>
+                )}
 
-                  <MapWithAddress onLocationChange={handleLocationSelected} />
+                <div className="mb-4">
+                  <label className="block text-lg font-semibold text-gray-700 mb-2">Your Email:</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={reportData.email}
+                    onChange={handleChange}
+                    className="mt-1 p-3 block w-full text-lg rounded-md border border-gray-300"
+                    placeholder="Enter your email"
+                    required
+                  />
+                </div>
 
-                  {locationDetails && (
-                    <div className="mb-4">
-                      <h3 className="font-bold text-lg">Location Details</h3>
-                      <p>City: {locationDetails.city}</p>
-                      <p>Address: {locationDetails.fullAddress}</p>
-                    </div>
-                  )}
+                <div className="mb-4">
+                  <label className="block text-lg font-semibold text-gray-700 mb-2">Phone:</label>
+                  <input
+                    type="text"
+                    name="phone"
+                    value={reportData.phone}
+                    onChange={handleChange}
+                    className="mt-1 p-3 block w-full text-lg rounded-md border border-gray-300"
+                    placeholder="Enter your phone number"
+                    required
+                  />
+                </div>
 
-                  {weatherData && (
-                    <div className="mb-4">
-                      <h3 className="font-bold text-lg">{locationDetails?.city} Weather</h3>
-                      <p>Temperature: {weatherData.main.temp}°F</p>
-                      <p>Condition: {weatherData.weather[0].description}</p>
-                      <p>Wind Speed: {weatherData.wind.speed} mph</p>
-                      <p>Humidity: {weatherData.main.humidity}%</p>
-                    </div>
-                  )}
-
-                  <div className="mb-4">
-                    <label className="block text-gray-700 font-bold mb-2">Your Email</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={reportData.email}
-                      onChange={handleChange}
-                      className="w-full p-2 border rounded"
-                      placeholder="Enter your email"
-                      required
-                    />
-                  </div>
-
-                  <div className="mb-4">
-                    <label className="block text-gray-700 font-bold mb-2">Phone</label>
-                    <input
-                      type="text"
-                      name="phone"
-                      value={reportData.phone}
-                      onChange={handleChange}
-                      className="w-full p-2 border rounded"
-                      placeholder="Enter your phone number"
-                      required
-                    />
-                  </div>
-
-                  <div className="mb-4">
-                    <label className="block text-gray-700 font-bold mb-2">Have You Contacted Local Authorities?</label>
-                    <input
-                      type="checkbox"
-                      name="contacted"
-                      checked={reportData.contacted}
-                      onChange={e => setReportData({ ...reportData, contacted: e.target.checked })}
-                      className="mr-2"
-                    />
-                    <span>Yes</span>
-                  </div>
-
-                  <button
-                    type="submit"
-                    className={`p-2 bg-blue-500 text-white rounded ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? "Submitting..." : "Submit Report"}
-                  </button>
-                </form>
-              </div>
+                <button
+                  type="submit"
+                  className={`p-2 bg-blue-500 text-white rounded ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Submitting..." : "Submit Report"}
+                </button>
+              </form>
             </div>
           </main>
           <Footer />
