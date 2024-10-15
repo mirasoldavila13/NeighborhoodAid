@@ -4,6 +4,7 @@ declare module "jwt-decode" {
   export interface JwtPayload {
     id: number;
     email: string;
+    name: string; 
   }
 }
 
@@ -14,6 +15,7 @@ interface UserData {
 }
 
 class AuthService {
+  
   /**
    * Handles user registration by sending a POST request to the /api/register endpoint.
    * @param {UserData} userData - An object containing the user's registration information.

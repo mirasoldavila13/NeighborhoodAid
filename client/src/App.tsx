@@ -12,8 +12,12 @@ import ReportOptionsPage from "./pages/ReportOptionsPage";
 import CommunityReportPage from "./pages/CommunityReportPage";
 import ReportDetailPage from './pages/ReportDetailPage';
 import ReportedIssuesPage from './pages/ReportedIssuesPage'; // Import the ReportedIssuesPage component
+import ProfilePage from "./pages/ProfilePage";
 import NotFoundPage from "./components/404Page";
 import ConstructionPage from "./pages/ConstructionPage";
+
+
+
 
 function App() {
   return (
@@ -56,6 +60,8 @@ function App() {
         <Route path="/dashboard/:userId/reported-issues" element={<ReportedIssuesPage />} /> {/* New route */}
 
         <Route path="/dashboard/:userId/report/:reportId" element={<ReportDetailPage />} /> 
+
+        <Route path="/dashboard/:userId/profile" element={<ProfilePage/>} />
 
         {/* Catch-all route */}
         <Route path="*" element={<NotFoundPage />} />
