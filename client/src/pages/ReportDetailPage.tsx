@@ -15,63 +15,62 @@ const ReportDetailPage: React.FC = () => {
   const navigate = useNavigate();
 
   // Fetch the specific report from the backend
-const fetchReport = async () => {
-  try {
-    const token = authService.getToken(); // Ensure token is retrieved
-
-    // Attempt to fetch the report from the authority reports
-    const authorityResponse = await axios.get(
-      `/api/reportAuthority/${userId}/reports/${reportId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    if (authorityResponse.data) {
-      setReport({ ...authorityResponse.data, type: "Authority" });
-      setError(null);
-
-      // Fetch the weather for this report
-      await fetchCurrentWeather(
-        authorityResponse.data.lat,
-        authorityResponse.data.lon
-      );
-    }
-  } catch (error) {
-    console.error("Error fetching authority report:", error);
-    setError("Failed to fetch authority report, checking community reports...");
-
-    // If the authority report fetch fails, try fetching from community reports
+  const fetchReport = async () => {
     try {
-      const token = authService.getToken(); // Make sure to retrieve the token again
-      const communityResponse = await axios.get(
-        `/api/community-issues/${reportId}`,
+      const token = authService.getToken(); // Ensure token is retrieved
+
+      // Attempt to fetch the report from the authority reports
+      const authorityResponse = await axios.get(
+        `/api/reportAuthority/${userId}/reports/${reportId}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Use the token here
+            Authorization: `Bearer ${token}`,
           },
         }
       );
 
-      if (communityResponse.data) {
-        setReport({ ...communityResponse.data, type: "Community" });
+      if (authorityResponse.data) {
+        setReport({ ...authorityResponse.data, type: "Authority" });
         setError(null);
 
-        // Fetch weather data using community report coordinates
+        // Fetch the weather for this report
         await fetchCurrentWeather(
-          communityResponse.data.location.lat,
-          communityResponse.data.location.lon
+          authorityResponse.data.lat,
+          authorityResponse.data.lon
         );
       }
-    } catch (communityError) {
-      console.error("Error fetching community report:", communityError);
-      setError("Failed to fetch report from community reports");
-    }
-  }
-};
+    } catch (error) {
+      console.error("Error fetching authority report:", error);
+      setError("Failed to fetch authority report, checking community reports...");
 
+      // If the authority report fetch fails, try fetching from community reports
+      try {
+        const token = authService.getToken(); // Make sure to retrieve the token again
+        const communityResponse = await axios.get(
+          `/api/community-issues/${reportId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, 
+            },
+          }
+        );
+
+        if (communityResponse.data) {
+          setReport({ ...communityResponse.data, type: "Community" });
+          setError(null);
+
+          // Fetch weather data using community report coordinates
+          await fetchCurrentWeather(
+            communityResponse.data.location.lat,
+            communityResponse.data.location.lon
+          );
+        }
+      } catch (communityError) {
+        console.error("Error fetching community report:", communityError);
+        setError("Failed to fetch report from community reports");
+      }
+    }
+  };
 
   // Fetch current weather using lat and lon
   const fetchCurrentWeather = async (lat: number, lon: number) => {
@@ -112,7 +111,7 @@ const fetchReport = async () => {
       ) : (
         <div className="flex flex-col min-h-screen">
           <DashboardNav />
-          <main className="flex-grow p-6">
+          <main className="flex-grow p-6 mt-16 relative z-10"> 
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
               {error && <p className="text-red-500">{error}</p>}
               {report ? (
@@ -124,8 +123,7 @@ const fetchReport = async () => {
                     {report.description}
                   </p>
                   <p className="text-sm text-gray-600 text-center">
-                    Status:
-                    {report.status || "Open"}
+                    Status: {report.status || "Open"}
                   </p>
                   <p className="text-sm text-gray-600 text-center">
                     Reporter: {report.email}
@@ -183,7 +181,7 @@ const fetchReport = async () => {
                     </Link>
                     <button
                       onClick={handleDeleteReport}
-                      className="mb-2 inline-block bg-red text-white px-4 py-2 rounded hover:bg-red-600"
+                      className="mb-2 inline-block bg-rose-700 text-white px-4 py-2 rounded hover:bg-rose-900"
                     >
                       Delete Report
                     </button>
