@@ -6,17 +6,17 @@ import pinterestIcon from "../assets/icon-pinterest.svg";
 import instagramIcon from "../assets/icon-instagram.svg";
 
 const Footer = () => (
-  <footer className="py-16 bg-veryDarkViolet">
-    <div className="container flex flex-col items-center justify-between mx-auto space-y-16 md:flex-row md:space-y-0">
+  <footer className="py-8 bg-veryDarkViolet"> {/* Reduced padding */}
+    <div className="container mx-auto flex flex-col items-center justify-between space-y-8 md:flex-row md:space-y-0"> {/* Adjusted spacing */}
       {/* Logo */}
       <img src={logoFooter} alt="Neighborhood Aid Logo" />
 
       {/* Menus */}
-      <div className="flex flex-col space-y-16 md:space-x-20 md:flex-row md:space-y-0">
+      <div className="flex flex-col space-y-6 md:space-x-20 md:flex-row md:space-y-0">
         {/* Features Menu */}
         <div className="flex flex-col items-center w-full md:items-start">
-          <div className="mb-5 font-bold text-white capitalize">Features</div>
-          <div className="flex flex-col items-center space-y-3 md:items-start">
+          <div className="mb-2 font-bold text-white capitalize">Features</div>
+          <div className="flex flex-col items-center space-y-2 md:items-start">
             <a
               href="/under-construction"
               className="capitalize text-grayishViolet hover:text-purpleLight"
@@ -52,8 +52,8 @@ const Footer = () => (
 
         {/* Resources Menu */}
         <div className="flex flex-col items-center w-full md:items-start">
-          <div className="mb-5 font-bold text-white capitalize">Resources</div>
-          <div className="flex flex-col items-center space-y-3 md:items-start">
+          <div className="mb-2 font-bold text-white capitalize">Resources</div>
+          <div className="flex flex-col items-center space-y-2 md:items-start">
             <a
               href="/under-construction"
               className="capitalize text-grayishViolet hover:text-purpleLight"
@@ -77,8 +77,8 @@ const Footer = () => (
 
         {/* Company Menu */}
         <div className="flex flex-col items-center w-full md:items-start">
-          <div className="mb-5 font-bold text-white capitalize">Company</div>
-          <div className="flex flex-col items-center space-y-3 md:items-start">
+          <div className="mb-2 font-bold text-white capitalize">Company</div>
+          <div className="flex flex-col items-center space-y-2 md:items-start">
             <a
               href="/under-construction"
               className="capitalize text-grayishViolet hover:text-purpleLight"
@@ -108,7 +108,7 @@ const Footer = () => (
       </div>
 
       {/* Social Media Icons */}
-      <div className="flex space-x-6">
+      <div className="flex space-x-4">
         <a href="/under-construction">
           <img src={facebookIcon} alt="Facebook" className="ficon" />
         </a>
@@ -125,7 +125,7 @@ const Footer = () => (
     </div>
 
     {/* Copyright */}
-    <div className="pt-8 mt-8 border-t border-gray-600">
+    <div className="pt-0 mt-2 border-t border-gray-600">
       <p className="text-center text-grayishViolet">
         © 2024 Neighborhood Aid. All rights reserved.
       </p>
