@@ -17,6 +17,7 @@ import NotFoundPage from "./components/404Page";
 import ConstructionPage from "./pages/ConstructionPage";
 import OurTeam from "./pages/OurTeam";
 import About from "./pages/About";
+import Careers from "./pages/Careers";
 
 
 
@@ -43,6 +44,8 @@ function App() {
         <Route path="/ourteam" element={<OurTeam />} />
 
         <Route path="/about" element={<About />} />
+
+        <Route path="/careers" element={<Careers />} />
 
         {/* Route for the sign-up page */}
         <Route path="/register" element={<UserRegistration />} />
