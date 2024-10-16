@@ -80,7 +80,7 @@ const Footer = () => (
           <div className="mb-2 font-bold text-white capitalize">Company</div>
           <div className="flex flex-col items-center space-y-2 md:items-start">
             <a
-              href="/under-construction"
+              href="/about"
               className="capitalize text-grayishViolet hover:text-purpleLight"
             >
               About
@@ -92,7 +92,7 @@ const Footer = () => (
               Our Team
             </a>
             <a
-              href="/under-construction"
+              href="/careers"
               className="capitalize text-grayishViolet hover:text-purpleLight"
             >
               Careers
