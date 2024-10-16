@@ -15,7 +15,8 @@ import ReportedIssuesPage from './pages/ReportedIssuesPage'; // Import the Repor
 import ProfilePage from "./pages/ProfilePage";
 import NotFoundPage from "./components/404Page";
 import ConstructionPage from "./pages/ConstructionPage";
-
+import OurTeam from "./pages/OurTeam";
+import About from "./pages/About";
 
 
 
@@ -38,6 +39,10 @@ function App() {
 
         {/* Route for Report Local Issue Feature */}
         <Route path="/report-local-issue" element={<ReportLocalIssueFeature />} />
+
+        <Route path="/ourteam" element={<OurTeam />} />
+
+        <Route path="/about" element={<About />} />
 
         {/* Route for the sign-up page */}
         <Route path="/register" element={<UserRegistration />} />
