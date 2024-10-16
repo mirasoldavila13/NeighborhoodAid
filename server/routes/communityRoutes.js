@@ -66,7 +66,30 @@ router.get("/:userId/reports", authMiddleware, async (req, res) => {
   }
 });
 
-//  route for updating a community report
+// Get a single report by userId and reportId
+router.get("/:userId/reports/:reportId", authMiddleware, async (req, res) => {
+  const { userId, reportId } = req.params;
+
+  try {
+    const report = await ReportCommunity.findOne({
+      where: {
+        userId,
+        id: reportId,
+      },
+    });
+
+    if (!report) {
+      return res.status(404).json({ message: "Report not found" });
+    }
+
+    res.status(200).json(report);
+  } catch (error) {
+    console.error("Error fetching report:", error);
+    res.status(500).json({ message: "Failed to fetch report" });
+  }
+});
+
+// Route for updating a community report
 router.put("/reports/:id", authMiddleware, async (req, res) => {
   const { id } = req.params; // Get report ID from route parameters
   const { title, description, email, phone, contacted, city, location } = req.body; // Get updated data from request body
@@ -94,7 +117,7 @@ router.put("/reports/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// route for deleting a community report
+// Route for deleting a community report
 router.delete("/reports/:id", authMiddleware, async (req, res) => {
   const { id } = req.params; // Get report ID from route parameters
 
