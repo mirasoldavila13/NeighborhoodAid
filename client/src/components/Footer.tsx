@@ -86,7 +86,7 @@ const Footer = () => (
               About
             </a>
             <a
-              href="/under-construction"
+              href="/ourteam"
               className="capitalize text-grayishViolet hover:text-purpleLight"
             >
               Our Team
