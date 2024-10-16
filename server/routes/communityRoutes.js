@@ -92,12 +92,16 @@ router.get("/:userId/reports/:reportId", authMiddleware, async (req, res) => {
 // Route for updating a community report
 router.put("/reports/:id", authMiddleware, async (req, res) => {
   const { id } = req.params; // Get report ID from route parameters
+  const userId = req.user.id; // Get the userId from the authenticated user
   const { title, description, email, phone, contacted, city, location } = req.body; // Get updated data from request body
 
   try {
-    const report = await ReportCommunity.findByPk(id); // Find the report by ID
+    const report = await ReportCommunity.findOne({ 
+      where: { id, userId } // Ensure we only update if the userId matches
+    });
+
     if (!report) {
-      return res.status(404).json({ message: "Report not found" });
+      return res.status(404).json({ message: "Report not found or user unauthorized" });
     }
 
     // Update report details
@@ -116,6 +120,7 @@ router.put("/reports/:id", authMiddleware, async (req, res) => {
     res.status(500).json({ message: "Failed to update report" });
   }
 });
+
 
 // Route for deleting a community report
 router.delete("/reports/:id", authMiddleware, async (req, res) => {
