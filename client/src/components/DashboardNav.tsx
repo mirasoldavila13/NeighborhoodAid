@@ -44,16 +44,6 @@ const DashboardNav = () => {
               </Link>
             </li>
             <li>
-              <Link to={`/dashboard/${userId}/playlists`} className="hover:text-gray-300">
-                Playlists
-              </Link>
-            </li>
-            <li>
-              <Link to={`/dashboard/${userId}/profile`} className="hover:text-gray-300">
-                Profile
-              </Link>
-            </li>
-            <li>
               <button onClick={logout} className="hover:text-gray-300">
                 Logout
               </button>
@@ -87,12 +77,6 @@ const DashboardNav = () => {
               </Link>
               <Link to={`/dashboard/${userId}/reported-issues`} className="hover:text-gray-300" onClick={toggleMenu}>
                 Manage Reports
-              </Link>
-              <Link to={`/dashboard/${userId}/playlists`} className="hover:text-gray-300" onClick={toggleMenu}>
-                Playlists
-              </Link>
-              <Link to={`/dashboard/${userId}/profile`} className="hover:text-gray-300" onClick={toggleMenu}>
-                Profile
               </Link>
               <button onClick={logout} className="hover:text-gray-300">
                 Logout
