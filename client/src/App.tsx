@@ -18,6 +18,7 @@ import ConstructionPage from "./pages/ConstructionPage";
 import OurTeam from "./pages/OurTeam";
 import About from "./pages/About";
 import Careers from "./pages/Careers";
+import Blog from "./pages/Blog";
 
 
 
@@ -46,6 +47,8 @@ function App() {
         <Route path="/about" element={<About />} />
 
         <Route path="/careers" element={<Careers />} />
+
+        <Route path="/blog" element={<Blog/>} />
 
         {/* Route for the sign-up page */}
         <Route path="/register" element={<UserRegistration />} />
