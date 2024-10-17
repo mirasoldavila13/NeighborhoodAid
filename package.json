@@ -1,8 +1,9 @@
 {
   "name": "@mirasoldavila13/neighborhoodaid",
   "version": "1.0.0",
-  "description": "Neighborhood Aid - A full-stack app to aid the community",
+  "description": "",
   "main": "index.js",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/mirasoldavila13/NeighborhoodAid"
@@ -14,13 +15,13 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "install": "cd client && npm install && cd ../server && npm install",
     "start": "npm run client:build && npm run server",
     "start:dev": "concurrently \"npm run server:dev\" \"wait-on tcp:3001 && npm run client:dev\"",
-    "client:build": "cd client && npm run build",
-    "client:dev": "cd client && npm run dev",
     "server": "cd server && npm start",
     "server:dev": "cd server && npm run dev",
+    "install": "cd server && npm i && cd ../client && npm i",
+    "client:build": "cd client && npm run build",
+    "client:dev": "cd client && npm run dev",
     "build": "cd server && npm run build",
     "seed": "cd server && npm run seed",
     "render-build": "npm install && npm run build",
@@ -37,9 +38,28 @@
     ],
     "**/*": "prettier --write --ignore-unknown"
   },
-  "dependencies": {
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.7.5",
+    "@types/react": "^18.3.10",
+    "@types/react-dom": "^18.3.0",
+    "@types/react-router-dom": "^5.3.3",
+    "autoprefixer": "^10.4.20",
     "concurrently": "^9.0.1",
-    "wait-on": "^8.0.1",
+    "eslint": "^9.11.1",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.9.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "nodemon": "^3.1.7",
+    "postcss": "^8.4.47",
+    "prettier": "^3.3.3",
+    "rollup": "^4.24.0",
+    "tailwindcss": "^3.4.13",
+    "wait-on": "^8.0.1"
+  },
+  "dependencies": {
     "@react-leaflet/core": "^2.1.0",
     "@types/geojson": "^7946.0.14",
     "bcrypt": "^5.1.1",
@@ -56,25 +76,6 @@
     "react-router-dom": "^6.26.2",
     "redux": "^5.0.1",
     "sequelize": "^6.37.3"
-  },
-  "devDependencies": {
-    "@types/bcrypt": "^5.0.2",
-    "@types/jsonwebtoken": "^9.0.7",
-    "@types/node": "^22.7.5",
-    "@types/react": "^18.3.10",
-    "@types/react-dom": "^18.3.0",
-    "@types/react-router-dom": "^5.3.3",
-    "autoprefixer": "^10.4.20",
-    "eslint": "^9.11.1",
-    "eslint-config-prettier": "^9.1.0",
-    "globals": "^15.9.0",
-    "husky": "^9.1.6",
-    "lint-staged": "^15.2.10",
-    "nodemon": "^3.1.7",
-    "postcss": "^8.4.47",
-    "prettier": "^3.3.3",
-    "rollup": "^4.24.0",
-    "tailwindcss": "^3.4.13"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.24.0"
