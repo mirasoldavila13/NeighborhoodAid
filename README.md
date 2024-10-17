@@ -40,79 +40,125 @@ NeighborhoodAid encourages users to:
 - [Badges](#badges)
 - [How to Contribute](#how-to-contribute)
 - [Tests](#tests)
+- [Future Implementations](#future-implmentations)
 - [Questions](#questions)
-- [Walkthrough Video](#walkthrough-video)
+- [Check Out the Project on Render](#render)
+- [NeighborhoodAid in Action](#-neighborhoodAid-in-action)
 
-## What We Did
+## What We Did  
 
-During the development of NeighborhoodAid, our team gained a deep understanding and hands-on experience with various technologies and concepts:
+During the development of NeighborhoodAid, we gained hands-on experience and deep insights into various technologies and concepts, building a robust, user-friendly platform focused on civic engagement and issue reporting.
 
-### 1. Frontend Development with React, Tailwind CSS, and Vite
+### 1. Frontend Development with React, Tailwind CSS, and Vite  
 
-- Structured and managed a component-based architecture efficiently using React and TypeScript.
-- Utilized Tailwind CSS for consistent, responsive, and mobile-friendly designs, maintaining a unified visual identity across the platform.
-- Developed reusable components like Modals, Forms, and Navigation bars to optimize development speed and maintain code reusability.
-- Used Vite for fast, efficient frontend development and bundling.
+- Structured and managed a component-based architecture efficiently using **React** and **TypeScript**.
+- Utilized **Tailwind CSS** for consistent, responsive, and mobile-friendly designs, maintaining a unified visual identity across the platform.
+- Developed reusable components like **modals, forms, and navigation bars** to optimize development speed and maintain code reusability.
+- Incorporated dynamic maps using **React Leaflet** for seamless marker interaction during report submission and editing.
+- Implemented a **task manager and community feed** in the dashboard, enabling users to **create, edit, and delete tasks and posts** in real time.
+- Provided weather updates within the dashboard using the **Weather component** to show the weather at the user’s current location.
+- Used **Vite** for fast, efficient frontend development and bundling.
 
-### 2. Backend Development with Node.js, Express.js, and Sequelize
+### 2. Backend Development with Node.js, Express.js, and Sequelize  
 
-- Implemented a RESTful API using Express.js, managing routes for user authentication, feed management, reporting, and weather data retrieval.
-- Gained experience with Sequelize and Sequelize CLI for database modeling, migrations, and associations, ensuring data integrity and relationship consistency across models.
-- Configured middlewares such as **CORS** and logger to secure and monitor API requests, improving server reliability and performance.
+- Implemented a **RESTful API** using **Express.js**, managing routes for user authentication, feed management, reporting, and weather data retrieval.
+- Gained experience with **Sequelize and Sequelize CLI** for database modeling, migrations, and associations, ensuring data integrity and relationship consistency across models.
+- Configured **CORS** and logging middlewares to secure and monitor API requests, improving server reliability and performance.
+- Developed backend routes to handle **CRUD operations** for reports, tasks, comments, and user authentication.
 
-### 3. Authentication and Security Techniques
+### 3. Authentication and Security Techniques  
 
-- Implemented secure authentication mechanisms using **bcrypt** for password hashing and **JWT** for session management, ensuring data security and user privacy.
-- Integrated social login options (e.g., Facebook and Google) to enhance the user experience and streamline the registration process.
+- Implemented secure authentication mechanisms using **bcrypt** for password hashing and **JWT** for session management, ensuring data privacy.
+- Developed **JWT-based authentication** to manage session handling, with protected routes ensuring only authorized users can submit, edit, and delete reports.
+- Integrated plans for **Spotify API** to enhance user engagement through community playlists.
 
-### 4. API Integration and State Management
+### 4. API Integration and State Management  
 
-- Integrated multiple APIs, including:
+- Integrated multiple APIs to provide weather updates and geolocation services:
   - **OpenWeather API** for weather data.
-  - **OpenWeather Geolocation API** for retrieving weather data based on coordinates.
-  - **OpenStreetMap** and **Nominatim** for location-based services.
-  - **Browser Geolocation API** for fetching user location client-side.
-- Developed an interactive map component using **React Leaflet** with dynamic marker handling and state management for a user-friendly experience.
-- Implemented a robust API workflow with fallback mechanisms to ensure accurate and up-to-date location and weather information.
+  - **OpenWeather Geolocation API** for weather data based on coordinates.
+  - **OpenStreetMap** and **Nominatim** APIs for location-based services.
+  - **Browser Geolocation API** to fetch the user’s location client-side.
+- Developed an **interactive map component** using **React Leaflet**, enabling users to **drag and drop markers** to report or adjust issue locations.
+- Implemented state management to handle **user sessions, map markers, report filters, tasks, and feed posts**, ensuring a responsive and intuitive user experience.
 
-### 5. Full-Stack Development and Deployment
+### 5. Full-Stack Development and Deployment  
 
-- Gained proficiency in full-stack development by connecting the frontend and backend using RESTful principles, ensuring smooth communication between components.
-- Configured the backend server for production deployment, ensuring compatibility with client-side routing for the React application.
-- Implemented environment management using **dotenv** to securely handle API keys, database credentials, and other sensitive information.
+- Connected the **frontend and backend** using RESTful principles to ensure smooth communication and consistent data flow.
+- Configured the **backend for production deployment**, ensuring compatibility with client-side routing in React.
+- Managed sensitive data using **dotenv**, ensuring secure handling of API keys, database credentials, and other environment variables.
 
-### 6. Database Management and Migrations
+### 6. Database Management and Migrations  
 
-- Developed database models and migrations using Sequelize and Sequelize CLI, focusing on ensuring data integrity and relationships between users, reports, and comments.
-- Created seed files for testing and development purposes, allowing realistic simulation of database data during development cycles.
+- Designed and managed database models and associations using **Sequelize**, ensuring proper relationships between users, reports, and comments.
+- Developed and executed **migrations** to handle schema changes and maintain data integrity.
+- Created **seed files** for testing and development purposes, simulating realistic data during development cycles.
 
-### 7. Responsive and Accessible Design
+### 7. Responsive and Accessible Design  
 
-- Ensured that all components, from forms to interactive maps, were responsive and accessible across different devices and screen sizes using Tailwind CSS utilities.
-- Focused on accessibility standards by using semantic HTML elements and keyboard navigation.
+- Ensured all components were **responsive** across various screen sizes using Tailwind CSS utilities.
+- Focused on accessibility standards by using **semantic HTML elements** and enabling **keyboard navigation** throughout the platform.
+- Designed the UI to be **mobile-friendly** and consistent across different devices.
 
-### 8. Collaboration and Version Control
+### 8. Collaboration and Version Control  
 
-- Used Git and GitHub for collaborative development, managing feature branches, pull requests, and resolving merge conflicts efficiently.
-- Ensured code quality through peer reviews and implemented testing strategies for both frontend and backend components.
+- Used **Git and GitHub** to manage collaborative development, feature branches, pull requests, and merge conflicts efficiently.
+- Conducted **peer code reviews** and implemented **testing strategies** for both frontend and backend to maintain high code quality.
+- Managed development milestones through well-documented GitHub issues and pull requests.
 
-## Technologies Used
+---
 
-- **Frontend**: React, Vite, TypeScript, Tailwind CSS
-- **Backend**: JavaScript, Node.js, Express.js, Sequelize, Sequelize CLI, CORS
-- **Database**: PostgreSQL
-- **APIs**: OpenWeather API, OpenWeather Geolocation API, OpenStreetMap, Nominatim, Browser Geolocation API
-- **HTTP Client**: Axios
-- **Testing**: Postman for backend testing
-- **Deployment**: Vite for frontend, Node.js for backend
+## Technologies Used  
 
+- **Frontend**: React, Vite, TypeScript, Tailwind CSS  
+- **Backend**: JavaScript, Node.js, Express.js, Sequelize, Sequelize CLI, CORS  
+- **Database**: PostgreSQL  
+- **APIs**: OpenWeather API, OpenWeather Geolocation API, OpenStreetMap, Nominatim, Browser Geolocation API  
+- **HTTP Client**: Axios  
+- **Testing**: Postman for backend testing  
+- **Deployment**: Vite for frontend, Node.js for backend  
 
-## Features
+---
 
-- **Dynamic Issue Reporting**: Users can report and track the status of community issues.
-- **Interactive Maps**: Integration with OpenStreetMap and Nominatim API for precise geolocation and visualization.
-- **Weather Updates**: Real-time weather information for reported locations using OpenWeather API.
-- **Community Engagement**: Comment system and community playlist powered by Spotify API.
+NeighborhoodAid has evolved into a dynamic platform, providing users with tools to **report, track, and engage with community issues**. The platform emphasizes security, accessibility, and scalability, ensuring seamless user experiences across devices and browsers. Through continuous development, the platform is well-positioned to foster meaningful community interactions and collaborations.
+
+## Features  
+
+- **Dynamic Issue Reporting**:  
+  - Users can create, edit, delete, and track the status of community issues.  
+  - Reports are displayed on an **interactive map**, allowing precise location adjustments through **drag-and-drop markers**.  
+  - CRUD functionality enables users to manage their reports and track their progress in real-time.
+
+- **Task Management on Dashboard**:  
+  - Users can create, edit, delete, and complete tasks directly from the **dashboard**.  
+  - Completed tasks are visually marked, encouraging productivity and engagement.  
+
+- **Interactive Maps**:  
+  - Integration with **OpenStreetMap** and **Nominatim API** for precise geolocation services.  
+  - Users can adjust report locations dynamically with **React Leaflet's drag-and-drop markers**.
+
+- **Weather Updates**:  
+  - Real-time weather information is provided for the user's current location using the **OpenWeather API**.  
+  - Weather data is displayed directly on the dashboard, helping users make informed decisions about outdoor activities or tasks.
+
+- **Community Engagement and Feed Management**:  
+  - Users can post, edit, and delete comments in a **community feed**.  
+  - The feed fosters conversations and promotes neighborhood engagement around reported issues or community events.  
+  - Users can **track the status of community discussions** and share updates with neighbors.
+
+- **Authentication and Security**:  
+  - Secure **JWT-based authentication** ensures that users can only manage their own reports, tasks, and posts.  
+  - Plans to integrate the **Spotify API** will allow users to **share music playlists** and create collaborative community experiences.
+
+- **Mobile-Responsive and Accessible Design**:  
+  - The platform is optimized for accessibility, ensuring a seamless experience on various devices and screen sizes.  
+  - Components are built with **Tailwind CSS** to maintain consistency and mobile responsiveness throughout the platform.
+
+- **AI-Powered Sentiment Analysis (Planned)**:  
+  - Future updates will include **AI-based sentiment analysis** to assess user discussions and provide relevant, personalized recommendations.
+
+- **Full CRUD Functionality**:  
+  - Users can perform **create, read, update, and delete (CRUD)** operations across tasks, reports, and comments, offering complete control over their interactions and contributions to the platform.
 
 ## Installation
 
@@ -172,74 +218,221 @@ NeighborhoodAid initially originated as a group project. However, due to team av
 | **Full-Stack Development**       | Combined frontend and backend technologies to create a seamless and integrated platform.                                                                    | Utilized React and TypeScript for frontend development and Express.js with Sequelize for the backend, connecting components using Axios for RESTful API interactions and state management.                     |
 
 
-### in collaboration with:
+### **In Collaboration With**
 
-- **[Justin Kao](https://github.com/PandaKao)**: 
-  - Added the PostGIS extension for geometry support for storing longitude and latitude coordinates in `server/db/schema.sql`.
+- **[Justin Kao](https://github.com/PandaKao)**  
+  - Contributed to the early setup by adding the PostGIS extension for geometry support to store coordinates in `server/db/schema.sql`.
+  - Provided initial models for `server/models/issue.js` and `server/models/user.js` with essential fields and associations, including password hashing for user authentication.
+  - Assisted with creating initial seed files, including `server/seeds/index.js` and `server/seeds/user-seeds.js`, for testing data in the database.
+  - Helped set up a basic migration for the `users` table (`migrations/20241001203053-create-users.js`).
+  - Provided an early version of `client/src/services/authService.ts` to manage JWT-based authentication.
+
+- **[Isaiah Skidmore](https://github.com/IsaiahSkidmore)**  
+  - Assisted with selecting the official project logo, providing input on the platform’s visual identity.
+
+- **[Sammy Kordi](https://github.com/thepeoplesengineer)**  
+  - Adapted some existing code from the authority reporting feature to the community reporting system, contributing to the overall project structure.
+
+---
+
+## **Version 2.0 Contributions**
+
+### **Overview**  
+The development of **Version 2.0** of NeighborhoodAid was completed under the leadership of **Mirasol Davila**, building on the solid foundation established during the early stages of the project. 
+
+While **Justin Kao**, **Isaiah Skidmore**, and **Sammy Kordi** made early contributions during Version 1.0, they have since shifted focus to other commitments. Their efforts provided helpful starting points for the project, and we appreciate their involvement in the initial stages.
+
+All new features, improvements, and refinements in Version 2.0 were **designed, developed, and implemented solely by Mirasol Davila**. This release introduces key enhancements that significantly expand the platform’s functionality and usability, laying the groundwork for future developments.
+
+---
+
+## **Version 2.0 Completed Contributions**
+
+### **Frontend Pages**
+
+- **`client/src/pages/ReportedIssuesPage.tsx`**  
+  - Displays all user reports with **filtering options** based on status and type.  
+  - Integrates with backend APIs to fetch reports for both **Authority** and **Community** issues.
+
+- **`client/src/pages/CommunityReportPage.tsx`**  
+  - Allows users to **submit neighborhood-level issues** with map-based location selection.  
+  - Captures and sends **latitude, longitude, and contact details** to the backend.
+
+- **`client/src/pages/ReportDetailPage.tsx`**  
+  - Displays the **details of a specific report**, including weather data and status.  
+  - Allows users to **edit** and **delete reports** using modals for seamless interaction.
+
+- **`client/src/pages/About.tsx`**  
+  - Provides information about **NeighborhoodAid’s mission** and the services it offers.
+
+- **`client/src/pages/Blog.tsx`**  
+  - Contains a **blog with community-related posts**, such as ways to report issues and engage youth in service.
+
+- **`client/src/pages/Careers.tsx`**  
+  - Lists **career opportunities** and encourages individuals to join the NeighborhoodAid team.
+
+- **`client/src/pages/ConstructionPage.tsx`**  
+  - Displays a **“Under Construction”** message for pages still in development.
+
+- **`client/src/pages/OurTeam.tsx`**  
+  - Introduces the **project team**, highlighting contributions from developers and other contributors.
+
+---
+
+### **Frontend Components**
+
+- **`client/src/components/DashboardNav.tsx`**  
+  - Provides **navigation links** for users, including routes to create reports, manage reports, and log out.  
+  - Supports **mobile-friendly menus** with a hamburger icon.
   
-- **Database Models**:
-  - Created `server/models/issue.js` to define the Issue model with fields such as `id`, `description`, `location`, `status`, and `assignedUserId`.
-  - Created `server/models/user.js` to define the User model, including password hashing functionality before saving the user in the database.
-  
-- **Database Seeding**:
-  - Developed `server/seeds/index.js` to handle database seeding with users and issues data.
-  - Developed `server/seeds/user-seeds.js` to seed user data into the database using the User model.
-  
-- **Database Migration**:
-  - Created migration file `migrations/20241001203053-create-users.js` to set up the issues table schema with necessary fields and constraints.
-  
-- **Authentication Service**:
-  - Developed `client/src/services/authService.ts` to handle JWT-based authentication, including token retrieval, expiration checking, and profile decoding.
-## Version 2.0 Contributions
+- **`client/src/pages/Dashboard.tsx`**  
+  - Offers a **task manager** where users can create, edit, delete, and complete tasks.  
+  - Displays **weather updates** for the user’s current location on the dashboard.  
+  - Includes a **community feed** where users can post, edit, and delete comments to foster engagement.
 
-### Overview
-The development of **Version 2.0** of NeighborhoodAid is continuing under the leadership of Mirasol Davila. Given the ambitious goal of completing Version 1.0 in less than a week, significant strides were made in laying the groundwork for the platform. Although some core components were established, additional features and enhancements are now being developed to ensure the platform reaches its full potential.
 
-While **Justin Kao** contributed to foundational aspects of Version 1.0, he has decided to step back from the project to focus on other commitments. As a result, Mirasol Davila will lead the efforts to enhance and complete the platform, ensuring that Version 2.0 achieves its objectives while building on the solid foundation established.
+- **`client/src/components/Footer.tsx`**  
+  - Renders the **footer across all pages** to ensure a consistent user experience.
 
-### Key Objectives for Version 2.0
-The following features and improvements are prioritized in this version:
+- **`client/src/components/ReportMap.tsx`**  
+  - Renders a **map using React Leaflet** to display report locations.  
+  - Allows **dragging markers** for location adjustments during report creation or editing.
 
-1. **Report Management System**:
-   - Storing user-submitted reports to authorities in the database.
-   - Storing community reports for neighborhood-level issues.
-   - Displaying all reports submitted by a user in their dashboard for easy tracking.
+- **`client/src/components/MapWithAddress.tsx`**  
+  - Used on the **Community Report Page** to allow users to select an address with the map.
 
-2. **Tracking and Interaction**:
-   - Implemented a tracking mechanism for the status and progress of each report, enhancing user engagement with the reporting process.
-   - This includes the ability to filter reported issues by status (reported, in progress, resolved) and display associated data such as weather information for each issue.
-   - Contributions include updates in **ReportedIssuesPage.tsx** to implement filtering, and **ReportAuthorityRoute.js** to handle API responses effectively.
-   - Enhanced weather data integration in **Weather.tsx** to provide real-time weather for reported locations, contributing to a more informed user experience.
-   - Updates in **ReportMap.tsx** to accurately reflect weather data alongside report locations.
-   - Integrated OpenStreetMap API to fetch and display maps based on the report's location.
+---
 
-3. **Spotify API Integration**:
-   - Allowing users to share their favorite songs or playlists with the NeighborhoodAid community.
-   - Developing a feature where NeighborhoodAid aggregates these songs into a collaborative neighborhood playlist, creating a sense of shared community through music.
+### **Backend Routes and Models**
 
-| **Feature**                       | **Description**                                                                                                           | **Status**   |
-|-----------------------------------|---------------------------------------------------------------------------------------------------------------------------|--------------|
-| **Report Management System**      | Implementation of a comprehensive reporting feature that allows users to submit reports on local issues to authorities. This feature integrates multiple APIs, including OpenWeather for weather data and Nominatim for geolocation, ensuring accurate address and weather information is collected. User authentication is managed through protected routes, ensuring that only logged-in users can submit reports. Axios is used for making API requests to fetch weather and location data, as well as submitting reports to the server. Upon submission, reports are stored in the `ReportAuthorities` table in the database, linking each report to the corresponding user through the user ID. | Completed    |
-| **Tracking and Interaction**      | Implemented a tracking mechanism for the status and progress of each report, enhancing user engagement with the reporting process. This includes the ability to filter reported issues by status (reported, in progress, resolved) and display associated data such as weather information for each issue. Weather data is stored for each report based on the latitude and longitude of the reported location. Additionally, it sets the default position of the React Leaflet map using the report's latitude and longitude, utilizing OpenStreetMap API for map rendering. | Completed |
-| **Spotify API Integration**       | Allowing users to share their favorite songs or playlists with the NeighborhoodAid community, fostering a sense of shared community through music. | In Progress  |
+- **`server/routes/ReportAuthorityRoute.js`**  
+  - Handles **CRUD operations** for authority reports.  
+  - Integrates with **OpenWeather API** to retrieve weather data for report locations.  
+  - Ensures only authenticated users can access or modify reports.
 
-### Database Migrations and Enhancements
-| **Component**             | **Description**                                                                                                    | **Status**  |
-|--------------------------|--------------------------------------------------------------------------------------------------------------------|-------------|
-| **User Table Migration**  | Updated migration for the `Users` table to check for table existence before creation, ensuring schema consistency across environments. | Completed  |
-| **Feeds and Comments**    | Enhanced migrations for `Feeds` and `Comments` tables with validation and schema checks to maintain data integrity. | Completed  |
-| **ReportAuthorities**     | Developed a new migration for the `ReportAuthorities` table, including relevant fields like latitude and longitude. Ensured table creation only if it doesn’t already exist. | Completed  |
-| **CommunityReports**      | Added migration for the `CommunityReports` table without weather details, ensuring creation only if not already present. | Completed  |
+- **`server/routes/communityRoutes.js`**  
+  - Manages **community reports**, including creating, updating, and deleting them.  
+  - Uses **reverse geocoding** to fetch city names from location coordinates.  
+  - Applies **JWT-based authentication** to ensure only logged-in users can submit or modify reports.
 
-### Next Steps
-- **Backend Enhancements**: Continue building the API to support the new reporting and tracking features.
-- **UI/UX Updates**: Improve the user interface for a seamless and intuitive experience when interacting with reports and community features.
-- **API Integrations**: Finalize the Spotify API integration to create engaging music-sharing features within the neighborhood community.
+---
 
-### Notes
-NeighborhoodAid is evolving with a focus on strengthening community engagement through efficient reporting systems and shared neighborhood experiences. Under Mirasol Davila’s continued leadership, the project aims to expand its capabilities, ensuring it meets user needs effectively and fosters a connected community environment.
+### **Auth and Services**
 
-**Reflection**: The progress achieved in such a short timeframe highlights the collaborative spirit and dedication to delivering a meaningful platform. Version 2.0 will build upon this momentum, ensuring NeighborhoodAid becomes a robust and user-friendly tool for communities.
+- **`client/src/services/authService.js`**  
+  - Manages **user authentication** through **JWT tokens**.  
+  - Provides methods to **get the token**, check if the user is logged in, and fetch the user profile.
+
+---
+
+### **API Integrations and Middleware**
+
+- **Weather API Integration**  
+  - Utilizes the **OpenWeather API** to provide real-time weather updates for report locations.
+
+- **Geolocation Integration**  
+  - Uses the **OpenStreetMap API** for map rendering and location tracking in reports.
+
+---
+
+## **Version 2.0 Summary**
+
+The updates in **Version 2.0** have significantly improved the platform by introducing:
+
+1. **Comprehensive Reporting System**  
+   - Users can now **create, view, edit, and delete reports** for both community and authority issues.
+
+2. **Interactive Maps**  
+   - Location-based reporting is enhanced with **drag-and-drop marker functionality**.
+
+3. **Authentication and Security**  
+   - All routes are protected using **JWT authentication**, ensuring secure access.
+
+4. **Weather and Geolocation Features**  
+   - Reports display **real-time weather updates** and accurate geolocation data.
+
+5. **UI/UX Enhancements**  
+   - New pages, including **Careers**, **Blog**, and **Our Team**, offer an engaging and informative user experience.
+
+---
+
+## **Filtering Functionality**
+
+- Users can **filter their reports** based on the following criteria:
+
+  ### **Report Type**
+  - **Authority Reports**: Issues submitted to authorities.  
+  - **Community Reports**: Neighborhood-level issues for the community.
+
+  ### **Report Status**
+  - **All**: Displays all reports regardless of their status.  
+  - **Open**: Reports that are active but not yet addressed.  
+  - **In Progress**: Reports currently being worked on or reviewed.  
+  - **Resolved**: Issues that have been resolved.  
+  - **Reported**: New reports that have been submitted but not yet reviewed.
+
+---
+
+## **Report Actions**
+
+- **View**  
+  - Users can click on a report to **view its details** in a separate page.  
+  - **Weather details** for the report location are fetched and displayed, including **temperature, humidity, and wind speed**.  
+  - The report’s **location is shown on an interactive map** using `ReportMap`.
+
+- **Edit**  
+  - Users can **modify the report's content**, including the **title, description**, and **location**.  
+  - **Map Editing**:  
+    - Users can **drag the map marker** in the edit modal to change the report's location.  
+    - The new latitude and longitude are **saved to the database**.  
+  - **Authentication Check**:  
+    - Ensures that only the report owner can edit the report using **JWT token validation**.  
+  - Saved changes are updated in real-time.
+
+- **Delete**  
+  - Users can **delete reports** through a **confirmation modal**.  
+  - **Authentication Check**:  
+    - Deletion is only allowed if the **user’s ID** matches the report owner’s ID.  
+  - Once confirmed, the report is **permanently removed** from the database, and the user is redirected to the dashboard.
+
+---
+
+## **Community Report Page (`CommunityReportPage.tsx`)**
+
+1. **Authentication Check**  
+   - Redirects users to the homepage if they are not logged in.
+
+2. **User Input Management**  
+   - Tracks user input for **issue title, description, email, and phone number**.
+
+3. **Map Integration**  
+   - Users select the **location of the issue** on an interactive map.  
+   - Captures **latitude, longitude, address, and city**.
+
+4. **Submitting the Report**  
+   - Uses **JWT tokens** to authenticate users and submit reports.  
+   - Redirects users to their **reported issues dashboard** upon success.
+
+---
+
+## **Tracking and Interaction**
+
+- **Tracking Mechanism**  
+  - Tracks the status and progress of reports in real-time.
+
+- **Filtering by Status and Type**  
+  - Users can filter reports by **Authority or Community Reports** and status:  
+    - **All**, **Open**, **In Progress**, **Resolved**, **Reported**.
+
+---
+
+### **Notes**  
+NeighborhoodAid has evolved with **Version 2.0**, delivering enhanced reporting systems, interactive maps, and seamless user authentication. 
+
+As **Version 3.0** begins, the focus will shift toward new integrations, such as the **Spotify API**, allowing users to share music and create collaborative playlists. Under **Mirasol Davila’s leadership**, the project will continue to expand, ensuring NeighborhoodAid becomes a vibrant and connected tool for communities.
+
+**Reflection**: The rapid progress in Version 2.0 highlights the dedication and collaborative spirit of the project. With these enhancements, NeighborhoodAid is well-positioned to grow further, making meaningful contributions to community life.
+
 
 ## License
 
@@ -297,10 +490,34 @@ Contributions are welcome! To contribute to NeighborhoodAid, follow these steps:
 
 To test the NeighborhoodAid platform, follow these steps:
 
-- **Manual Testing**: Run the application (`npm start`) and test features such as issue reporting, commenting, and map visualization.
+- **Manual Testing**: Run the application (`npm run start`) and test features such as issue reporting, commenting, and map visualization.
 - **Review the Output**: Verify the issue statuses, user interactions, and API integrations for accuracy and responsiveness.
+
+## Future Implementations
+
+# **Spotify API Integration**
+
+- **Music Sharing within the Community**:
+  - Users can share songs or playlists with the NeighborhoodAid community.
+  - A collaborative playlist will reflect the community’s preferences.
+
+# **AI-Based Sentiment Analysis**
+
+- **Analyze comments and discussions**:
+  - The system detects sentiment (positive, neutral, or negative) to provide personalized suggestions.
+
 
 ## Questions
 
 If you have any questions about the project, you can contact me via my GitHub profile at [mirasoldavila13](https://github.com/mirasoldavila13) 
 ## Walkthrough Video
+
+## **Check Out the Project on Render**
+
+The live version of **NeighborhoodAid** is hosted on Render. Click the link below to explore the platform and experience all the features implemented in **Version 2.0**:  
+
+[NeighborhoodAid on Render](#)  
+
+Feel free to create reports, explore the interactive map, and browse the community features. Your feedback is always welcome as we continue to enhance the platform in future versions.
+
+## NeighborhoodAid in Action
