@@ -17,7 +17,7 @@ const ReportCommunity = sequelize.define('CommunityReports', {
   },
   contacted: {
     type: DataTypes.BOOLEAN,
-    allowNull: false,
+    allowNull: true,
   },
   status: {
     type: DataTypes.ENUM('reported', 'in progress', 'resolved'),

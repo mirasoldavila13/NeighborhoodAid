@@ -6,7 +6,7 @@ import Modal from '../components/Modal';
 import authService from '../services/authService';
 import { Navigate, useNavigate } from 'react-router-dom';
 
-const CommunityReport: React.FC = () => {
+const CommunityReportPage: React.FC = () => {
   const authLoggedIn = authService.loggedIn();
   const navigate = useNavigate();
 
@@ -79,7 +79,7 @@ const CommunityReport: React.FC = () => {
         <div className="flex flex-col min-h-screen">
           <DashboardNav />
           <main className="flex-grow p-6">
-            <div className="container mx-auto max-w-2xl p-6 border rounded-lg shadow-lg bg-white mt-16"> {/* Unified styling */}
+            <div className="container mx-auto max-w-2xl p-6 border rounded-lg shadow-lg bg-white mt-16">
               <h1 className="text-3xl font-bold mb-6 text-center">Report a Community Issue</h1>
               <Modal
                 isOpen={!!errorMessage || !!successMessage}
@@ -169,4 +169,4 @@ const CommunityReport: React.FC = () => {
   );
 };
 
-export default CommunityReport;
+export default CommunityReportPage;

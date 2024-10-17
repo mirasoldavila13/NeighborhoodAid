@@ -5,16 +5,12 @@ import axios from 'axios';
 
 const router = express.Router();
 
-//POST route for creating a report
+// POST route for creating a report
 router.post("/", authMiddleware, async (req, res) => {
-  // Capture relevant data from the request body
   const { title, description, location, email, phone, contacted, cityName, fullAddress } = req.body;
   const userId = req.user.id; // Get the user ID from the authenticated user
 
   try {
-    // Log the incoming request body for debugging
-    console.log("Request body:", req.body);
-
     // Validate the incoming location data
     if (!location || !location.lat || !location.lon) {
       return res.status(400).json({ message: "Latitude and longitude are required" });
@@ -55,7 +51,7 @@ router.post("/", authMiddleware, async (req, res) => {
   } catch (error) {
     // Log any error that occurs
     console.error("Error creating report:", error.response?.data || error.message);
-    res.status(500).json({ message: "Failed to create report" }); // Respond with an error message
+    res.status(500).json({ message: "Failed to create report" });
   }
 });
 
@@ -74,8 +70,30 @@ router.get("/:userId/reports", authMiddleware, async (req, res) => {
   }
 });
 
+// New route for fetching a single report by userId and reportId
+router.get("/:userId/reports/:reportId", authMiddleware, async (req, res) => {
+  const { userId, reportId } = req.params;
 
-// New route for updating a report
+  try {
+    const report = await reportAuthority.findOne({
+      where: {
+        userId,
+        id: reportId,
+      },
+    });
+
+    if (!report) {
+      return res.status(404).json({ message: "Report not found" });
+    }
+
+    res.status(200).json(report);
+  } catch (error) {
+    console.error("Error fetching report:", error);
+    res.status(500).json({ message: "Failed to fetch report" });
+  }
+});
+
+// Route for updating a report
 router.put("/reports/:id", authMiddleware, async (req, res) => {
   const { id } = req.params; // Get report ID from route parameters
   const { title, description, email, phone, contacted, city, lat, lon } = req.body; // Get updated data from request body
@@ -104,7 +122,7 @@ router.put("/reports/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// New route for deleting a report
+// Route for deleting a report
 router.delete("/reports/:id", authMiddleware, async (req, res) => {
   const { id } = req.params; // Get report ID from route parameters
 
@@ -121,31 +139,6 @@ router.delete("/reports/:id", authMiddleware, async (req, res) => {
     res.status(500).json({ message: "Failed to delete report" });
   }
 });
-
-// Get a single report by userId and reportId
-router.get("/:userId/reports/:reportId", authMiddleware, async (req, res) => {
-  const { userId, reportId } = req.params;
-
-  try {
-    const report = await reportAuthority.findOne({
-      where: {
-        userId,
-        id: reportId,
-      },
-    });
-
-    if (!report) {
-      return res.status(404).json({ message: "Report not found" });
-    }
-
-    res.status(200).json(report);
-  } catch (error) {
-    console.error("Error fetching report:", error);
-    res.status(500).json({ message: "Failed to fetch report" });
-  }
-});
-
-
 
 // Export the router
 export default router;
