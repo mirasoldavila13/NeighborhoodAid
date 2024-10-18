@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import authService from '../services/authService';
+import authService from "../services/authService";
+import backgroundImage from "../assets/login_image.jpeg"; // Importing the image
 
 const UserRegistration = () => {
   const navigate = useNavigate();
@@ -69,12 +70,16 @@ const UserRegistration = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-eggShell">
-      <Link to="/" className="absolute top-6 left-6 text-purpleLight hover:text-darkViolet transition duration-300 flex items-center space-x-1 md:top-10 md:left-10">
+      <Link
+        to="/"
+        className="absolute top-6 left-6 text-purpleLight hover:text-darkViolet transition duration-300 flex items-center space-x-1 md:top-10 md:left-10"
+      >
         <span>&larr;</span>
         <span>Back to Home</span>
       </Link>
 
       <div className="relative flex flex-col m-6 space-y-10 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0 md:m-0 max-w-md md:max-w-4xl">
+        {/* Left Side - Form */}
         <div className="p-6 md:p-20 flex-grow">
           <h2 className="font-mono mb-5 text-4xl font-bold">Sign Up</h2>
           <p className="max-w-sm mb-12 font-sans font-light text-gray-600">
@@ -82,11 +87,42 @@ const UserRegistration = () => {
           </p>
 
           <form onSubmit={handleSignup}>
-            <input type="text" className="w-full p-4 mb-4 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light" placeholder="Enter your name" value={name} onChange={(e) => setName(e.target.value)} required />
-            <input type="email" className="w-full p-4 mb-4 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light" placeholder="Enter your email address" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            <input type="password" className="w-full p-4 mb-4 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-            <input type="password" className="w-full p-4 mb-6 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light" placeholder="Confirm your password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
-            <button type="submit" className="w-full md:w-auto flex justify-center items-center p-4 font-sans font-bold text-white rounded-md shadow-lg bg-purpleLight hover:bg-opacity-90 hover:shadow-lg transition duration-300">
+            <input
+              type="text"
+              className="w-full p-4 mb-4 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+            <input
+              type="email"
+              className="w-full p-4 mb-4 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light"
+              placeholder="Enter your email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              className="w-full p-4 mb-4 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              className="w-full p-4 mb-6 border border-gray-300 rounded-md placeholder:font-sans placeholder:font-light"
+              placeholder="Confirm your password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+            <button
+              type="submit"
+              className="w-full md:w-auto flex justify-center items-center p-4 font-sans font-bold text-white rounded-md shadow-lg bg-purpleLight hover:bg-opacity-90 hover:shadow-lg transition duration-300"
+            >
               <span>Sign Up</span>
             </button>
           </form>
@@ -102,6 +138,15 @@ const UserRegistration = () => {
               </div>
             </div>
           )}
+        </div>
+
+        {/* Right Side - Image */}
+        <div className="hidden md:block">
+          <img
+            src={backgroundImage}
+            alt="Background"
+            className="w-[430px] rounded-r-2xl"
+          />
         </div>
       </div>
     </div>
