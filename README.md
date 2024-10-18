@@ -231,7 +231,7 @@ NeighborhoodAid initially originated as a group project. However, due to team av
   - Assisted with selecting the official project logo, providing input on the platform’s visual identity.
 
 - **[Sammy Kordi](https://github.com/thepeoplesengineer)**  
-  - Adapted some existing code from the authority reporting feature to the community reporting system, contributing to the overall project structure.
+  - Adapted some existing code from the authority reporting feature to the community reporting system.
 
 ---
 
